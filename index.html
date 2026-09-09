@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AL PACHINO | Dal 2014 • Non la solita pizzeria</title>
+  <meta name="description" content="Ristorante Pizzeria tradizionale con tocco moderno a Quattromiglia / Rende. Ingredienti pregiati, lunga lievitazione e atmosfera accogliente.">
+  
+  <!-- Font Google: Playfair Display e Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;0,900;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Icone FontAwesome CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <!-- Fogli di Stile -->
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <!-- Barra Superiore Info Contatto -->
+  <div class="top-bar">
+    <div class="container">
+      <div class="top-bar-contact">
+        <span><i class="fa-solid fa-location-dot"></i> <span data-contact-address>Via Evangelista Torricelli, 87036 Rende (CS)</span></span>
+        <span><i class="fa-solid fa-phone"></i> Tel: <a href="tel:0984401467" data-contact-phone>0984 401467</a></span>
+      </div>
+      <div class="top-bar-hours">
+        <span><i class="fa-regular fa-clock"></i> <span data-contact-hours>Tutti i giorni 19:00 - 23:30</span></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Barra di Navigazione Principale -->
+  <nav class="navbar">
+    <div class="container nav-container">
+      <a href="#home" class="brand-logo">
+        <span class="brand-title">AL PACHIN<span class="brand-tomato">O</span></span>
+      </a>
+
+      <ul class="nav-links">
+        <li><a href="#home" class="active">HOME</a></li>
+        <li><a href="#il-locale">IL LOCALE</a></li>
+        <li><a href="#menu">MENU</a></li>
+        <li><a href="#contatti">CONTATTI</a></li>
+      </ul>
+
+      <button class="mobile-toggle" aria-label="Menu Mobile">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Icone Social Fluttuanti Laterali (come nel video Wix) -->
+  <aside class="floating-socials">
+    <a href="#" class="social-circle social-fb" target="_blank" rel="noopener" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+    <a href="#" class="social-circle social-ig" target="_blank" rel="noopener" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+  </aside>
+
+  <!-- Hero Section -->
+  <header id="home" class="hero">
+    <div class="container hero-content">
+      <div class="hero-logo-container">
+        <h1 class="hero-title">AL PACHIN<span class="brand-tomato">O</span></h1>
+        <span class="hero-badge">DAL 2014</span>
+      </div>
+      <p class="hero-tagline">NON LA SOLITA PIZZERIA</p>
+      <a href="#menu" class="btn-primary">MENU CENA</a>
+    </div>
+  </header>
+
+  <!-- Sezione Il Ristorante (3 colonne) -->
+  <section id="il-locale" class="highlights-section">
+    <div class="container">
+      <div class="highlights-grid" id="highlights-container">
+        <!-- Generato dinamicamente da config.js -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Sezione La Nostra Storia (Sfondo Verde Oliva) -->
+  <section class="story-section">
+    <div class="container">
+      <div class="story-card">
+        <h2 class="section-title" id="story-title">LA NOSTRA STORIA</h2>
+        <div id="story-paragraphs">
+          <!-- Paragrafi inseriti da config.js -->
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sezione La Perfezione Richiede Tempo (Filosofia) -->
+  <section class="philosophy-section">
+    <div class="container philosophy-container">
+      <h2 class="section-title" id="philosophy-title">LA PERFEZIONE RICHIEDE TEMPO</h2>
+      <p class="philosophy-text" id="philosophy-text">
+        <!-- Testo inserito da config.js -->
+      </p>
+    </div>
+  </section>
+
+  <!-- Sezione Galleria -->
+  <section class="gallery-section">
+    <div class="container">
+      <h2 class="section-title">GALLERIA</h2>
+      <div class="gallery-grid" id="gallery-container">
+        <!-- Immagini generate dinamicamente da config.js -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Sezione Menu Cena -->
+  <section id="menu" class="menu-section">
+    <div class="container">
+      <div class="menu-header">
+        <h2 class="section-title">MENU CENA</h2>
+        <p style="color: var(--text-muted); font-size: 1.05rem;">Scopri le nostre creazioni culinarie preparate con ingredienti genuini</p>
+      </div>
+
+      <!-- Filtri Menu Categorie -->
+      <div class="menu-tabs" id="menu-tabs">
+        <!-- Pulsanti categorie generati da config.js -->
+      </div>
+
+      <!-- Elenco Piatti per Categoria -->
+      <div id="menu-category-list">
+        <!-- Categorie e piatti renderizzati dinamicamente da config.js -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Sezione Contatti & Mappa -->
+  <section id="contatti" class="contact-section">
+    <div class="container">
+      <h2 class="section-title">CONTATTACI</h2>
+
+      <div class="contact-grid">
+        <div class="contact-box">
+          <h3 class="contact-box-title">INDIRIZZO</h3>
+          <p>Via Evangelista Torricelli,</p>
+          <p>87036 Quattromiglia CS</p>
+        </div>
+
+        <div class="contact-box">
+          <h3 class="contact-box-title">CONTATTI</h3>
+          <p>Telefono: <a href="tel:0984401467" data-contact-phone style="color: var(--accent-gold); font-weight:600;">0984 401467</a></p>
+          <p>Email: <span style="color: var(--text-muted);">info@alpachino.it</span></p>
+        </div>
+
+        <div class="contact-box">
+          <h3 class="contact-box-title">ORARI DI APERTURA</h3>
+          <p>Tutti i giorni</p>
+          <p style="color: var(--accent-gold); font-weight:600;">19:00 – 23:30</p>
+        </div>
+      </div>
+
+      <!-- Mappa Google Maps Interattiva -->
+      <div class="map-wrapper">
+        <iframe id="maps-iframe" 
+          src="https://maps.google.com/maps?q=Via+Evangelista+Torricelli+87036+Rende+CS&t=&z=15&ie=UTF8&iwloc=&output=embed" 
+          loading="lazy" 
+          allowfullscreen 
+          title="Mappa del Ristorante">
+        </iframe>
+      </div>
+
+      <!-- Modulo Richiesta Tavolo / Contatto Rapido -->
+      <div class="reservation-box">
+        <h3 style="font-family: var(--font-serif); font-size: 1.5rem; text-align: center; margin-bottom: 24px; color: #fff;">PRENOTA UN TAVOLO</h3>
+        <form id="reservation-form">
+          <div class="form-grid">
+            <div class="form-group">
+              <input type="text" id="res-name" placeholder="Il tuo nome completo" required>
+            </div>
+            <div class="form-group">
+              <input type="tel" id="res-phone" placeholder="Numero di telefono" required>
+            </div>
+          </div>
+          <div class="form-grid">
+            <div class="form-group">
+              <input type="date" id="res-date" required>
+            </div>
+            <div class="form-group">
+              <select id="res-guests" required>
+                <option value="" disabled selected>Numero di persone</option>
+                <option value="2">2 Persone</option>
+                <option value="3">3 Persone</option>
+                <option value="4">4 Persone</option>
+                <option value="5">5 Persone</option>
+                <option value="6+">6 o più persone</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <textarea id="res-notes" rows="3" placeholder="Note speciali, intolleranze o richieste..."></textarea>
+          </div>
+          <div style="text-align: center; margin-top: 10px;">
+            <button type="submit" class="btn-primary" style="width: 100%;">INVIA RICHIESTA PRENOTAZIONE</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-links">
+        <a href="#">Informativa sulla privacy</a>
+        <span>•</span>
+        <a href="#">Termini e Condizioni</a>
+        <span>•</span>
+        <a href="#">Informativa sui cookie</a>
+        <span>•</span>
+        <a href="#">Dichiarazione di accessibilità</a>
+      </div>
+      <p class="footer-copy">© 2025 by <span data-brand-name>AL PACHINO</span>. Tutti i diritti riservati.</p>
+    </div>
+  </footer>
+
+  <!-- File JavaScript -->
+  <script src="js/config.js"></script>
+  <script src="js/script.js"></script>
+</body>
+</html>
