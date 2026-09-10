@@ -1,30 +1,28 @@
 /**
- * CONFIGURAZIONE DEL SITO RISTORANTE
- * Modifica questo file per personalizzare istantaneamente il sito per un altro ristorante.
- * Tutti i testi, contatti, orari, voci di menu e immagini sono centralizzati qui.
+ * CONFIGURAZIONE DEL SITO RISTORANTE - OL3 Ristorante Pizzeria
  */
 const SITE_CONFIG = {
   // Dati Generali del Ristorante
   brand: {
-    name: "AL PACHINO",
-    tagline: "NON LA SOLITA PIZZERIA",
-    since: "2014",
-    logoText: "AL PACHINO",
-    badgeYear: "DAL 2014",
-    description: "Ristorante Pizzeria tradizionale con tocco moderno, impasti a lunga lievitazione e materie prime d'eccellenza."
+    name: "OL3 Ristorante Pizzeria",
+    tagline: "Ristorante Pizzeria",
+    logoHero: "foto/logo.png",
+    logoNav: "foto/logo-2.png",
+    description: "Ristorante Pizzeria con impasti d'eccellenza, ingredienti selezionati e atmosfera accogliente a Villapiana Lido."
   },
 
   // Contatti e Recapiti
   contact: {
-    phone: "0984 401467",
-    phoneDisplay: "0984 401467",
-    email: "info@alpachino.it",
-    address: "Via Evangelista Torricelli",
-    cap: "87036",
-    city: "Quattromiglia / Rende",
+    phone: "3520389996",
+    phoneDisplay: "352 038 9996",
+    email: "info@ol3ristorante.it",
+    address: "Piazza Enrico Berlinguer",
+    cap: "87076",
+    city: "Villapiana Lido",
     province: "CS",
+    country: "Italia",
     hours: "Tutti i giorni: 19:00 - 23:30",
-    mapsEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3099.190768912444!2d16.2235!3d39.3621!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x133f000000000000%3A0x0!2sVia+Evangelista+Torricelli%2C+87036+Rende+CS!5e0!3m2!1sit!2sit!4v1"
+    mapsEmbedUrl: "https://maps.google.com/maps?q=Piazza+Enrico+Berlinguer+87076+Villapiana+Lido+CS&t=&z=15&ie=UTF8&iwloc=&output=embed"
   },
 
   // Social Media

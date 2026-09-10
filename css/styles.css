@@ -1,5 +1,5 @@
 /* ==========================================================================
-   SITO RISTORANTE - REPLICA DESIGN PREMIUM & MODULARE
+   SITO RISTORANTE - OL3 Ristorante Pizzeria
    Palette: Dark Earth / Warm Charcoal / Olive Green / Accent Tomato Red & Gold
    ========================================================================== */
 
@@ -113,27 +113,25 @@ img {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 74px;
+  height: 80px;
 }
 
 .brand-logo {
   display: flex;
   align-items: center;
-  gap: 8px;
 }
 
-.brand-title {
-  font-family: var(--font-serif);
-  font-size: 1.5rem;
-  font-weight: 700;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: var(--text-main);
+.navbar-logo-img {
+  height: 52px;
+  max-height: 56px;
+  width: auto;
+  object-fit: contain;
+  display: block;
+  transition: opacity 0.2s ease;
 }
 
-.brand-tomato {
-  display: inline-block;
-  color: var(--accent-red);
+.brand-logo:hover .navbar-logo-img {
+  opacity: 0.9;
 }
 
 .nav-links {
@@ -228,46 +226,28 @@ img {
   text-align: center;
   background: linear-gradient(rgba(20, 17, 18, 0.65), rgba(20, 17, 18, 0.8)),
               url('https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=1920&q=80') center/cover no-repeat;
-  padding: 60px 20px;
+  padding: 80px 20px 60px;
 }
 
 .hero-content {
   max-width: 800px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .hero-logo-container {
-  margin-bottom: 24px;
+  margin-bottom: 30px;
+  width: 100%;
 }
 
-.hero-title {
-  font-family: var(--font-serif);
-  font-size: clamp(2.8rem, 6vw, 4.8rem);
-  font-weight: 800;
-  letter-spacing: 4px;
-  text-transform: uppercase;
-  color: #fff;
-  line-height: 1.1;
-  text-shadow: 0 4px 20px rgba(0,0,0,0.8);
-}
-
-.hero-badge {
-  display: inline-block;
-  margin-top: 12px;
-  font-size: 1.1rem;
-  letter-spacing: 3px;
-  color: var(--accent-gold);
-  font-weight: 600;
-  text-transform: uppercase;
-}
-
-.hero-tagline {
-  font-family: var(--font-serif);
-  font-size: clamp(1.2rem, 3vw, 1.8rem);
-  letter-spacing: 3px;
-  text-transform: uppercase;
-  color: #e5dfd7;
-  margin: 16px 0 36px;
-  font-weight: 400;
+.hero-logo-img {
+  max-width: 420px;
+  width: 90%;
+  height: auto;
+  margin: 0 auto;
+  display: block;
+  filter: drop-shadow(0 12px 28px rgba(0,0,0,0.7));
 }
 
 .btn-primary {
@@ -789,7 +769,7 @@ img {
 
   .nav-links {
     position: absolute;
-    top: 74px;
+    top: 80px;
     left: 0;
     width: 100%;
     background-color: #1f1b1d;
