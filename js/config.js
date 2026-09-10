@@ -78,7 +78,7 @@ const SITE_CONFIG = {
       caption: "I Nostri Tagli Pregiati alla Brace"
     },
     {
-      url: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&w=800&q=80",
+      url: "foto/foto pizze/Capricciosa.png",
       caption: "Pizza Gourmet Selezione OL3"
     },
     {
@@ -86,7 +86,7 @@ const SITE_CONFIG = {
       caption: "I Nostri Burger Gourmet con Pane Fatto in Casa"
     },
     {
-      url: "https://images.unsplash.com/photo-1574071318508-1cdbab80d002?auto=format&fit=crop&w=800&q=80",
+      url: "foto/foto pizze/margherita.png",
       caption: "Pizza Margherita Artigianale a Lunga Lievitazione"
     }
   ],
@@ -107,7 +107,7 @@ const SITE_CONFIG = {
             "Classica",
             "Vegetariano"
           ],
-          "image": "https://images.unsplash.com/photo-1574071318508-1cdbab80d002?auto=format&fit=crop&w=400&q=80"
+          "image": "foto/foto pizze/margherita.png"
         },
         {
           "name": "Focaccia all'Olio EVO",
@@ -117,7 +117,7 @@ const SITE_CONFIG = {
             "Semplice",
             "Vegano"
           ],
-          "image": "https://images.unsplash.com/photo-1541518763669-27fef04b14ea?auto=format&fit=crop&w=400&q=80"
+          "image": "foto/foto pizze/Focaccia all'Olio EVO.png"
         },
         {
           "name": "Marinaio",
@@ -127,7 +127,7 @@ const SITE_CONFIG = {
             "Pesce",
             "Senza latticini"
           ],
-          "image": "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&w=400&q=80"
+          "image": "foto/foto pizze/Marinaio.png"
         },
         {
           "name": "Calabrese Piccante",
@@ -137,7 +137,7 @@ const SITE_CONFIG = {
             "Piccante",
             "Tradizione"
           ],
-          "image": "https://images.unsplash.com/photo-1628840042765-356cda07504e?auto=format&fit=crop&w=400&q=80"
+          "image": "foto/foto pizze/Calabrese.png"
         },
         {
           "name": "Baciami Ancora",
@@ -147,7 +147,7 @@ const SITE_CONFIG = {
             "Gusto Unico",
             "Pesce"
           ],
-          "image": "https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=400&q=80"
+          "image": "foto/foto pizze/Baciami Ancora.png"
         },
         {
           "name": "Americana",
@@ -156,7 +156,7 @@ const SITE_CONFIG = {
           "tags": [
             "Per Tutti"
           ],
-          "image": "https://images.unsplash.com/photo-1588315029754-2dd089d39a1a?auto=format&fit=crop&w=400&q=80"
+          "image": "foto/foto pizze/Americana.png"
         },
         {
           "name": "Vegetariana",
@@ -165,7 +165,7 @@ const SITE_CONFIG = {
           "tags": [
             "Vegetariano"
           ],
-          "image": "https://images.unsplash.com/photo-1571407970349-bc81e7e96d47?auto=format&fit=crop&w=400&q=80"
+          "image": "foto/foto pizze/Vegetariana.png"
         },
         {
           "name": "4 Formaggi",
@@ -175,7 +175,7 @@ const SITE_CONFIG = {
             "Formaggi",
             "Vegetariano"
           ],
-          "image": "https://images.unsplash.com/photo-1573821663912-569905455b1c?auto=format&fit=crop&w=400&q=80"
+          "image": "foto/foto pizze/4 formaggi.png"
         },
         {
           "name": "Capricciosa",
@@ -185,7 +185,7 @@ const SITE_CONFIG = {
             "Ricca",
             "Tradizione"
           ],
-          "image": "https://images.unsplash.com/photo-1534308983496-4fabb1a015ee?auto=format&fit=crop&w=400&q=80"
+          "image": "foto/foto pizze/Capricciosa.png"
         },
         {
           "name": "Crudaiola",
@@ -194,7 +194,7 @@ const SITE_CONFIG = {
           "tags": [
             "Fresco"
           ],
-          "image": "https://images.unsplash.com/photo-1590947132387-155cc02f3212?auto=format&fit=crop&w=400&q=80"
+          "image": "foto/foto pizze/Crudaiola.png"
         }
       ]
     },
@@ -211,7 +211,7 @@ const SITE_CONFIG = {
             "Specialità OL3",
             "Calabrese DOP"
           ],
-          "image": "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&w=400&q=80"
+          "image": "foto/foto pizze/Marinaio.png"
         },
         {
           "name": "Senza Parole",
@@ -221,7 +221,7 @@ const SITE_CONFIG = {
             "Gourmet Bovino",
             "Bufala"
           ],
-          "image": "https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=400&q=80"
+          "image": "foto/foto pizze/Baciami Ancora.png"
         },
         {
           "name": "Scostumata",
@@ -231,7 +231,7 @@ const SITE_CONFIG = {
             "Super Ricca",
             "Salsiccia Artigianale"
           ],
-          "image": "https://images.unsplash.com/photo-1574071318508-1cdbab80d002?auto=format&fit=crop&w=400&q=80"
+          "image": "foto/foto pizze/margherita.png"
         },
         {
           "name": "Rucola e Carattere",
@@ -278,7 +278,7 @@ const SITE_CONFIG = {
           "tags": [
             "Stracciatella"
           ],
-          "image": "https://images.unsplash.com/photo-1571407970349-bc81e7e96d47?auto=format&fit=crop&w=400&q=80"
+          "image": "foto/foto pizze/Vegetariana.png"
         }
       ]
     },
