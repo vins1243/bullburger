@@ -1448,3 +1448,85 @@ img {
   margin-bottom: 16px;
   padding-left: 4px;
 }
+
+
+/* Scambiatore di Data in Alto al Tab Tavoli Confermati */
+.date-switcher-box {
+  background: #1e1a1c;
+  border: 1px solid var(--accent-gold);
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+}
+
+.date-switcher-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.date-nav-btn {
+  background: var(--bg-card);
+  color: #fff;
+  border: 1px solid var(--border-light);
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.90rem;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: var(--transition);
+}
+
+.date-nav-btn:hover {
+  background: var(--accent-gold);
+  color: #1a1718;
+  border-color: var(--accent-gold);
+}
+
+.date-picker-large {
+  background: #2b2527;
+  color: #fff;
+  border: 1px solid var(--border-light);
+  padding: 8px 14px;
+  border-radius: 6px;
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 600;
+  color-scheme: dark;
+  outline: none;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.date-picker-large:focus {
+  border-color: var(--accent-gold);
+}
+
+.date-status-subbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  font-size: 0.88rem;
+}
+
+.day-group-header {
+  font-family: var(--font-serif);
+  font-size: 1.15rem;
+  color: var(--accent-gold);
+  padding: 10px 0 6px;
+  margin-top: 14px;
+  margin-bottom: 10px;
+  border-bottom: 1px dashed rgba(214, 175, 93, 0.4);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
