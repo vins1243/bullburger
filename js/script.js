@@ -450,11 +450,11 @@ async function initAdminDashboard() {
         const displayDate = formatItalianDate(b.date);
 
         // Messaggio di conferma ufficiale con i grassetti corretti
-        const confirmText = `Gentile *${b.name}*,\nti confermiamo con piacere la prenotazione del tavolo per *${b.guests}* da *OL3 Ristorante Pizzeria* per il giorno *${displayDate}* alle ore *${b.time}*. Vi aspettiamo in Piazza Enrico Berlinguer a Villapiana Lido! Per variazioni contattaci al *352 038 9996*. A presto, Lo Staff OL3.`;
+        const confirmText = `Gentile *${b.name}* ☺️,\nti confermiamo con piacere la prenotazione del tavolo per *${b.guests}* da *OL3 Ristorante Pizzeria* per il giorno *${displayDate}* alle ore *${b.time}*. Vi aspettiamo in Piazza Enrico Berlinguer a Villapiana Lido! Per variazioni contattaci al *352 038 9996*. A presto, Lo Staff OL3 ☺️.`;
         const confirmUrl = `https://api.whatsapp.com/send?phone=${waNum}&text=${encodeURIComponent(confirmText)}`;
 
         // Messaggio di rifiuto ufficiale con grassetti
-        const rejectText = `Gentile *${b.name}*,\nci dispiace informarti che per il giorno *${displayDate}* alle ore *${b.time}* il nostro locale *OL3 Ristorante Pizzeria* è al completo e non abbiamo tavoli disponibili. Ci scusiamo per il disagio e speriamo di poterti accogliere molto presto! Un cordiale saluto, Lo Staff OL3.`;
+        const rejectText = `Gentile *${b.name}* 🥺,\nci dispiace informarti che per il giorno *${displayDate}* alle ore *${b.time}* il nostro locale *OL3 Ristorante Pizzeria* è al completo e non abbiamo tavoli disponibili. Ci scusiamo per il disagio e speriamo di poterti accogliere molto presto! Un cordiale saluto, Lo Staff OL3 🥺.`;
         const rejectUrl = `https://api.whatsapp.com/send?phone=${waNum}&text=${encodeURIComponent(rejectText)}`;
 
         return `
