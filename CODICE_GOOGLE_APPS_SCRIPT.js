@@ -1,6 +1,6 @@
 /**
- * SCRIPT GOOGLE APPS SCRIPT PER OL3 RISTORANTE PIZZERIA (VERSIONE CORRETTA)
- * Incolla in Estensioni > Apps Script del foglio Google 'Prenotazioni - OL3 Ristorante'
+ * SCRIPT GOOGLE APPS SCRIPT PER Bullburger RISTORANTE PIZZERIA (VERSIONE CORRETTA)
+ * Incolla in Estensioni > Apps Script del foglio Google 'Prenotazioni - Bullburger'
  */
 
 function doGet(e) {

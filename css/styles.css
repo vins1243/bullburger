@@ -1,19 +1,19 @@
 /* ==========================================================================
-   SITO RISTORANTE - OL3 Ristorante Pizzeria
+   SITO RISTORANTE - Bullburger
    Palette: Dark Earth / Warm Charcoal / Olive Green / Accent Tomato Red & Gold
    ========================================================================== */
 
 :root {
   --bg-main: #242022;
-  --bg-secondary: #2c2729;
-  --bg-card: #342e31;
+  --bg-secondary: #e5d3b2;
+  --bg-card: #f1e1c0;
   --bg-olive: #736936;
   --bg-olive-dark: #5e552a;
   --text-main: #f5f2eb;
   --text-muted: #b8b1a9;
   --text-dark: #1b1819;
   --accent-red: #d1382b;
-  --accent-gold: #d6af5d;
+  --accent-gold: #d63e30;
   --accent-green: #25d366; /* WhatsApp Green */
   --accent-green-dark: #128c7e;
   --border-light: rgba(255, 255, 255, 0.1);

@@ -83,7 +83,7 @@ Per vendere questo sito a un nuovo cliente (ristorante, bistrot, pizzeria o pub)
    ```css
    :root {
      --accent-red: #d1382b;   /* Cambia con il colore del nuovo brand */
-     --accent-gold: #d6af5d;  /* Colore dettagli/prezzi */
+     --accent-gold: #d63e30;  /* Colore dettagli/prezzi */
    }
    ```
 4. Salva il file: il sito è già pronto per il nuovo ristorante!

@@ -1,15 +1,15 @@
 /**
- * CONFIGURAZIONE DEL SITO RISTORANTE - OL3 Ristorante Pizzeria
+ * CONFIGURAZIONE DEL SITO RISTORANTE - Bullburger
  * Menu reale completo aggiornato con 9 categorie e 66 portate.
  */
 const SITE_CONFIG = {
   // Dati Generali del Ristorante
   brand: {
-    name: "OL3 Ristorante Pizzeria",
+    name: "Bullburger",
     tagline: "Ristorante Pizzeria",
     logoHero: "foto/logo.png",
     logoNav: "foto/logo-2.png",
-    description: "Benvenuti da OL3: prodotti freschi e genuini preparati con rispetto per la materia prima, slow food, tagli nobili di carne ed eccellenze calabresi a Villapiana Lido."
+    description: "Benvenuti da Bullburger: prodotti freschi e genuini preparati con rispetto per la materia prima, slow food, tagli nobili di carne ed eccellenze calabresi a Villapiana Lido."
   },
 
   // Contatti e Recapiti
@@ -18,22 +18,22 @@ const SITE_CONFIG = {
   googleSheetEndpoint: "https://script.google.com/macros/s/AKfycbywuk8Mgl7oeB8vrXjmsftYINLiRTpuRNToJYdur0TDXJTXAvJXA_9GfmGeuQuwT80h/exec", // Incolla qui l'URL della Web App di Google Apps Script
 
   contact: {
-    phone: "3520389996",
-    phoneDisplay: "352 038 9996",
-    email: "info@ol3ristorante.it",
-    address: "Piazza Enrico Berlinguer",
+    phone: "3293122388",
+    phoneDisplay: "329 312 2388",
+    email: "info@bullburger.it",
+    address: "Via Nazionale, S.da Statale 106 Jonica",
     cap: "87076",
     city: "Villapiana Lido",
     province: "CS",
     country: "Italia",
     hours: "Tutti i giorni: 19:00 - 23:30",
-    mapsEmbedUrl: "https://maps.google.com/maps?q=Piazza+Enrico+Berlinguer+87076+Villapiana+Lido+CS&t=&z=15&ie=UTF8&iwloc=&output=embed"
+    mapsEmbedUrl: "https://maps.google.com/maps?q=Via+Nazionale+S.da+Statale+106+Jonica+87076+Villapiana+Lido+CS&t=&z=15&ie=UTF8&iwloc=&output=embed"
   },
 
   // Social Media
   socials: {
-    facebook: "https://www.facebook.com/griglieria.ol3/?locale=it_IT",
-    instagram: "https://www.instagram.com/ol3_ristorante/"
+    facebook: "https://www.facebook.com/bullburger/?locale=it_IT",
+    instagram: "https://www.instagram.com/bullburger/"
   },
 
   // Sezione "Il Ristorante" (I 3 Punti di Forza)
@@ -68,7 +68,7 @@ const SITE_CONFIG = {
   // Sezione Filosofia / Lievitazione
   philosophy: {
     title: "LA PERFEZIONE RICHIEDE TEMPO",
-    text: "La perfezione richiede tempo perché ogni dettaglio, dalla frollatura delle carni alla lunga maturazione dell'impasto della pizza, è frutto di pazienza, maestria e passione. Rispettare i tempi naturali della natura significa servire sapori autentici, bocconi teneri e pizze fragranti e altamente digeribili. Perché per noi di OL3 la fretta può sfamare, ma solo la dedizione sa regalare vere emozioni."
+    text: "La perfezione richiede tempo perché ogni dettaglio, dalla frollatura delle carni alla lunga maturazione dell'impasto della pizza, è frutto di pazienza, maestria e passione. Rispettare i tempi naturali della natura significa servire sapori autentici, bocconi teneri e pizze fragranti e altamente digeribili. Perché per noi di Bullburger la fretta può sfamare, ma solo la dedizione sa regalare vere emozioni."
   },
 
   // Galleria Immagini
@@ -79,7 +79,7 @@ const SITE_CONFIG = {
     },
     {
       url: "foto/foto pizze/Capricciosa.png",
-      caption: "Pizza Gourmet Selezione OL3"
+      caption: "Pizza Gourmet Selezione Bullburger"
     },
     {
       url: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=800&q=80",
@@ -91,7 +91,7 @@ const SITE_CONFIG = {
     }
   ],
 
-  // MENU COMPLETO REALE OL3
+  // MENU COMPLETO REALE Bullburger
   menu: {
   "categories": [
     {
@@ -199,8 +199,8 @@ const SITE_CONFIG = {
       ]
     },
     {
-      "id": "pizze-ol3",
-      "name": "PIZZE SELEZIONE OL3",
+      "id": "pizze-bullburger",
+      "name": "PIZZE SELEZIONE Bullburger",
       "subtitle": "Pizze Gourmet d'autore con ingredienti d'eccellenza, carni selezionate e prodotti tipici calabresi",
       "items": [
         {
@@ -208,7 +208,7 @@ const SITE_CONFIG = {
           "price": "13,00 €",
           "description": "Fior di latte, patate tradizionali 'm'pacchiuse' aromatizzate, 'Nduja di Spilinga, provola Silana DOP, peperone crusco essiccato",
           "tags": [
-            "Specialità OL3",
+            "Specialità Bullburger",
             "Calabrese DOP"
           ],
           "image": "foto/foto pizze/Marinaio.png"
@@ -381,7 +381,7 @@ const SITE_CONFIG = {
           "image": "https://images.unsplash.com/photo-1541544741938-0af808871cc0?auto=format&fit=crop&w=400&q=80"
         },
         {
-          "name": "Hamburger al Piatto Made in OL3",
+          "name": "Hamburger al Piatto Made in Bullburger",
           "price": "12,00 €",
           "description": "Hamburger 250g di puro manzo, pomodoro, fonduta di formaggio cheddar, lattuga croccante, salsa burger, patatine fritte",
           "tags": [
@@ -415,9 +415,9 @@ const SITE_CONFIG = {
       "subtitle": "Pane artigianale fatto in casa ogni giorno, farcito con carni scelte e ingredienti unici",
       "items": [
         {
-          "name": "King OL3",
+          "name": "King Bullburger",
           "price": "18,00 €",
-          "description": "Doppio hamburger 250g (500g tot), bacon croccante, uovo all'occhio di bue, cheddar fuso, pomodoro, salsa segreta OL3, lattuga",
+          "description": "Doppio hamburger 250g (500g tot), bacon croccante, uovo all'occhio di bue, cheddar fuso, pomodoro, salsa segreta Bullburger, lattuga",
           "tags": [
             "Maxi Burger",
             "500g Carne"
@@ -733,7 +733,7 @@ const SITE_CONFIG = {
           "price": "10,00 €",
           "description": "Long drink rinfrescante a base di liquore all'anice selvatico della Sila (ananzù), ideale come digestivo aromatico (quantità limitata)",
           "tags": [
-            "Signature OL3",
+            "Signature Bullburger",
             "Raro Silano"
           ],
           "image": "https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?auto=format&fit=crop&w=400&q=80"

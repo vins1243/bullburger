@@ -1,9 +1,9 @@
 /**
- * JAVASCRIPT PRINCIPALE - OL3 Ristorante Pizzeria
+ * JAVASCRIPT PRINCIPALE - Bullburger
  * Gestione prenotazioni con scambiatore di data, messaggi WhatsApp in grassetto e sync controllata.
  */
 
-const STORAGE_KEY = 'ol3_prenotazioni_db';
+const STORAGE_KEY = 'bullburger_prenotazioni_db';
 
 document.addEventListener('DOMContentLoaded', () => {
   renderCommonData();
@@ -450,11 +450,11 @@ async function initAdminDashboard() {
         const displayDate = formatItalianDate(b.date);
 
         // Messaggio di conferma ufficiale con i grassetti corretti
-        const confirmText = `Gentile *${b.name}* ☺️,\nti confermiamo con piacere la prenotazione del tavolo per *${b.guests}* da *OL3 Ristorante Pizzeria* per il giorno *${displayDate}* alle ore *${b.time}*. Vi aspettiamo in Piazza Enrico Berlinguer a Villapiana Lido! Per variazioni contattaci al *352 038 9996*. A presto, Lo Staff OL3 ☺️.`;
+        const confirmText = `Gentile *${b.name}* ☺️,\nti confermiamo con piacere la prenotazione del tavolo per *${b.guests}* da *Bullburger* per il giorno *${displayDate}* alle ore *${b.time}*. Vi aspettiamo in Via Nazionale, S.da Statale 106 Jonica a Villapiana Lido! Per variazioni contattaci al *329 312 2388*. A presto, Lo Staff Bullburger ☺️.`;
         const confirmUrl = `https://api.whatsapp.com/send?phone=${waNum}&text=${encodeURIComponent(confirmText)}`;
 
         // Messaggio di rifiuto ufficiale con grassetti
-        const rejectText = `Gentile *${b.name}* 🥺,\nci dispiace informarti che per il giorno *${displayDate}* alle ore *${b.time}* il nostro locale *OL3 Ristorante Pizzeria* è al completo e non abbiamo tavoli disponibili. Ci scusiamo per il disagio e speriamo di poterti accogliere molto presto! Un cordiale saluto, Lo Staff OL3 🥺.`;
+        const rejectText = `Gentile *${b.name}* 🥺,\nci dispiace informarti che per il giorno *${displayDate}* alle ore *${b.time}* il nostro locale *Bullburger* è al completo e non abbiamo tavoli disponibili. Ci scusiamo per il disagio e speriamo di poterti accogliere molto presto! Un cordiale saluto, Lo Staff Bullburger 🥺.`;
         const rejectUrl = `https://api.whatsapp.com/send?phone=${waNum}&text=${encodeURIComponent(rejectText)}`;
 
         return `
@@ -627,7 +627,7 @@ async function initAdminDashboard() {
     if (!confirmCancel) return;
 
     const waNum = formatWhatsAppNumber(phone);
-    const cancelMsg = `Gentile *${name}*,\nti comunichiamo che la tua prenotazione per il giorno *${displayDate}* alle ore *${time}* da *OL3 Ristorante Pizzeria* è stata *annullata*. Per qualsiasi chiarimento o per verificare altre date puoi contattarci al *352 038 9996*. Un cordiale saluto, Lo Staff OL3.`;
+    const cancelMsg = `Gentile *${name}*,\nti comunichiamo che la tua prenotazione per il giorno *${displayDate}* alle ore *${time}* da *Bullburger* è stata *annullata*. Per qualsiasi chiarimento o per verificare altre date puoi contattarci al *329 312 2388*. Un cordiale saluto, Lo Staff Bullburger.`;
     const cancelWaUrl = `https://api.whatsapp.com/send?phone=${waNum}&text=${encodeURIComponent(cancelMsg)}`;
 
     updateBookingInState(id, 'Annullato');
