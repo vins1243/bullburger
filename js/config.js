@@ -95,389 +95,609 @@ const SITE_CONFIG = {
   menu: {
   "categories": [
     {
-      "id": "smash-burger",
-      "name": "SMASH BURGERS ORIGINALI",
-      "subtitle": "Patty pressate su piastra rovente, crosta dorata e croccante, cuore succoso, in soffice bun artigianale",
+      "id": "hamburger",
+      "name": "HAMBURGER",
+      "subtitle": "I nostri hamburger preparati al momento con carni selezionate. Disponibili nei formati da 120g e 200g.",
       "items": [
         {
-          "name": "Double Bacon Smash",
-          "price": "13,50 €",
-          "description": "Due patty da 110g smashate su piastra, doppio formaggio cheddar fuso, crispy bacon affumicato, cipolla caramellata e salsa Bullburger segreta",
+          "name": "CLASSICO",
+          "price": "120g € 5,00 | 200g € 8,00",
+          "description": "Hamburger, insalata, pomodoro, maionese",
           "tags": [
-            "Bestseller",
-            "Doppia Carne"
-          ],
-          "image": "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=400&q=80"
+            "Latte e derivati"
+          ]
         },
         {
-          "name": "Classic Cheese Smash",
-          "price": "11,50 €",
-          "description": "Due patty smashate da 110g, formaggio cheddar fuso, cetriolini sottaceto artigianali, cipolla fresca a dadini, ketchup e senape dolce",
+          "name": "CHEESEBURGER",
+          "price": "120g € 5,50 | 200g € 8,50",
+          "description": "Hamburger, cheddar, insalata, pomodoro, cipolla, maionese",
           "tags": [
-            "Classico Americano"
-          ],
-          "image": "https://images.unsplash.com/photo-1550547660-d9450f859349?auto=format&fit=crop&w=400&q=80"
+            "Latte e derivati"
+          ]
         },
         {
-          "name": "Truffle & Mayo Smash",
-          "price": "14,50 €",
-          "description": "Due patty smashate, provola dolce fusa, salsa tartufata pregiata, maionese artigianale al pepe nero e rucola selvatica",
+          "name": "TEXANO",
+          "price": "120g € 7,50 | 200g € 9,50",
+          "description": "Hamburger, cheddar, insalata, salsa barbecue, cipolla agrodolce",
           "tags": [
-            "Gourmet",
-            "Tartufo"
-          ],
-          "image": "https://images.unsplash.com/photo-1586190848861-99aa4a171e90?auto=format&fit=crop&w=400&q=80"
+            "Latte e derivati",
+            "Senape"
+          ]
         },
         {
-          "name": "Spicy Jalapeño Smash",
-          "price": "13,00 €",
-          "description": "Due patty smashate, cheddar filante, jalapeños piccanti a rondelle, salsa piccante calabrese alla nduja e maionese affumicata",
+          "name": "ARIZONA",
+          "price": "120g € 7,50 | 200g € 9,50",
+          "description": "Hamburger, rucola, pomodoro, salsa della casa, caciocavallo, cipolla",
+          "tags": [
+            "Latte e derivati",
+            "Senape",
+            "Uova e derivati"
+          ]
+        },
+        {
+          "name": "COLORADO",
+          "price": "240g € 10,50 | 400g € 15,00",
+          "description": "Doppio hamburger (120+120g o 200+200g), doppio caciocavallo, insalata, uovo sodo, cipolla agrodolce, salsa della casa",
+          "tags": [
+            "Doppio Burger",
+            "Latte e derivati",
+            "Senape",
+            "Uova e derivati"
+          ]
+        },
+        {
+          "name": "MONTANA",
+          "price": "240g € 10,00 | 400g € 15,00",
+          "description": "Doppio hamburger (120+120g o 200+200g), doppio cheddar, doppio bacon, insalata, uovo all'occhio di bue, salsa della casa",
+          "tags": [
+            "Doppio Burger",
+            "Latte e derivati"
+          ]
+        },
+        {
+          "name": "LITTLE ITALY",
+          "price": "120g € 8,00 | 200g € 10,00",
+          "description": "Hamburger, funghi, rucola, cacio, scaglie di grana, maionese",
+          "tags": [
+            "Latte e derivati"
+          ]
+        },
+        {
+          "name": "4 CHEESE",
+          "price": "120g € 6,50 | 200g € 8,50",
+          "description": "Hamburger, cheddar, caciocavallo, grana, gorgonzola",
+          "tags": [
+            "Latte e derivati"
+          ]
+        },
+        {
+          "name": "TRIPLE BURGER",
+          "price": "360g € 13,50 | 600g € 18,50",
+          "description": "Triplo hamburger (3x120g o 3x200g), triplo cheddar, triplo bacon, salsa barbecue",
+          "tags": [
+            "Triplo Burger",
+            "Latte e derivati"
+          ]
+        },
+        {
+          "name": "HAMBURGER RIPIENO",
+          "price": "200g € 10,00",
+          "description": "Hamburger ripieno di formaggio e bacon, servito con contorno di patatine fritte",
+          "tags": [
+            "Con Patatine",
+            "Latte e derivati"
+          ]
+        },
+        {
+          "name": "CALABRESE",
+          "price": "120g € 8,00 | 200g € 10,50",
+          "description": "Hamburger, rucola, 'nduja, pomodori secchi, scaglie di grana, cipolla, maionese",
           "tags": [
             "Piccante",
-            "Calabrese"
-          ],
-          "image": "https://images.unsplash.com/photo-1521305916504-4a1121188589?auto=format&fit=crop&w=400&q=80"
-        }
-      ]
-    },
-    {
-      "id": "panini",
-      "name": "HAMBURGER GOURMET",
-      "subtitle": "Maxi burger da 250g di manzo selezionato e ingredienti di prima scelta",
-      "items": [
-        {
-          "name": "King Bullburger",
-          "price": "18,00 €",
-          "description": "Doppio hamburger 250g (500g tot), bacon croccante, uovo all'occhio di bue, cheddar fuso, pomodoro, salsa segreta Bullburger, lattuga",
-          "tags": [
-            "Maxi Burger",
-            "500g Carne"
-          ],
-          "image": "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=400&q=80"
+            "Latte e derivati"
+          ]
         },
         {
-          "name": "Hamburger Classico",
-          "price": "12,00 €",
-          "description": "Hamburger 250g di manzo selezionato, pomodoro, formaggio cheddar, salsa burger artigianale, lattuga croccante",
+          "name": "ITALIANO",
+          "price": "120g € 9,00 | 200g € 11,50",
+          "description": "Hamburger, caciocavallo, mortadella, granella di pistacchio, maionese, insalata",
           "tags": [
-            "Classico"
-          ],
-          "image": "https://images.unsplash.com/photo-1550547660-d9450f859349?auto=format&fit=crop&w=400&q=80"
+            "Frutta a guscio",
+            "Latte e derivati"
+          ]
         },
         {
-          "name": "Lacrima Facile",
-          "price": "12,00 €",
-          "description": "Salsiccia artigianale fatta in casa, provola affumicata silana, patate tradizionali, 'nduja di Spilinga, lattuga croccante",
+          "name": "ORTOLANO",
+          "price": "120g € 8,00 | 200g € 10,00",
+          "description": "Hamburger, salsa boscaiola, insalata, melanzane grigliate, cacio",
           "tags": [
-            "Piccante",
-            "Salsiccia Fresca"
-          ],
-          "image": "https://images.unsplash.com/photo-1521305916504-4a1121188589?auto=format&fit=crop&w=400&q=80"
+            "Frutta a guscio",
+            "Latte e derivati"
+          ]
         },
         {
-          "name": "Scostumato",
-          "price": "12,00 €",
-          "description": "Salsiccia fatta in casa, patate tradizionali 'm'pacchiuse', peperoni saltati, funghi misti trifolati, provola fusa",
+          "name": "NEW JERSEY",
+          "price": "120g € 9,00 | 200g € 12,50",
+          "description": "Hamburger, salsa cheddar, anelli di cipolla, bacon",
           "tags": [
-            "Gustoso"
-          ],
-          "image": "https://images.unsplash.com/photo-1549611016-3a70d82b5040?auto=format&fit=crop&w=400&q=80"
+            "Frutta a guscio",
+            "Latte e derivati"
+          ]
         },
         {
-          "name": "Dello Chef",
-          "price": "13,00 €",
-          "description": "Porchetta selezionata fatta in casa, pomodori secchi, crema ai funghi porcini, provola silana, lattuga croccante",
+          "name": "SWEETY",
+          "price": "120g € 9,00 | 200g € 12,00",
+          "description": "Hamburger, rucola, speck, noci, miele",
           "tags": [
-            "Porchetta"
-          ],
-          "image": "https://images.unsplash.com/photo-1625813506062-0aeb1d7a094b?auto=format&fit=crop&w=400&q=80"
+            "Frutta a guscio",
+            "Latte e derivati"
+          ]
         },
         {
-          "name": "Succulento",
-          "price": "10,00 €",
-          "description": "Straccetti teneri di bovino alla piastra, rucola fresca di campo, scaglie di grana DOP, pomodoro",
+          "name": "OREGON",
+          "price": "120g € 7,00 | 200g € 9,00",
+          "description": "Hamburger, caciocavallo, gorgonzola, melanzane a funghetto, maionese, funghi",
           "tags": [
-            "Straccetti"
-          ],
-          "image": "https://images.unsplash.com/photo-1586190848861-99aa4a171e90?auto=format&fit=crop&w=400&q=80"
+            "Latte e derivati"
+          ]
         },
         {
-          "name": "Croccante",
-          "price": "10,00 €",
-          "description": "Cotoletta di pollo dorata e super croccante, pomodoro, formaggio filante, lattuga croccante",
+          "name": "NEVADA",
+          "price": "120g € 7,00 | 200g € 9,00",
+          "description": "Hamburger, speck, brie, rucola, maionese",
           "tags": [
+            "Latte e derivati"
+          ]
+        },
+        {
+          "name": "KANSAS",
+          "price": "120g € 6,50 | 200g € 8,50",
+          "description": "Hamburger, cheddar, cetrioli, cipolla, senape, insalata, maionese",
+          "tags": [
+            "Latte e derivati",
+            "Senape"
+          ]
+        },
+        {
+          "name": "MISSOURI",
+          "price": "120g € 8,00 | 200g € 10,50",
+          "description": "Hamburger, doppio cheddar, cipolla tostata, bacon, ketchup, maionese",
+          "tags": [
+            "Latte e derivati"
+          ]
+        },
+        {
+          "name": "FISH BURGER",
+          "price": "€ 8,00",
+          "description": "Filetto di pesce dorato, pomodoro, insalata, maionese",
+          "tags": [
+            "Pesce"
+          ]
+        },
+        {
+          "name": "CHICKEN BURGER",
+          "price": "200g € 8,50",
+          "description": "Pollo con impanatura croccante ai corn flakes, insalata, pomodoro, maionese",
+          "tags": [
+            "Glutine",
             "Pollo Croccante"
-          ],
-          "image": "https://images.unsplash.com/photo-1606755962773-d324e0a13086?auto=format&fit=crop&w=400&q=80"
+          ]
         }
       ]
     },
     {
-      "id": "fritti-antipasti",
-      "name": "FRITTI & ANTIPASTI SFIZIOSI",
-      "subtitle": "Dorati, croccanti e ideali da condividere al centro della tavola",
+      "id": "toast",
+      "name": "TOAST",
+      "subtitle": "Toast fragranti e farciti preparati al momento.",
       "items": [
         {
-          "name": "Parmigiana di Melanzane",
-          "price": "8,00 €",
-          "description": "La vera parmigiana alla calabrese con melanzane dorate, sugo ristretto di pomodoro e provola filante",
+          "name": "SEMPLICE",
+          "price": "€ 5,00",
+          "description": "Speck, sottiletta filante",
           "tags": [
-            "Fatto in casa"
-          ],
-          "image": "https://images.unsplash.com/photo-1625944525533-473f1a3d54e7?auto=format&fit=crop&w=400&q=80"
+            "Latte e derivati"
+          ]
         },
         {
-          "name": "Frittura di Calamari",
-          "price": "12,00 €",
-          "description": "Calamari teneri passati in semola e fritti al momento, serviti caldi con spicchi di limone BIO",
+          "name": "SFIZIOSO",
+          "price": "€ 4,50",
+          "description": "Sottiletta, pomodoro, insalata, maionese",
           "tags": [
-            "Pesce Fresco"
-          ],
-          "image": "https://images.unsplash.com/photo-1599488615731-7e5c2823ff28?auto=format&fit=crop&w=400&q=80"
+            "Latte e derivati"
+          ]
         },
         {
-          "name": "Dippers Patatine Gorgonzola & Speck",
-          "price": "6,50 €",
-          "description": "Patatine a barchetta croccanti con fonduta calda di gorgonzola DOP e speck tirolese croccante",
+          "name": "AMERICAN TOAST",
+          "price": "€ 7,00",
+          "description": "Bacon croccante, cheddar, uova strapazzate, maionese",
           "tags": [
-            "Sfizioso"
-          ],
-          "image": "https://images.unsplash.com/photo-1576107232684-1279f3908594?auto=format&fit=crop&w=400&q=80"
+            "Latte e derivati",
+            "Uova e derivati"
+          ]
         },
         {
-          "name": "Polpettine Fritte di Carne (6 pz)",
-          "price": "3,50 €",
-          "description": "Morbide polpettine artigianali di manzo e maiale con impasto alle erbe aromatiche",
+          "name": "CLUB TOAST",
+          "price": "€ 9,50",
+          "description": "Doppio toast, doppio bacon, doppio cheddar, pomodori, uova strapazzate, insalata, maionese, ketchup",
           "tags": [
-            "Fatto a mano"
-          ],
-          "image": "https://images.unsplash.com/photo-1529042410759-befb1204b468?auto=format&fit=crop&w=400&q=80"
+            "Doppio Toast",
+            "Latte e derivati",
+            "Uova e derivati"
+          ]
         },
         {
-          "name": "Patatine Classiche Stick",
-          "price": "Piccola 3,50 € / Media 6,50 €",
-          "description": "Patatine dorate e croccanti servite calde con sale iodato",
+          "name": "LEGGERO",
+          "price": "€ 6,00",
+          "description": "Tonno, pomodoro, maionese",
           "tags": [
-            "Vegetariano"
-          ],
-          "image": "https://images.unsplash.com/photo-1573080496219-bb080dd4f877?auto=format&fit=crop&w=400&q=80"
+            "Pesce"
+          ]
         },
         {
-          "name": "Anelli di Cipolla Dorati",
-          "price": "5,00 €",
-          "description": "Anelli di cipolla dolce pastellati alla birra e fritti",
-          "tags": [
-            "Vegetariano"
-          ],
-          "image": "https://images.unsplash.com/photo-1639024471285-0afc274b711a?auto=format&fit=crop&w=400&q=80"
-        },
-        {
-          "name": "Stick di Pollo (Nuggets)",
-          "price": "5,00 €",
-          "description": "Bocconcini di filetto di pollo panati e croccanti",
+          "name": "CHICKEN TOAST",
+          "price": "€ 7,50",
+          "description": "Straccetti di pollo, insalata, maionese",
           "tags": [
             "Pollo"
-          ],
-          "image": "https://images.unsplash.com/photo-1562967914-608f82629710?auto=format&fit=crop&w=400&q=80"
-        },
-        {
-          "name": "Supplì Artigianale al Pomodoro",
-          "price": "2,50 € al pezzo",
-          "description": "Riso al sugo mantecato con cuore filante di mozzarella fior di latte",
-          "tags": [
-            "Al pezzo"
-          ],
-          "image": "https://images.unsplash.com/photo-1541529086526-db283c563270?auto=format&fit=crop&w=400&q=80"
-        },
-        {
-          "name": "Crocchè di Patate Napoletano",
-          "price": "2,50 € al pezzo",
-          "description": "Purè di patate fresche, prezzemolo, pepe e cuore di formaggio filante",
-          "tags": [
-            "Al pezzo"
-          ],
-          "image": "https://images.unsplash.com/photo-1608897013039-887f21d8c804?auto=format&fit=crop&w=400&q=80"
-        },
-        {
-          "name": "Crocchè di Riso Tradizionale",
-          "price": "5,00 €",
-          "description": "Porzione di crocchè dorati di riso speziato della tradizione",
-          "tags": [
-            "Porzione"
-          ],
-          "image": "https://images.unsplash.com/photo-1541529086526-db283c563270?auto=format&fit=crop&w=400&q=80"
+          ]
         }
       ]
     },
     {
-      "id": "contorni",
-      "name": "CONTORNI FRESCHI & AL FORNO",
-      "subtitle": "Accompagnamenti saporiti con verdure locali e patate della Sila IGP",
+      "id": "hot-dog",
+      "name": "HOT DOG",
+      "subtitle": "I classici hot dog con salse e abbinamenti sfiziosi.",
       "items": [
         {
-          "name": "Patate al Forno IGP Silane",
-          "price": "4,50 €",
-          "description": "Patate della Sila IGP tagliate a spicchi con buccia, cotte al forno con aglio in camicia, rosmarino e olio EVO",
+          "name": "HOT DOG CLASSICO",
+          "price": "€ 4,00",
+          "description": "Würstel, ketchup, maionese",
           "tags": [
-            "Patata Silana IGP",
-            "Vegano"
-          ],
-          "image": "https://images.unsplash.com/photo-1518977676601-b53f82aba655?auto=format&fit=crop&w=400&q=80"
+            "Classico"
+          ]
         },
         {
-          "name": "Verdure di Stagione Grigliate",
-          "price": "4,50 €",
-          "description": "Zucchine, melanzane e peperoni grigliati alla piastra con foglie di menta fresca e olio EVO",
+          "name": "HOT DOG CON PATATINE",
+          "price": "€ 4,50",
+          "description": "Würstel, patatine fritte, maionese",
           "tags": [
-            "Vegano",
-            "Leggero"
-          ],
-          "image": "https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&w=400&q=80"
+            "Con Patatine"
+          ]
         },
         {
-          "name": "Insalata Verde da Campo",
-          "price": "3,00 €",
-          "description": "Lattuga e rucola fresca condite con olio EVO frantoiano, succo di limone BIO e sale marino",
+          "name": "HOT DOG CHEDDAR & CIP. TOSTATA",
+          "price": "€ 5,50",
+          "description": "Würstel, cheddar, cipolla tostata, maionese",
           "tags": [
-            "Vegano",
-            "Bio"
-          ],
-          "image": "https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&w=400&q=80"
+            "Latte e derivati"
+          ]
+        },
+        {
+          "name": "HOT DOG BACON & CHEDDAR",
+          "price": "€ 5,00",
+          "description": "Würstel, bacon, cheddar, salsa barbecue",
+          "tags": [
+            "Latte e derivati"
+          ]
+        },
+        {
+          "name": "HOT DOG CETRIOLINI & SENAPE",
+          "price": "€ 5,00",
+          "description": "Würstel, cetriolini, senape, maionese",
+          "tags": [
+            "Latte e derivati",
+            "Senape"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "base-panino",
+      "name": "BASE PANINO & EXTRA",
+      "subtitle": "Scegli la base del panino e aggiungi i tuoi ingredienti preferiti.",
+      "items": [
+        {
+          "name": "BASE PANINO 120 g",
+          "price": "€ 5,00",
+          "description": "Pane artigianale con hamburger base da 120g",
+          "tags": [
+            "Glutine"
+          ]
+        },
+        {
+          "name": "BASE PANINO 200 g",
+          "price": "€ 7,00",
+          "description": "Pane artigianale con hamburger base da 200g",
+          "tags": [
+            "Glutine"
+          ]
+        },
+        {
+          "name": "SEMI DI SESAMO",
+          "price": "+ € 1,00",
+          "description": "Pane artigianale ricoperto con semi di sesamo",
+          "tags": [
+            "Sesamo",
+            "Glutine"
+          ]
+        },
+        {
+          "name": "AMERICANO GLASSATURA VEGETALE",
+          "price": "+ € 1,00",
+          "description": "Bun americano con glassatura vegetale",
+          "tags": [
+            "Glutine"
+          ]
+        },
+        {
+          "name": "CASERECCIO",
+          "price": "+ € 1,00",
+          "description": "Pane tradizionale casereccio",
+          "tags": [
+            "Glutine"
+          ]
+        },
+        {
+          "name": "AGGIUNTA INGREDIENTI",
+          "price": "+ € 1,50 cad.",
+          "description": "Patatine, melanzane, zucchine grigliate, formaggi, pomodoro, cipolla, cetrioli, bacon, funghi, gorgonzola, cipolla agrodolce, cipolla tostata, speck, brie",
+          "tags": [
+            "Extra"
+          ]
+        },
+        {
+          "name": "AGGIUNTA SALSE",
+          "price": "+ € 0,75",
+          "description": "Salse artigianali aggiuntive a scelta",
+          "tags": [
+            "Salse"
+          ]
+        },
+        {
+          "name": "SERVIZIO AL TAVOLO",
+          "price": "€ 1,50",
+          "description": "Coperto e servizio al tavolo",
+          "tags": [
+            "Servizio"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "fritti-contorni",
+      "name": "FRITTI & CONTORNI",
+      "subtitle": "Patatine calde dorate, sfiziosità fritte e contorni.",
+      "items": [
+        {
+          "name": "PATATINE FRITTE",
+          "price": "€ 3,50",
+          "description": "Patatine fritte tradizionali croccanti",
+          "tags": [
+            "Fritti"
+          ]
+        },
+        {
+          "name": "PATATE SPEZIATE",
+          "price": "€ 4,00",
+          "description": "Patate fritte aromatizzate con mix di spezie",
+          "tags": [
+            "Speziate"
+          ]
+        },
+        {
+          "name": "PATATE STEAKHOUSE",
+          "price": "€ 3,50",
+          "description": "Patate fritte taglio spesso steakhouse",
+          "tags": [
+            "Steakhouse"
+          ]
+        },
+        {
+          "name": "ANELLI DI CIPOLLA (7 PZ)",
+          "price": "€ 3,00",
+          "description": "Anelli di cipolla dorati e croccanti",
+          "tags": [
+            "Fritti"
+          ]
+        },
+        {
+          "name": "NUGGETS (6 PZ)",
+          "price": "€ 5,00",
+          "description": "Bocconcini di pollo impanati e fritti",
+          "tags": [
+            "Pollo"
+          ]
+        },
+        {
+          "name": "INSALATA VERDE",
+          "price": "€ 3,50",
+          "description": "Insalata verde fresca di stagione",
+          "tags": [
+            "Contorno"
+          ]
+        },
+        {
+          "name": "VERDURE GRIGLIATE",
+          "price": "€ 5,00",
+          "description": "Melanzane, zucchine e verdure di stagione grigliate",
+          "tags": [
+            "Vegetariano"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "insalate",
+      "name": "INSALATE",
+      "subtitle": "Insalate fresche, ricche e bilanciate.",
+      "items": [
+        {
+          "name": "CESAR SALAD",
+          "price": "€ 9,00",
+          "description": "Insalata iceberg, straccetti di petto di pollo, pomodoro, scaglie di grana, salsa",
+          "tags": [
+            "Latte e derivati"
+          ]
+        },
+        {
+          "name": "GREEK SALAD",
+          "price": "€ 7,50",
+          "description": "Insalata iceberg, cubetti di formaggio, olive nere, pomodoro, cetrioli, cipolla",
+          "tags": [
+            "Latte e derivati"
+          ]
+        },
+        {
+          "name": "MEDITERRANEAN SALAD",
+          "price": "€ 7,50",
+          "description": "Insalata iceberg, tonno, pomodoro, mais",
+          "tags": [
+            "Pesce"
+          ]
+        },
+        {
+          "name": "INSALATA DELLA CASA",
+          "price": "€ 12,50",
+          "description": "Insalata iceberg, rucola, mini hamburger, bacon, uovo a occhio di bue, scaglie di grana",
+          "tags": [
+            "Glutine",
+            "Uova e derivati",
+            "Latte e derivati"
+          ]
         }
       ]
     },
     {
       "id": "birre-bevande",
-      "name": "BIRRE ALLA SPINA & BEVANDE",
-      "subtitle": "Grandi birre tedesche ed europee alla spina, bibite fresche in vetro e acque minerali",
+      "name": "BIRRE & BIBITE",
+      "subtitle": "Birre alla spina rinfrescanti e bibite.",
       "items": [
         {
-          "name": "Spaten Chiara Classica (5.2% vol)",
-          "price": "0,25L €3,00 | 0,50L €6,00 | 1L €12,00",
-          "description": "Storica birra bavarese dorata, equilibrata e piacevolmente maltata",
+          "name": "BIRRA ROSSA (0,20 cl)",
+          "price": "€ 2,50",
+          "description": "Birra rossa alla spina",
           "tags": [
-            "Alla Spina",
-            "Lager"
-          ],
-          "image": "https://images.unsplash.com/photo-1535958636474-b021ee887b13?auto=format&fit=crop&w=400&q=80"
+            "Alla Spina"
+          ]
         },
         {
-          "name": "Leffe Rossa d'Abbazia (6.6% vol)",
-          "price": "0,30L €4,50 | 0,50L €8,00 | 1L €15,00",
-          "description": "Birra rossa belga ad alta fermentazione, sapore dolce, speziato e corposo",
+          "name": "BIRRA ROSSA (0,40 cl)",
+          "price": "€ 4,50",
+          "description": "Birra rossa alla spina media",
           "tags": [
-            "Alla Spina",
-            "Rossa"
-          ],
-          "image": "https://images.unsplash.com/photo-1567696911980-2eed69a46042?auto=format&fit=crop&w=400&q=80"
+            "Alla Spina"
+          ]
         },
         {
-          "name": "König Ludwig Weissbier (5.5% vol)",
-          "price": "0,30L €4,50 | 0,50L €8,00 | 1L €15,00",
-          "description": "Birra di frumento bavarese non filtrata, torbida naturale, rinfrescante con note fruttate",
+          "name": "BIRRA BIONDA (0,20 cl)",
+          "price": "€ 2,50",
+          "description": "Birra bionda alla spina",
           "tags": [
-            "Alla Spina",
-            "Weissbier"
-          ],
-          "image": "https://images.unsplash.com/photo-1608270191795-0be1f5c6e8e2?auto=format&fit=crop&w=400&q=80"
+            "Alla Spina"
+          ]
         },
         {
-          "name": "Acqua Minerale (1 Litro)",
-          "price": "2,50 €",
-          "description": "Disponibile naturale o frizzante in bottiglia di vetro",
+          "name": "BIRRA BIONDA (0,40 cl)",
+          "price": "€ 4,50",
+          "description": "Birra bionda alla spina media",
           "tags": [
-            "Acqua"
-          ],
-          "image": "https://images.unsplash.com/photo-1548839140-29a749e1bc4e?auto=format&fit=crop&w=400&q=80"
+            "Alla Spina"
+          ]
         },
         {
-          "name": "Coca Cola / Coca Cola Zero (in vetro)",
-          "price": "3,00 €",
-          "description": "Servita fredda con ghiaccio e fetta di limone",
+          "name": "ACQUA 1 L",
+          "price": "€ 2,00",
+          "description": "Acqua naturale o frizzante in bottiglia da 1 litro",
           "tags": [
-            "Bibite"
-          ],
-          "image": "https://images.unsplash.com/photo-1622483767028-3f66f32aef97?auto=format&fit=crop&w=400&q=80"
+            "Bevande"
+          ]
         },
         {
-          "name": "Fanta / Sprite / Lemon Soda (in vetro)",
-          "price": "3,00 €",
-          "description": "Bibite rinfrescanti gassate in bottiglia",
+          "name": "ACQUA 0,50 L",
+          "price": "€ 1,00",
+          "description": "Acqua naturale o frizzante da mezzo litro",
           "tags": [
-            "Bibite"
-          ],
-          "image": "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?auto=format&fit=crop&w=400&q=80"
+            "Bevande"
+          ]
         },
         {
-          "name": "Estathé Limone o Pesca",
-          "price": "3,50 €",
-          "description": "Il classico tè freddo italiano infuso",
+          "name": "COCA COLA 33 CL",
+          "price": "€ 2,50",
+          "description": "Coca Cola classica",
           "tags": [
-            "Tè freddo"
-          ],
-          "image": "https://images.unsplash.com/photo-1556679343-c7306c1976bc?auto=format&fit=crop&w=400&q=80"
+            "Bevande"
+          ]
         },
         {
-          "name": "Acqua Tonica Premium",
-          "price": "3,50 €",
-          "description": "Tonica amara con chinino naturale",
+          "name": "COCA COLA ZERO 33 CL",
+          "price": "€ 2,50",
+          "description": "Coca Cola Zero zuccheri",
           "tags": [
-            "Tonica"
-          ],
-          "image": "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=400&q=80"
+            "Bevande"
+          ]
+        },
+        {
+          "name": "FANTA 33 CL",
+          "price": "€ 2,50",
+          "description": "Fanta all'arancia",
+          "tags": [
+            "Bevande"
+          ]
+        },
+        {
+          "name": "SPRITE 33 CL",
+          "price": "€ 2,50",
+          "description": "Sprite al limone",
+          "tags": [
+            "Bevande"
+          ]
+        },
+        {
+          "name": "ESTATHÈ 33 CL",
+          "price": "€ 2,50",
+          "description": "Thè freddo al limone o alla pesca",
+          "tags": [
+            "Bevande"
+          ]
         }
       ]
     },
     {
-      "id": "cocktail-digestivi",
-      "name": "COCKTAIL GASTRONOMICI & DIGESTIVI",
-      "subtitle": "Miscelazione d'eccellenza, aperitivi e amari silani per concludere al meglio la serata",
+      "id": "dessert-caffe",
+      "name": "DESSERT & CAFFETTERIA",
+      "subtitle": "Dolci artigianali, caffè espresso e amari.",
       "items": [
         {
-          "name": "Ananzù Signature Drink",
-          "price": "10,00 €",
-          "description": "Long drink rinfrescante a base di liquore all'anice selvatico della Sila (ananzù), ideale come digestivo aromatico (quantità limitata)",
+          "name": "DOLCE DEL GIORNO",
+          "price": "€ 4,50",
+          "description": "Dolce fresco del giorno preparato dalla casa",
           "tags": [
-            "Signature Bullburger",
-            "Raro Silano"
-          ],
-          "image": "https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?auto=format&fit=crop&w=400&q=80"
+            "Dessert"
+          ]
         },
         {
-          "name": "Aperol Spritz",
-          "price": "5,00 €",
-          "description": "Aperol, Prosecco DOC, spruzzo di soda, fetta d'arancia e oliva",
+          "name": "CAFFÈ",
+          "price": "€ 0,80",
+          "description": "Caffè espresso",
           "tags": [
-            "Aperitivo"
-          ],
-          "image": "https://images.unsplash.com/photo-1560512823-829485b8bf24?auto=format&fit=crop&w=400&q=80"
+            "Caffetteria"
+          ]
         },
         {
-          "name": "Gin Tonic Premium (Elephant Gin)",
-          "price": "7,00 € – 8,00 €",
-          "description": "Distillato premium con botaniche selezionate e acqua tonica artigianale",
+          "name": "AMARI",
+          "price": "€ 2,00",
+          "description": "Selezione di amari tradizionali",
           "tags": [
-            "Cocktail"
-          ],
-          "image": "https://images.unsplash.com/photo-1551024709-8f23befc6f87?auto=format&fit=crop&w=400&q=80"
+            "Digestivo"
+          ]
         },
         {
-          "name": "Negroni Classico",
-          "price": "8,00 €",
-          "description": "Campari, vermouth rosso di Torino, London dry gin, scorza d'arancia",
+          "name": "GRAPPA",
+          "price": "€ 3,00",
+          "description": "Grappa morbida o barricata",
           "tags": [
-            "Cocktail Classico"
-          ],
-          "image": "https://images.unsplash.com/photo-1551538827-9c037cb4f32a?auto=format&fit=crop&w=400&q=80"
-        },
-        {
-          "name": "Americano / Campari & Soda",
-          "price": "5,00 €",
-          "description": "Bitter Campari, vermouth rosso, soda e fetta d'arancia fresca",
-          "tags": [
-            "Aperitivo"
-          ],
-          "image": "https://images.unsplash.com/photo-1536935338788-846bb9981813?auto=format&fit=crop&w=400&q=80"
+            "Distillato"
+          ]
         }
       ]
     }
