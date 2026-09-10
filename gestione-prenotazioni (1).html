@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gestione Tavoli & Prenotazioni | OL3 Ristorante Pizzeria</title>
+  
+  <!-- Font Google -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;0,900;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Icone FontAwesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <!-- Stili -->
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body style="background-color: #1a1718;">
+
+  <!-- Barra Superiore -->
+  <div class="top-bar">
+    <div class="container">
+      <div class="top-bar-contact">
+        <span><i class="fa-solid fa-lock"></i> Area Riservata Gestione Tavoli • OL3 Ristorante Pizzeria</span>
+      </div>
+      <div>
+        <a href="index.html" style="color: var(--accent-gold);"><i class="fa-solid fa-arrow-left"></i> Torna al Sito Pubblico</a>
+      </div>
+    </div>
+  </div>
+
+  <nav class="navbar">
+    <div class="container nav-container">
+      <a href="index.html" class="brand-logo">
+        <img src="foto/logo-2.png" alt="OL3 Ristorante Pizzeria" class="navbar-logo-img">
+      </a>
+      <ul class="nav-links">
+        <li><a href="index.html">SITO PUBBLICO</a></li>
+        <li><a href="https://docs.google.com/spreadsheets/d/1u5aKXWIb00V_u038qUka_eje1f8DpvLuG0wznZmRpcI/edit" target="_blank" rel="noopener" style="color: var(--accent-gold);"><i class="fa-solid fa-table"></i> FOGLIO GOOGLE</a></li>
+        <li><a href="gestione-prenotazioni.html" class="active">GESTIONE TAVOLI</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main style="padding: 40px 0 90px;">
+    <div class="container">
+      
+      <!-- Intestazione Dashboard -->
+      <div class="admin-header">
+        <div>
+          <h1 style="font-family: var(--font-serif); font-size: 2.2rem; color: #fff; margin-bottom: 6px;">
+            Pannello Gestione Tavoli
+          </h1>
+          <p style="color: var(--text-muted); font-size: 0.95rem;">
+            A sinistra visualizzi i <strong>tavoli confermati</strong> filtrabili per giorno (preimpostato su oggi). A destra trovi le <strong>richieste in arrivo</strong> in ordine cronologico da confermare via WhatsApp.
+          </p>
+        </div>
+
+        <div style="display: flex; gap: 12px; align-items: center;">
+          <button id="admin-refresh-btn" class="btn-primary" style="width: auto; padding: 10px 22px; font-size: 0.88rem; background-color: var(--accent-gold); color: #1a1718; border-color: var(--accent-gold);">
+            <i class="fa-solid fa-arrows-rotate"></i> Aggiorna Dati
+          </button>
+          <a href="https://docs.google.com/spreadsheets/d/1u5aKXWIb00V_u038qUka_eje1f8DpvLuG0wznZmRpcI/edit" target="_blank" rel="noopener" class="btn-secondary-hero" style="width: auto; padding: 10px 18px; font-size: 0.85rem;">
+            <i class="fa-solid fa-table"></i> Foglio Drive
+          </a>
+        </div>
+      </div>
+
+      <!-- Griglia 2 Colonne: Sinistra Confermati (con Selettore Data), Destra Richieste in Arrivo -->
+      <div class="admin-columns-grid">
+        
+        <!-- COLONNA SINISTRA: TAVOLI CONFERMATI CON SELETTORE DATA -->
+        <section class="admin-column" style="border-top: 4px solid var(--accent-green);">
+          <div class="column-header" style="margin-bottom: 14px;">
+            <h2 class="column-title">
+              <i class="fa-solid fa-circle-check" style="color: var(--accent-green);"></i>
+              Tavoli Confermati
+            </h2>
+            <span class="column-badge" id="confirmed-count-badge">0 tavoli</span>
+          </div>
+
+          <!-- Barra Selettore Data con Scorrimento Avanti / Indietro -->
+          <div class="date-navigator-bar">
+            <div class="date-nav-controls">
+              <button id="date-prev-btn" class="date-nav-arrow" title="Giorno precedente" aria-label="Giorno precedente">
+                <i class="fa-solid fa-chevron-left"></i>
+              </button>
+              <input type="date" id="admin-date-picker" class="date-input-field">
+              <button id="date-next-btn" class="date-nav-arrow" title="Giorno successivo" aria-label="Giorno successivo">
+                <i class="fa-solid fa-chevron-right"></i>
+              </button>
+            </div>
+            <div style="display: flex; gap: 8px;">
+              <button id="date-today-btn" class="date-nav-today-btn">Oggi</button>
+              <button id="date-all-btn" class="date-nav-today-btn" style="border-color: var(--border-light); color: var(--text-muted);">Tutti</button>
+            </div>
+          </div>
+
+          <!-- Etichetta data leggibile -->
+          <div id="date-display-friendly" class="date-display-friendly">
+            <!-- Calcolato da script.js -->
+          </div>
+
+          <!-- Lista Tavoli del giorno -->
+          <div id="confirmed-bookings-list">
+            <!-- Popolato dinamicamente da script.js -->
+          </div>
+        </section>
+
+        <!-- COLONNA DESTRA: RICHIESTE IN ARRIVO (IN ORDINE DI ARRIVO) -->
+        <section class="admin-column" style="border-top: 4px solid var(--accent-gold);">
+          <div class="column-header">
+            <h2 class="column-title">
+              <i class="fa-solid fa-bell" style="color: var(--accent-gold);"></i>
+              Richieste in Arrivo
+            </h2>
+            <span class="column-badge" id="pending-count-badge">0 in attesa</span>
+          </div>
+
+          <div id="pending-bookings-list">
+            <!-- Popolato dinamicamente da script.js -->
+          </div>
+        </section>
+
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <p class="footer-copy">© 2025 by OL3 Ristorante Pizzeria • Gestione Tavoli</p>
+    </div>
+  </footer>
+
+  <script src="js/config.js"></script>
+  <script src="js/script.js"></script>
+</body>
+</html>
