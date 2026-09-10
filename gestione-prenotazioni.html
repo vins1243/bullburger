@@ -37,14 +37,33 @@
       </a>
       <ul class="nav-links">
         <li><a href="index.html">SITO WEB</a></li>
+        <li><a href="https://docs.google.com/spreadsheets/d/1u5aKXWIb00V_u038qUka_eje1f8DpvLuG0wznZmRpcI/edit" target="_blank" rel="noopener" style="color: var(--accent-gold);"><i class="fa-solid fa-table"></i> APRI FOGLIO GOOGLE</a></li>
         <li><a href="gestione-prenotazioni.html" class="active">GESTIONE PRENOTAZIONI</a></li>
       </ul>
     </div>
   </nav>
 
-  <main style="padding: 50px 0 90px;">
+  <main style="padding: 40px 0 90px;">
     <div class="container">
       
+      <!-- Box Collegamento Google Sheets -->
+      <div style="margin-bottom: 30px; padding: 20px 24px; background: rgba(214, 175, 93, 0.12); border: 1px solid rgba(214, 175, 93, 0.3); border-radius: 8px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
+        <div>
+          <h4 style="color: #fff; margin-bottom: 4px; font-size: 1.05rem;">
+            <i class="fa-solid fa-table" style="color: var(--accent-gold); margin-right: 8px;"></i>
+            Database Google Sheet: <strong>Prenotazioni - OL3 Ristorante</strong>
+          </h4>
+          <p style="font-size: 0.88rem; color: var(--text-muted); margin: 0;">
+            Le richieste vengono registrate in tempo reale. Puoi consultare il foglio Google completo su Drive o gestirle qui con 1 clic WhatsApp.
+          </p>
+        </div>
+        <div>
+          <a href="https://docs.google.com/spreadsheets/d/1u5aKXWIb00V_u038qUka_eje1f8DpvLuG0wznZmRpcI/edit" target="_blank" rel="noopener" class="btn-primary" style="padding: 10px 20px; font-size: 0.85rem; width: auto; background-color: var(--accent-gold); color: #1a1718; border-color: var(--accent-gold);">
+            <i class="fa-solid fa-arrow-up-right-from-square"></i> APRI SU GOOGLE DRIVE
+          </a>
+        </div>
+      </div>
+
       <!-- Intestazione Dashboard -->
       <div class="admin-header">
         <div>
@@ -52,7 +71,7 @@
             Richieste di Prenotazione
           </h1>
           <p style="color: var(--text-muted); font-size: 0.95rem;">
-            Le richieste arrivano in ordine cronologico. Con <strong>un semplice clic</strong> puoi confermare o rifiutare il tavolo inviando il messaggio WhatsApp personalizzato al cliente.
+            Ordina e gestisci le richieste arrivate. Con <strong>un semplice clic</strong> puoi confermare o rifiutare il tavolo inviando il messaggio WhatsApp personalizzato al cliente.
           </p>
         </div>
 
@@ -70,13 +89,13 @@
         <!-- Generato dinamicamente da script.js -->
       </div>
 
-      <!-- Guida Tecnico-Operativa -->
+      <!-- Guida Operativa -->
       <div style="margin-top: 50px; padding: 26px 30px; background: var(--bg-secondary); border-radius: 8px; border: 1px solid var(--border-card); font-size: 0.90rem; color: var(--text-muted); line-height: 1.7;">
-        <h4 style="color: #fff; margin-bottom: 8px; font-family: var(--font-serif); font-size: 1.15rem;"><i class="fa-solid fa-circle-info" style="color: var(--accent-gold);"></i> Come funziona la conferma via WhatsApp:</h4>
+        <h4 style="color: #fff; margin-bottom: 8px; font-family: var(--font-serif); font-size: 1.15rem;"><i class="fa-solid fa-circle-info" style="color: var(--accent-gold);"></i> Come funziona la catena operativa:</h4>
         <ul style="padding-left: 20px;">
-          <li>Cliccando su <strong style="color: var(--accent-green);">"CONFERMA VIA WHATSAPP"</strong> si aprirà direttamente WhatsApp (Web su Mac/PC o l'app WhatsApp su telefono) con la chat del cliente e il messaggio ufficiale già compilato (con data, ora, persone e indirizzo).</li>
-          <li>Cliccando su <strong style="color: #ff786b;">"RIFIUTA VIA WHATSAPP"</strong> si aprirà WhatsApp con il messaggio di scuse per locale al completo.</li>
-          <li>Tutte le richieste compilate dai clienti vengono salvate automaticamente sia nella memoria locale sia sul tuo pannello Netlify nella sezione <em>Forms &gt; prenotazioni</em>.</li>
+          <li>Il cliente compila il modulo su <strong>prenota.html</strong> inserendo il suo numero WhatsApp.</li>
+          <li>La richiesta viene archiviata nel tuo foglio <strong><a href="https://docs.google.com/spreadsheets/d/1u5aKXWIb00V_u038qUka_eje1f8DpvLuG0wznZmRpcI/edit" target="_blank" rel="noopener" style="color: var(--accent-gold); text-decoration: underline;">Google Sheet su Drive</a></strong> e su questa pagina.</li>
+          <li>Tu apri questa pagina (dal cellulare o computer) e con il tasto verde <strong style="color: var(--accent-green);">"CONFERMA VIA WHATSAPP"</strong> invii la conferma precompilata al cliente in 1 secondo.</li>
         </ul>
       </div>
 

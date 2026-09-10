@@ -257,7 +257,42 @@ function initReservationForm() {
   });
 }
 
+
+// Recupera l'endpoint di Google Sheets (da config o da localStorage per comodità)
+function getGoogleSheetEndpoint() {
+  const custom = localStorage.getItem('ol3_sheets_endpoint');
+  if (custom && custom.trim() !== '') return custom.trim();
+  if (SITE_CONFIG.googleSheetEndpoint && SITE_CONFIG.googleSheetEndpoint.trim() !== '') {
+    return SITE_CONFIG.googleSheetEndpoint.trim();
+  }
+  return '';
+}
+
 function saveBookingLocally(booking) {
+  let list = [];
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (raw) list = JSON.parse(raw);
+  } catch (e) {}
+
+  list.unshift(booking);
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
+  } catch (e) {}
+
+  // Invia in parallelo al Google Sheet se configurato
+  const endpoint = getGoogleSheetEndpoint();
+  if (endpoint) {
+    fetch(endpoint, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(booking)
+    }).catch(err => console.log('Sincronizzazione Sheet in corso:', err));
+  }
+}
+
+function _old_save(booking) {
   let list = [];
   try {
     const raw = localStorage.getItem(STORAGE_KEY);

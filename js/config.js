@@ -13,6 +13,10 @@ const SITE_CONFIG = {
   },
 
   // Contatti e Recapiti
+  // Integrazione Google Sheets per Prenotazioni in Tempo Reale
+  googleSheetUrl: "https://docs.google.com/spreadsheets/d/1u5aKXWIb00V_u038qUka_eje1f8DpvLuG0wznZmRpcI/edit",
+  googleSheetEndpoint: "", // Incolla qui l'URL della Web App di Google Apps Script
+
   contact: {
     phone: "3520389996",
     phoneDisplay: "352 038 9996",
