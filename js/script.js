@@ -361,18 +361,24 @@ function getStoredBookings() {
   return [];
 }
 
-// Inizializza Dashboard Amministratore a 2 Colonne (gestione-prenotazioni.html)
-async function initAdminDashboard() {
-  const confirmedContainer = document.getElementById('confirmed-bookings-list');
-  const pendingContainer = document.getElementById('pending-bookings-list');
-  if (!confirmedContainer || !pendingContainer) return;
 
-  const confirmedBadge = document.getElementById('confirmed-count-badge');
-  const pendingBadge = document.getElementById('pending-count-badge');
+// Inizializza Dashboard Amministratore (Mostra solo richieste in attesa, rimuove appena confermate o rifiutate)
+async function initAdminDashboard() {
+  const container = document.getElementById('pending-bookings-list');
+  if (!container) return;
+
+  const countBadge = document.getElementById('pending-count-badge');
+  const toggleAll = document.getElementById('toggle-show-all');
+
+  let showAll = false;
 
   async function fetchAndRender() {
-    confirmedContainer.innerHTML = '<p style="color: var(--text-muted); font-size: 0.9rem;"><i class="fa-solid fa-spinner fa-spin"></i> Sincronizzazione...</p>';
-    pendingContainer.innerHTML = '<p style="color: var(--text-muted); font-size: 0.9rem;"><i class="fa-solid fa-spinner fa-spin"></i> Sincronizzazione...</p>';
+    container.innerHTML = `
+      <div style="text-align: center; padding: 40px; color: var(--text-muted);">
+        <i class="fa-solid fa-spinner fa-spin" style="font-size: 2rem; color: var(--accent-gold); margin-bottom: 12px;"></i>
+        <p>Sincronizzazione in tempo reale con Google Sheets...</p>
+      </div>
+    `;
 
     const endpoint = getGoogleSheetEndpoint();
     let bookings = [];
@@ -380,167 +386,146 @@ async function initAdminDashboard() {
     try {
       const res = await fetch(endpoint);
       const json = await res.json();
-      if (json && json.status === 'success' && Array.isArray(json.data) && json.data.length > 0) {
+      if (json && json.status === 'success' && Array.isArray(json.data)) {
         bookings = json.data.map(normalizeBooking).filter(Boolean);
         localStorage.setItem(STORAGE_KEY, JSON.stringify(bookings));
       } else {
         bookings = getStoredBookings();
       }
     } catch (e) {
-      console.warn('Errore lettura Google Sheets, uso dati locali:', e);
+      console.warn('Lettura da Google Sheets non riuscita, uso cache:', e);
       bookings = getStoredBookings();
     }
 
-    renderBoard(bookings);
+    renderList(bookings);
   }
 
-  function renderBoard(bookings) {
-    const confirmed = bookings.filter(b => b.status === 'Confermato');
-    const pending = bookings.filter(b => b.status === 'In attesa');
+  function renderList(bookings) {
+    // Filtra: per default SOLO le richieste 'In attesa' (quelle confermate o rifiutate NON escono più nella pagina web)
+    const pendingOnly = bookings.filter(b => b.status === 'In attesa');
+    const toDisplay = showAll ? bookings : pendingOnly;
 
-    if (confirmedBadge) confirmedBadge.textContent = `${confirmed.length} tavoli`;
-    if (pendingBadge) pendingBadge.textContent = `${pending.length} in attesa`;
-
-    // 1. Render Tavoli Confermati (Colonna Sinistra)
-    if (confirmed.length === 0) {
-      confirmedContainer.innerHTML = `
-        <div style="text-align: center; padding: 40px 16px; color: var(--text-muted);">
-          <i class="fa-regular fa-calendar-xmark" style="font-size: 2.2rem; color: #555; margin-bottom: 12px; display:block;"></i>
-          <p style="font-size: 0.92rem;">Nessun tavolo confermato al momento.</p>
-        </div>
-      `;
-    } else {
-      confirmedContainer.innerHTML = confirmed.map(b => {
-        const waNum = formatWhatsAppNumber(b.phone);
-        const waChatUrl = `https://api.whatsapp.com/send?phone=${waNum}`;
-
-        return `
-          <div class="table-card table-card-confirmed" id="card-${b.id}">
-            <div class="table-card-header">
-              <span class="table-card-name">${b.name}</span>
-              <span class="table-time-tag">${b.date} • ${b.time}</span>
-            </div>
-
-            <div class="table-card-info">
-              <span><i class="fa-solid fa-users" style="color: var(--accent-gold);"></i> <strong>${b.guests}</strong></span>
-              <span><i class="fa-solid fa-phone" style="color: var(--accent-gold);"></i> <a href="tel:${b.phone}" style="color: #fff; text-decoration: underline;">${b.phone}</a></span>
-            </div>
-
-            ${b.notes ? `<div style="font-size: 0.85rem; color: #d5cfc7; background: rgba(0,0,0,0.25); padding: 8px 12px; border-radius: 4px; margin-bottom: 12px;"><strong>Note:</strong> ${b.notes}</div>` : ''}
-
-            <div style="display: flex; gap: 10px; justify-content: space-between; align-items: center; margin-top: 10px; flex-wrap: wrap;">
-              <a href="${waChatUrl}" target="_blank" rel="noopener" class="btn-whatsapp-chat">
-                <i class="fa-brands fa-whatsapp"></i> Scrivi su WhatsApp
-              </a>
-              <button class="btn-remove-booking" onclick="cancelBooking('${b.id}', '${b.name}', '${b.phone}', '${b.date}', '${b.time}')">
-                <i class="fa-solid fa-trash-can"></i> Rimuovi / Annulla
-              </button>
-            </div>
-          </div>
-        `;
-      }).join('');
+    if (countBadge) {
+      countBadge.textContent = pendingOnly.length;
     }
 
-    // 2. Render Richieste in Arrivo (Colonna Destra)
-    if (pending.length === 0) {
-      pendingContainer.innerHTML = `
-        <div style="text-align: center; padding: 40px 16px; color: var(--text-muted);">
-          <i class="fa-regular fa-bell-slash" style="font-size: 2.2rem; color: #555; margin-bottom: 12px; display:block;"></i>
-          <p style="font-size: 0.92rem;">Nessuna nuova richiesta in attesa.</p>
+    if (toDisplay.length === 0) {
+      container.innerHTML = `
+        <div style="text-align: center; padding: 70px 20px; background: var(--bg-card); border-radius: 8px; color: var(--text-muted); border: 1px solid var(--border-card);">
+          <i class="fa-regular fa-circle-check" style="font-size: 3.5rem; color: var(--accent-green); margin-bottom: 18px; display:block;"></i>
+          <h3 style="font-family: var(--font-serif); font-size: 1.6rem; color: #fff; margin-bottom: 8px;">Tutto aggiornato!</h3>
+          <p style="font-size: 0.95rem; max-width: 500px; margin: 0 auto 20px;">Non ci sono nuove richieste in sospeso da confermare. Le richieste elaborate sono state archiviate correttamente sul foglio Google.</p>
+          <a href="https://docs.google.com/spreadsheets/d/1u5aKXWIb00V_u038qUka_eje1f8DpvLuG0wznZmRpcI/edit" target="_blank" rel="noopener" class="btn-secondary-hero" style="display: inline-block; width: auto; padding: 10px 22px;">
+            <i class="fa-solid fa-table"></i> Consulta Storico Completo su Google Drive
+          </a>
         </div>
       `;
-    } else {
-      pendingContainer.innerHTML = pending.map(b => {
-        const waNum = formatWhatsAppNumber(b.phone);
+      return;
+    }
 
-        const confirmText = encodeURIComponent(
-          `Gentile ${b.name}, ti confermiamo con piacere la prenotazione del tavolo per ${b.guests} da OL3 Ristorante Pizzeria per il giorno ${b.date} alle ore ${b.time}. Vi aspettiamo in Piazza Enrico Berlinguer a Villapiana Lido! Per variazioni contattaci al 352 038 9996. A presto, Lo Staff OL3.`
-        );
-        const confirmUrl = `https://api.whatsapp.com/send?phone=${waNum}&text=${confirmText}`;
+    container.innerHTML = toDisplay.map(b => {
+      const waNum = formatWhatsAppNumber(b.phone);
 
-        const rejectText = encodeURIComponent(
-          `Gentile ${b.name}, ci dispiace informarti che per il giorno ${b.date} alle ore ${b.time} il nostro locale OL3 è al completo e non abbiamo tavoli disponibili. Ci scusiamo per il disagio e speriamo di poterti accogliere prossimamente! Un cordiale saluto, Lo Staff OL3.`
-        );
-        const rejectUrl = `https://api.whatsapp.com/send?phone=${waNum}&text=${rejectText}`;
+      // Link conferma WhatsApp
+      const confirmText = encodeURIComponent(
+        `Gentile ${b.name}, ti confermiamo con piacere la prenotazione del tavolo per ${b.guests} da OL3 Ristorante Pizzeria per il giorno ${b.date} alle ore ${b.time}. Vi aspettiamo in Piazza Enrico Berlinguer a Villapiana Lido! Per variazioni contattaci al 352 038 9996. A presto, Lo Staff OL3.`
+      );
+      const confirmUrl = `https://api.whatsapp.com/send?phone=${waNum}&text=${confirmText}`;
 
-        return `
-          <div class="table-card table-card-pending" id="card-${b.id}">
-            <div class="table-card-header">
-              <span class="table-card-name">${b.name}</span>
-              <span class="table-time-tag">${b.date} • ${b.time}</span>
-            </div>
+      // Link rifiuto WhatsApp
+      const rejectText = encodeURIComponent(
+        `Gentile ${b.name}, ci dispiace informarti che per il giorno ${b.date} alle ore ${b.time} il nostro locale OL3 è al completo e non abbiamo tavoli disponibili. Ci scusiamo per il disagio e speriamo di poterti accogliere prossimamente! Un cordiale saluto, Lo Staff OL3.`
+      );
+      const rejectUrl = `https://api.whatsapp.com/send?phone=${waNum}&text=${rejectText}`;
 
-            <div class="table-card-info">
-              <span><i class="fa-solid fa-users" style="color: var(--accent-gold);"></i> <strong>${b.guests}</strong></span>
-              <span><i class="fa-solid fa-phone" style="color: var(--accent-gold);"></i> <a href="tel:${b.phone}" style="color: #fff; text-decoration: underline;">${b.phone}</a></span>
-              <span style="font-size: 0.78rem; color: #999; margin-left: auto;">Inviata: ${b.created_at || 'Adesso'}</span>
-            </div>
+      let cardBorderClass = 'table-card-pending';
+      let badgeLabel = 'IN ATTESA';
+      let badgeStyle = 'background: rgba(214, 175, 93, 0.18); color: var(--accent-gold);';
 
-            ${b.notes ? `<div style="font-size: 0.85rem; color: #d5cfc7; background: rgba(0,0,0,0.25); padding: 8px 12px; border-radius: 4px; margin-bottom: 12px;"><strong>Note:</strong> ${b.notes}</div>` : ''}
+      if (b.status === 'Confermato') {
+        cardBorderClass = 'table-card-confirmed';
+        badgeLabel = 'CONFERMATO';
+        badgeStyle = 'background: rgba(37, 211, 102, 0.18); color: var(--accent-green);';
+      } else if (b.status === 'Rifiutato') {
+        cardBorderClass = '';
+        badgeLabel = 'RIFIUTATO';
+        badgeStyle = 'background: rgba(209, 56, 43, 0.18); color: #ff786b;';
+      }
 
-            <div style="display: flex; gap: 10px; flex-direction: column; margin-top: 14px;">
-              <a href="${confirmUrl}" target="_blank" rel="noopener" class="btn-whatsapp-confirm" onclick="confirmBooking('${b.id}')">
-                <i class="fa-brands fa-whatsapp"></i> CONFERMA VIA WHATSAPP
-              </a>
-              <a href="${rejectUrl}" target="_blank" rel="noopener" class="btn-whatsapp-reject" onclick="rejectBooking('${b.id}')">
-                <i class="fa-solid fa-xmark"></i> RIFIUTA VIA WHATSAPP
-              </a>
+      return `
+        <div class="table-card ${cardBorderClass}" id="booking-card-${b.id}" style="transition: all 0.4s ease; padding: 24px;">
+          <div class="table-card-header">
+            <span class="table-card-name" style="font-size: 1.35rem;">${b.name}</span>
+            <div>
+              <span style="font-size: 0.75rem; padding: 4px 10px; border-radius: 20px; font-weight: 700; ${badgeStyle}">
+                ${badgeLabel}
+              </span>
             </div>
           </div>
-        `;
-      }).join('');
-    }
+
+          <div class="table-card-info" style="font-size: 0.95rem; margin: 12px 0 16px;">
+            <span><i class="fa-regular fa-calendar" style="color: var(--accent-gold);"></i> <strong>Data:</strong> ${b.date}</span>
+            <span><i class="fa-regular fa-clock" style="color: var(--accent-gold);"></i> <strong>Ore:</strong> ${b.time}</span>
+            <span><i class="fa-solid fa-users" style="color: var(--accent-gold);"></i> <strong>Ospiti:</strong> ${b.guests}</span>
+            <span><i class="fa-solid fa-phone" style="color: var(--accent-gold);"></i> <a href="tel:${b.phone}" style="color: #fff; text-decoration: underline;">${b.phone}</a></span>
+            <span style="font-size: 0.80rem; color: #888; margin-left: auto;">Inviata: ${b.created_at || 'Adesso'}</span>
+          </div>
+
+          ${b.notes ? `
+            <div style="font-size: 0.90rem; color: #d5cfc7; background: rgba(0,0,0,0.3); padding: 10px 14px; border-radius: 4px; margin-bottom: 16px; border-left: 3px solid var(--accent-gold);">
+              <strong>Note del cliente:</strong> ${b.notes}
+            </div>
+          ` : ''}
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 14px;">
+            <a href="${confirmUrl}" target="_blank" rel="noopener" class="btn-whatsapp-confirm" onclick="processAndRemove('${b.id}', 'Confermato')">
+              <i class="fa-brands fa-whatsapp"></i> CONFERMA VIA WHATSAPP
+            </a>
+            <a href="${rejectUrl}" target="_blank" rel="noopener" class="btn-whatsapp-reject" onclick="processAndRemove('${b.id}', 'Rifiutato')">
+              <i class="fa-solid fa-xmark"></i> RIFIUTA VIA WHATSAPP
+            </a>
+          </div>
+        </div>
+      `;
+    }).join('');
   }
 
-  // Azione Conferma: sposta nei confermati e aggiorna lo sheet
-  window.confirmBooking = function(id) {
-    updateBookingInState(id, 'Confermato');
-  };
-
-  // Azione Rifiuta: marca rifiutato e aggiorna lo sheet
-  window.rejectBooking = function(id) {
-    updateBookingInState(id, 'Rifiutato');
-  };
-
-  // Azione Cancella / Rimuovi Prenotazione da Colonna Sinistra
-  window.cancelBooking = function(id, name, phone, date, time) {
-    const confirmCancel = confirm(`Sei sicuro di voler annullare la prenotazione di ${name} per il ${date} alle ${time}?`);
-    if (!confirmCancel) return;
-
-    // Chiede se avvisare il cliente su WhatsApp
-    const waNum = formatWhatsAppNumber(phone);
-    const cancelMsg = encodeURIComponent(
-      `Gentile ${name}, ti comunichiamo che la tua prenotazione per il giorno ${date} alle ore ${time} da OL3 Ristorante Pizzeria è stata annullata. Per informazioni puoi contattarci al 352 038 9996.`
-    );
-    const cancelWaUrl = `https://api.whatsapp.com/send?phone=${waNum}&text=${cancelMsg}`;
-
-    updateBookingInState(id, 'Annullato');
-
-    const notifyWa = confirm("Vuoi inviare il messaggio di annullamento al cliente su WhatsApp?");
-    if (notifyWa) {
-      window.open(cancelWaUrl, '_blank');
+  // Quando clicchi Conferma o Rifiuta: aggiorna Google Sheets e rimuove subito la card dalla pagina
+  window.processAndRemove = function(id, status) {
+    const card = document.getElementById(`booking-card-${id}`);
+    if (card && !showAll) {
+      card.style.opacity = '0';
+      card.style.transform = 'translateY(-15px)';
+      setTimeout(() => {
+        card.remove();
+        // Aggiorna contatore
+        const remaining = document.querySelectorAll('.table-card').length;
+        if (countBadge) countBadge.textContent = remaining;
+        if (remaining === 0) {
+          fetchAndRender();
+        }
+      }, 350);
     }
-  };
 
-  function updateBookingInState(id, newStatus) {
+    // Aggiorna cache locale
     const list = getStoredBookings();
     const item = list.find(b => String(b.id) === String(id));
     if (item) {
-      item.status = newStatus;
+      item.status = status;
       localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
-      renderBoard(list);
     }
 
+    // Aggiorna in background su Google Sheets
     const endpoint = getGoogleSheetEndpoint();
     if (endpoint) {
       fetch(endpoint, {
         method: 'POST',
         mode: 'no-cors',
         headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-        body: JSON.stringify({ action: 'update_status', id: id, status: newStatus })
+        body: JSON.stringify({ action: 'update_status', id: id, status: status })
       }).catch(() => {});
     }
-  }
+  };
 
   fetchAndRender();
 
@@ -549,5 +534,13 @@ async function initAdminDashboard() {
     refreshBtn.addEventListener('click', fetchAndRender);
   }
 
+  if (toggleAll) {
+    toggleAll.addEventListener('change', (e) => {
+      showAll = e.target.checked;
+      renderList(getStoredBookings());
+    });
+  }
+
+  // Auto-refresh ogni 30s
   setInterval(fetchAndRender, 30000);
 }
