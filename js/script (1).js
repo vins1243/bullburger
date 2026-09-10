@@ -400,9 +400,23 @@ async function initAdminDashboard() {
     datePicker.value = todayIso;
   }
 
-  async function fetchAndRender() {
-    confirmedContainer.innerHTML = '<p style="color: var(--text-muted); font-size: 0.9rem;"><i class="fa-solid fa-spinner fa-spin"></i> Sincronizzazione...</p>';
-    pendingContainer.innerHTML = '<p style="color: var(--text-muted); font-size: 0.9rem;"><i class="fa-solid fa-spinner fa-spin"></i> Sincronizzazione...</p>';
+  // Aggiornamento silenzioso in background ogni 10 minuti (senza far sparire le schede dallo schermo)
+  async function fetchAndRender(isManual = false) {
+    const refreshBtn = document.getElementById('admin-refresh-btn');
+    if (refreshBtn) {
+      refreshBtn.innerHTML = '<i class="fa-solid fa-arrows-rotate fa-spin"></i> Aggiornamento...';
+    }
+
+    // Se i contenitori sono completamente vuoti al primo avvio, mostra un indicatore discreto
+    if (confirmedContainer.children.length === 0 && pendingContainer.children.length === 0) {
+      const cached = getStoredBookings();
+      if (cached.length > 0) {
+        renderBoard(cached);
+      } else {
+        confirmedContainer.innerHTML = '<p style="color: var(--text-muted); font-size: 0.9rem;"><i class="fa-solid fa-spinner fa-spin"></i> Caricamento iniziale...</p>';
+        pendingContainer.innerHTML = '<p style="color: var(--text-muted); font-size: 0.9rem;"><i class="fa-solid fa-spinner fa-spin"></i> Caricamento iniziale...</p>';
+      }
+    }
 
     const endpoint = getGoogleSheetEndpoint();
     let bookings = [];
@@ -417,11 +431,15 @@ async function initAdminDashboard() {
         bookings = getStoredBookings();
       }
     } catch (e) {
-      console.warn('Errore lettura Google Sheets, uso dati locali:', e);
+      console.warn('Lettura Google Sheets in background, uso dati locali:', e);
       bookings = getStoredBookings();
     }
 
     renderBoard(bookings);
+
+    if (refreshBtn) {
+      refreshBtn.innerHTML = '<i class="fa-solid fa-arrows-rotate"></i> Aggiorna Dati';
+    }
   }
 
   function renderBoard(bookings) {
@@ -632,5 +650,7 @@ async function initAdminDashboard() {
     refreshBtn.addEventListener('click', fetchAndRender);
   }
 
-  setInterval(fetchAndRender, 30000);
+  // Aggiornamento automatico dal foglio Google ogni 10 minuti (600.000 ms)
+  const TEN_MINUTES_MS = 10 * 60 * 1000;
+  setInterval(() => fetchAndRender(false), TEN_MINUTES_MS);
 }
