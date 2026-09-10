@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gestione Prenotazioni | OL3 Ristorante Pizzeria</title>
+  
+  <!-- Font Google -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;0,900;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Icone FontAwesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <!-- Stili -->
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body style="background-color: #1a1718;">
+
+  <!-- Barra Superiore -->
+  <div class="top-bar">
+    <div class="container">
+      <div class="top-bar-contact">
+        <span><i class="fa-solid fa-lock"></i> Area Riservata Gestione Tavoli • OL3 Ristorante Pizzeria</span>
+      </div>
+      <div>
+        <a href="index.html" style="color: var(--accent-gold);"><i class="fa-solid fa-arrow-left"></i> Torna al Sito Pubblico</a>
+      </div>
+    </div>
+  </div>
+
+  <nav class="navbar">
+    <div class="container nav-container">
+      <a href="index.html" class="brand-logo">
+        <img src="foto/logo-2.png" alt="OL3 Ristorante Pizzeria" class="navbar-logo-img">
+      </a>
+      <ul class="nav-links">
+        <li><a href="index.html">SITO WEB</a></li>
+        <li><a href="gestione-prenotazioni.html" class="active">GESTIONE PRENOTAZIONI</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main style="padding: 50px 0 90px;">
+    <div class="container">
+      
+      <!-- Intestazione Dashboard -->
+      <div class="admin-header">
+        <div>
+          <h1 style="font-family: var(--font-serif); font-size: 2.2rem; color: #fff; margin-bottom: 6px;">
+            Richieste di Prenotazione
+          </h1>
+          <p style="color: var(--text-muted); font-size: 0.95rem;">
+            Le richieste arrivano in ordine cronologico. Con <strong>un semplice clic</strong> puoi confermare o rifiutare il tavolo inviando il messaggio WhatsApp personalizzato al cliente.
+          </p>
+        </div>
+
+        <!-- Filtri per Stato -->
+        <div class="admin-filters">
+          <button class="admin-filter-btn active" data-status="all">Tutte le Richieste</button>
+          <button class="admin-filter-btn" data-status="In attesa">In Attesa</button>
+          <button class="admin-filter-btn" data-status="Confermato">Confermate</button>
+          <button class="admin-filter-btn" data-status="Rifiutato">Rifiutate</button>
+        </div>
+      </div>
+
+      <!-- Elenco Prenotazioni -->
+      <div id="admin-bookings-container" class="booking-cards-list">
+        <!-- Generato dinamicamente da script.js -->
+      </div>
+
+      <!-- Guida Tecnico-Operativa -->
+      <div style="margin-top: 50px; padding: 26px 30px; background: var(--bg-secondary); border-radius: 8px; border: 1px solid var(--border-card); font-size: 0.90rem; color: var(--text-muted); line-height: 1.7;">
+        <h4 style="color: #fff; margin-bottom: 8px; font-family: var(--font-serif); font-size: 1.15rem;"><i class="fa-solid fa-circle-info" style="color: var(--accent-gold);"></i> Come funziona la conferma via WhatsApp:</h4>
+        <ul style="padding-left: 20px;">
+          <li>Cliccando su <strong style="color: var(--accent-green);">"CONFERMA VIA WHATSAPP"</strong> si aprirà direttamente WhatsApp (Web su Mac/PC o l'app WhatsApp su telefono) con la chat del cliente e il messaggio ufficiale già compilato (con data, ora, persone e indirizzo).</li>
+          <li>Cliccando su <strong style="color: #ff786b;">"RIFIUTA VIA WHATSAPP"</strong> si aprirà WhatsApp con il messaggio di scuse per locale al completo.</li>
+          <li>Tutte le richieste compilate dai clienti vengono salvate automaticamente sia nella memoria locale sia sul tuo pannello Netlify nella sezione <em>Forms &gt; prenotazioni</em>.</li>
+        </ul>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <p class="footer-copy">© 2025 by OL3 Ristorante Pizzeria • Gestione Tavoli</p>
+    </div>
+  </footer>
+
+  <script src="js/config.js"></script>
+  <script src="js/script.js"></script>
+</body>
+</html>

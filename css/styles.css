@@ -14,6 +14,8 @@
   --text-dark: #1b1819;
   --accent-red: #d1382b;
   --accent-gold: #d6af5d;
+  --accent-green: #25d366; /* WhatsApp Green */
+  --accent-green-dark: #128c7e;
   --border-light: rgba(255, 255, 255, 0.1);
   --border-card: rgba(255, 255, 255, 0.08);
   --font-serif: 'Playfair Display', Georgia, serif;
@@ -133,13 +135,13 @@ img {
   display: flex;
   list-style: none;
   align-items: center;
-  gap: 32px;
+  gap: 28px;
 }
 
 .nav-links a {
-  font-size: 0.92rem;
+  font-size: 0.90rem;
   font-weight: 600;
-  letter-spacing: 1.8px;
+  letter-spacing: 1.6px;
   text-transform: uppercase;
   color: var(--text-muted);
   position: relative;
@@ -199,7 +201,7 @@ img {
   align-items: center;
   justify-content: center;
   color: #fff;
-  font-size: 1.1rem;
+  font-size: 1.15rem;
   transition: var(--transition);
 }
 
@@ -245,7 +247,7 @@ img {
   filter: drop-shadow(0 12px 28px rgba(0,0,0,0.7));
 }
 
-/* Hero Action Buttons (Stacked Vertically) */
+/* Hero Action Buttons */
 .hero-buttons-stack {
   display: flex;
   flex-direction: column;
@@ -308,7 +310,7 @@ img {
 }
 
 /* ==========================================================================
-   PAGE BANNER (FOR SUBPAGES LIKE MENU.HTML & PRENOTA.HTML)
+   PAGE BANNER (FOR SUBPAGES)
    ========================================================================== */
 
 .page-banner {
@@ -332,12 +334,12 @@ img {
 .page-banner-subtitle {
   font-size: 1.05rem;
   color: var(--accent-gold);
-  max-width: 650px;
+  max-width: 700px;
   margin: 0 auto;
 }
 
 /* ==========================================================================
-   IL RISTORANTE (3 COLUMNS HIGHLIGHTS)
+   SECTIONS: HIGHLIGHTS, STORY, PHILOSOPHY, GALLERY
    ========================================================================== */
 
 .highlights-section {
@@ -391,10 +393,6 @@ img {
   line-height: 1.7;
 }
 
-/* ==========================================================================
-   LA NOSTRA STORIA (OLIVE GREEN SECTION)
-   ========================================================================== */
-
 .story-section {
   padding: 100px 0;
   background: var(--bg-olive) url('https://images.unsplash.com/photo-1541544741938-0af808871cc0?auto=format&fit=crop&w=1920&q=80') center/cover no-repeat;
@@ -446,10 +444,6 @@ img {
   margin-bottom: 0;
 }
 
-/* ==========================================================================
-   LA PERFEZIONE RICHIEDE TEMPO (PHILOSOPHY)
-   ========================================================================== */
-
 .philosophy-section {
   padding: 110px 0;
   background-color: var(--bg-main);
@@ -467,10 +461,6 @@ img {
   color: var(--text-muted);
   text-align: justify;
 }
-
-/* ==========================================================================
-   GALLERIA
-   ========================================================================== */
 
 .gallery-section {
   padding: 90px 0;
@@ -526,7 +516,7 @@ img {
 }
 
 /* ==========================================================================
-   MENU SECTION (FULL MENU ON MENU.HTML)
+   MENU SECTION (FULL MENU)
    ========================================================================== */
 
 .menu-section {
@@ -669,17 +659,17 @@ img {
 }
 
 /* ==========================================================================
-   PRENOTAZIONE PAGE (PRENOTA.HTML)
-   ========================================================================== */
+   PRENOTAZIONE & WHATSAPP BANNER (PRENOTA.HTML)
+   ========================================================================= */
 
 .booking-section {
-  padding: 80px 0 100px;
+  padding: 70px 0 100px;
   background-color: var(--bg-main);
 }
 
 .booking-wrapper {
   display: grid;
-  grid-template-columns: 1.2fr 0.8fr;
+  grid-template-columns: 1.25fr 0.75fr;
   gap: 40px;
   align-items: start;
 }
@@ -690,6 +680,31 @@ img {
   border-radius: 8px;
   border: 1px solid var(--border-card);
   box-shadow: 0 12px 32px rgba(0,0,0,0.3);
+  position: relative;
+}
+
+.whatsapp-notice-card {
+  background: rgba(37, 211, 102, 0.1);
+  border-left: 4px solid var(--accent-green);
+  padding: 16px 20px;
+  border-radius: 4px;
+  margin-bottom: 28px;
+  display: flex;
+  gap: 14px;
+  align-items: center;
+}
+
+.whatsapp-notice-card i {
+  font-size: 1.8rem;
+  color: var(--accent-green);
+  flex-shrink: 0;
+}
+
+.whatsapp-notice-card p {
+  font-size: 0.92rem;
+  color: #e5fbe8;
+  line-height: 1.5;
+  margin: 0;
 }
 
 .form-title {
@@ -703,7 +718,7 @@ img {
 .form-subtitle {
   color: var(--text-muted);
   font-size: 0.92rem;
-  margin-bottom: 28px;
+  margin-bottom: 24px;
 }
 
 .form-grid {
@@ -782,6 +797,266 @@ img {
   font-size: 0.92rem;
   color: var(--text-muted);
   line-height: 1.6;
+}
+
+/* Success Confirmation Overlay Card */
+.booking-success-box {
+  display: none;
+  background: #202b23;
+  border: 1px solid #2e5636;
+  border-radius: 8px;
+  padding: 40px 32px;
+  text-align: center;
+  animation: fadeIn 0.4s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.booking-success-box .success-icon {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background-color: rgba(37, 211, 102, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 20px;
+  color: var(--accent-green);
+  font-size: 2.2rem;
+}
+
+.booking-success-box h3 {
+  font-family: var(--font-serif);
+  font-size: 1.8rem;
+  color: #fff;
+  margin-bottom: 12px;
+}
+
+.booking-summary-pill {
+  display: inline-block;
+  background: rgba(255, 255, 255, 0.08);
+  padding: 8px 18px;
+  border-radius: 30px;
+  color: var(--accent-gold);
+  font-weight: 600;
+  font-size: 0.95rem;
+  margin: 14px 0 20px;
+}
+
+.whatsapp-success-message {
+  background: rgba(37, 211, 102, 0.12);
+  border: 1px solid rgba(37, 211, 102, 0.25);
+  padding: 20px;
+  border-radius: 6px;
+  color: #e5fbe8;
+  font-size: 0.96rem;
+  line-height: 1.6;
+  margin-bottom: 24px;
+  text-align: left;
+}
+
+.whatsapp-success-message i {
+  color: var(--accent-green);
+  font-size: 1.4rem;
+  margin-right: 8px;
+  vertical-align: middle;
+}
+
+/* ==========================================================================
+   PANNELLO GESTIONE PRENOTAZIONI (ADMIN / DASHBOARD)
+   ========================================================================== */
+
+.admin-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.admin-filters {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.admin-filter-btn {
+  background: var(--bg-card);
+  border: 1px solid var(--border-light);
+  color: var(--text-muted);
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.admin-filter-btn.active,
+.admin-filter-btn:hover {
+  background: var(--accent-gold);
+  color: #1a1718;
+  font-weight: 600;
+}
+
+.booking-cards-list {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.admin-card {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-card);
+  border-radius: 8px;
+  padding: 24px;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 24px;
+  align-items: center;
+  transition: var(--transition);
+}
+
+.admin-card:hover {
+  border-color: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+}
+
+.admin-card.status-confermato {
+  border-left: 5px solid var(--accent-green);
+}
+
+.admin-card.status-rifiutato {
+  border-left: 5px solid var(--accent-red);
+}
+
+.admin-card.status-attesa {
+  border-left: 5px solid var(--accent-gold);
+}
+
+.admin-card-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 10px;
+}
+
+.admin-card-name {
+  font-family: var(--font-serif);
+  font-size: 1.35rem;
+  color: #fff;
+  font-weight: 700;
+}
+
+.status-badge {
+  font-size: 0.75rem;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.badge-attesa {
+  background: rgba(214, 175, 93, 0.18);
+  color: var(--accent-gold);
+}
+
+.badge-confermato {
+  background: rgba(37, 211, 102, 0.18);
+  color: var(--accent-green);
+}
+
+.badge-rifiutato {
+  background: rgba(209, 56, 43, 0.18);
+  color: #ff786b;
+}
+
+.admin-card-details {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+  color: var(--text-muted);
+  font-size: 0.92rem;
+  margin-bottom: 10px;
+}
+
+.admin-card-details span {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.admin-card-details i {
+  color: var(--accent-gold);
+}
+
+.admin-card-notes {
+  font-size: 0.88rem;
+  color: #d1cbc3;
+  background: rgba(0, 0, 0, 0.25);
+  padding: 10px 14px;
+  border-radius: 4px;
+  margin-top: 8px;
+  border-left: 2px solid var(--border-light);
+}
+
+.admin-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 220px;
+}
+
+.btn-whatsapp-confirm {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background-color: var(--accent-green);
+  color: #fff;
+  padding: 11px 18px;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(37, 211, 102, 0.3);
+  transition: var(--transition);
+}
+
+.btn-whatsapp-confirm:hover {
+  background-color: #1eb956;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(37, 211, 102, 0.45);
+}
+
+.btn-whatsapp-reject {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background-color: rgba(209, 56, 43, 0.15);
+  color: #ff786b;
+  border: 1px solid rgba(209, 56, 43, 0.4);
+  padding: 9px 16px;
+  border-radius: 4px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.btn-whatsapp-reject:hover {
+  background-color: var(--accent-red);
+  color: #fff;
 }
 
 /* ==========================================================================
@@ -873,8 +1148,14 @@ img {
 @media (max-width: 992px) {
   .highlights-grid,
   .contact-grid,
-  .booking-wrapper {
+  .booking-wrapper,
+  .admin-card {
     grid-template-columns: 1fr;
+  }
+
+  .admin-actions {
+    flex-direction: row;
+    width: 100%;
   }
 
   .gallery-grid {

@@ -28,8 +28,8 @@ const SITE_CONFIG = {
 
   // Social Media
   socials: {
-    facebook: "https://facebook.com",
-    instagram: "https://instagram.com"
+    facebook: "https://www.facebook.com/griglieria.ol3/?locale=it_IT",
+    instagram: "https://www.instagram.com/ol3_ristorante/"
   },
 
   // Sezione "Il Ristorante" (I 3 Punti di Forza)
