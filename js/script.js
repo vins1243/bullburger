@@ -258,8 +258,13 @@ function initReservationForm() {
 }
 
 
-// Recupera l'endpoint di Google Sheets (da config o da localStorage per comodità)
+
+// Endpoint Google Apps Script per Google Sheets
 function getGoogleSheetEndpoint() {
+  return "https://script.google.com/macros/s/AKfycbywuk8Mgl7oeB8vrXjmsftYINLiRTpuRNToJYdur0TDXJTXAvJXA_9GfmGeuQuwT80h/exec";
+}
+
+function _unused_endpoint() {
   const custom = localStorage.getItem('ol3_sheets_endpoint');
   if (custom && custom.trim() !== '') return custom.trim();
   if (SITE_CONFIG.googleSheetEndpoint && SITE_CONFIG.googleSheetEndpoint.trim() !== '') {
@@ -314,53 +319,49 @@ function getStoredBookings() {
   return [];
 }
 
-// Inizializza Pannello Gestione Prenotazioni (gestione-prenotazioni.html)
-function initAdminDashboard() {
+
+// Inizializza Pannello Gestione Prenotazioni (gestione-prenotazioni.html) con Google Sheets in tempo reale
+async function initAdminDashboard() {
   const container = document.getElementById('admin-bookings-container');
   if (!container) return;
 
-  let bookings = getStoredBookings();
+  let currentFilter = 'all';
 
-  // Dati dimostrativi se vuoto per permettere all'utente di provare subito i tasti WhatsApp
-  if (bookings.length === 0) {
-    bookings = [
-      {
-        id: 'book_demo_1',
-        created_at: new Date().toISOString(),
-        name: 'Marco Rossi',
-        phone: '340 123 4567',
-        whatsapp_phone: '393401234567',
-        date: '2026-09-12',
-        time: '20:30',
-        guests: '4 persone',
-        notes: 'Un seggiolone per bambino, preferenza tavolo vicino al giardino',
-        status: 'In attesa'
-      },
-      {
-        id: 'book_demo_2',
-        created_at: new Date(Date.now() - 3600000).toISOString(),
-        name: 'Chiara Esposito',
-        phone: '333 987 6543',
-        whatsapp_phone: '393339876543',
-        date: '2026-09-13',
-        time: '21:00',
-        guests: '2 persone',
-        notes: 'Un ospite è celiaco (pizze senza glutine)',
-        status: 'In attesa'
+  async function fetchBookings() {
+    container.innerHTML = `
+      <div style="text-align: center; padding: 40px; color: var(--text-muted);">
+        <i class="fa-solid fa-spinner fa-spin" style="font-size: 2rem; color: var(--accent-gold); margin-bottom: 12px;"></i>
+        <p>Caricamento prenotazioni da Google Sheets in tempo reale...</p>
+      </div>
+    `;
+
+    const endpoint = getGoogleSheetEndpoint();
+    try {
+      const res = await fetch(endpoint);
+      const json = await res.json();
+      if (json && json.status === 'success' && Array.isArray(json.data) && json.data.length > 0) {
+        // Inverti per mostrare prima le ultime arrivate
+        const reversed = [...json.data].reverse();
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(reversed));
+        renderList(reversed, currentFilter);
+        return;
       }
-    ];
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(bookings));
+    } catch (e) {
+      console.warn('Lettura da Google Sheets non riuscita o vuota, uso cache locale:', e);
+    }
+
+    const local = getStoredBookings();
+    renderList(local, currentFilter);
   }
 
-  function renderList(filter = 'all') {
-    const list = getStoredBookings();
+  function renderList(list, filter = 'all') {
     const filtered = filter === 'all' ? list : list.filter(b => b.status === filter);
 
     if (filtered.length === 0) {
       container.innerHTML = `
         <div style="text-align: center; padding: 60px 20px; background: var(--bg-card); border-radius: 8px; color: var(--text-muted);">
           <i class="fa-regular fa-calendar-check" style="font-size: 3rem; color: var(--accent-gold); margin-bottom: 16px;"></i>
-          <h3>Nessuna prenotazione trovata per questo filtro</h3>
+          <h3>Nessuna prenotazione con stato "${filter}"</h3>
           <p>Le nuove richieste inoltrate dai clienti compariranno automaticamente qui in ordine di arrivo.</p>
         </div>
       `;
@@ -370,15 +371,13 @@ function initAdminDashboard() {
     container.innerHTML = filtered.map(b => {
       const waNumber = formatWhatsAppNumber(b.phone);
 
-      // Messaggio di conferma WhatsApp
       const confirmText = encodeURIComponent(
-        `Gentile ${b.name}, ti confermiamo con piacere la prenotazione del tavolo per ${b.guests} da OL3 Ristorante Pizzeria per il giorno ${b.date} alle ore ${b.time}. Vi aspettiamo in Piazza Enrico Berlinguer a Villapiana Lido! Per qualsiasi variazione contattaci al 352 038 9996. A presto, Lo Staff OL3.`
+        `Gentile ${b.name}, ti confermiamo con piacere la prenotazione del tavolo per ${b.guests} da OL3 Ristorante Pizzeria per il giorno ${b.date} alle ore ${b.time}. Vi aspettiamo in Piazza Enrico Berlinguer a Villapiana Lido! Per qualsiasi variazione puoi contattarci al 352 038 9996. A presto, Lo Staff OL3.`
       );
       const confirmUrl = `https://wa.me/${waNumber}?text=${confirmText}`;
 
-      // Messaggio di rifiuto/non disponibilità WhatsApp
       const rejectText = encodeURIComponent(
-        `Gentile ${b.name}, ci dispiace informarti che per il giorno ${b.date} alle ore ${b.time} il nostro locale OL3 è al completo e non abbiamo tavoli disponibili. Ci scusiamo per il disagio e speriamo di poterti accogliere molto presto! Un cordiale saluto, Lo Staff OL3.`
+        `Gentile ${b.name}, ci dispiace informarti che per il giorno ${b.date} alle ore ${b.time} il nostro locale OL3 è al completo e non abbiamo tavoli disponibili. Ci scusiamo per il disagio e speriamo di poterti accogliere prossimamente! Un cordiale saluto, Lo Staff OL3.`
       );
       const rejectUrl = `https://wa.me/${waNumber}?text=${rejectText}`;
 
@@ -390,9 +389,6 @@ function initAdminDashboard() {
       if (b.status === 'Confermato') cardStatusClass = 'status-confermato';
       if (b.status === 'Rifiutato') cardStatusClass = 'status-rifiutato';
 
-      const formattedTime = new Date(b.created_at).toLocaleTimeString('it-IT', { hour: '2-digit', minute: '2-digit' });
-      const formattedDate = new Date(b.created_at).toLocaleDateString('it-IT');
-
       return `
         <div class="admin-card ${cardStatusClass}" data-id="${b.id}">
           <div>
@@ -400,7 +396,7 @@ function initAdminDashboard() {
               <span class="admin-card-name">${b.name}</span>
               <span class="status-badge ${badgeClass}">${b.status}</span>
               <span style="font-size: 0.78rem; color: var(--text-muted); margin-left: auto;">
-                Ricevuta il ${formattedDate} ore ${formattedTime}
+                Richiesta: ${b.created_at || 'Recente'}
               </span>
             </div>
 
@@ -409,7 +405,6 @@ function initAdminDashboard() {
               <span><i class="fa-regular fa-clock"></i> <strong>${b.time}</strong></span>
               <span><i class="fa-solid fa-users"></i> ${b.guests}</span>
               <span><i class="fa-solid fa-phone"></i> <a href="tel:${b.phone}" style="color: var(--accent-gold); text-decoration: underline;">${b.phone}</a></span>
-              ${b.email ? `<span><i class="fa-regular fa-envelope"></i> ${b.email}</span>` : ''}
             </div>
 
             ${b.notes ? `
@@ -434,22 +429,47 @@ function initAdminDashboard() {
 
   window.updateBookingStatus = function(id, newStatus) {
     const list = getStoredBookings();
-    const item = list.find(b => b.id === id);
+    const item = list.find(b => String(b.id) === String(id));
     if (item) {
       item.status = newStatus;
       localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
-      setTimeout(() => renderList('all'), 300);
     }
+
+    // Invia aggiornamento stato al Google Sheet
+    const endpoint = getGoogleSheetEndpoint();
+    if (endpoint) {
+      fetch(endpoint, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify({ action: 'update_status', id: id, status: newStatus })
+      }).catch(() => {});
+    }
+
+    renderList(getStoredBookings(), currentFilter);
   };
 
-  renderList('all');
+  // Carica le prenotazioni reali dal Google Sheet
+  fetchBookings();
 
-  // Filtri pulsanti
+  // Pulsanti filtro
   document.querySelectorAll('.admin-filter-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       document.querySelectorAll('.admin-filter-btn').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
-      renderList(btn.getAttribute('data-status'));
+      currentFilter = btn.getAttribute('data-status');
+      renderList(getStoredBookings(), currentFilter);
     });
   });
+
+  // Bottone manuale Aggiorna / Sincronizza
+  const refreshBtn = document.getElementById('admin-refresh-btn');
+  if (refreshBtn) {
+    refreshBtn.addEventListener('click', fetchBookings);
+  }
+
+  // Auto-refresh ogni 30 secondi
+  setInterval(() => {
+    fetchBookings();
+  }, 30000);
 }
