@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Richieste Prenotazioni in Arrivo | OL3 Ristorante Pizzeria</title>
+  <title>Gestione Tavoli & Prenotazioni | OL3 Ristorante Pizzeria</title>
   
   <!-- Font Google -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -37,51 +37,69 @@
       </a>
       <ul class="nav-links">
         <li><a href="index.html">SITO PUBBLICO</a></li>
-        <li><a href="https://docs.google.com/spreadsheets/d/1u5aKXWIb00V_u038qUka_eje1f8DpvLuG0wznZmRpcI/edit" target="_blank" rel="noopener" style="color: var(--accent-gold);"><i class="fa-solid fa-table"></i> ARCHIVIO GOOGLE SHEETS</a></li>
-        <li><a href="gestione-prenotazioni.html" class="active">RICHIESTE DA GESTIRE</a></li>
+        <li><a href="https://docs.google.com/spreadsheets/d/1u5aKXWIb00V_u038qUka_eje1f8DpvLuG0wznZmRpcI/edit" target="_blank" rel="noopener" style="color: var(--accent-gold);"><i class="fa-solid fa-table"></i> FOGLIO GOOGLE</a></li>
+        <li><a href="gestione-prenotazioni.html" class="active">GESTIONE TAVOLI</a></li>
       </ul>
     </div>
   </nav>
 
   <main style="padding: 40px 0 90px;">
-    <div class="container" style="max-width: 960px;">
+    <div class="container">
       
-      <!-- Intestazione Dashboard -->
+      <!-- Intestazione Dashboard con Pulsante Aggiorna -->
       <div class="admin-header">
         <div>
           <h1 style="font-family: var(--font-serif); font-size: 2.2rem; color: #fff; margin-bottom: 6px;">
-            Richieste Tavoli in Arrivo
+            Pannello Gestione Tavoli
           </h1>
           <p style="color: var(--text-muted); font-size: 0.95rem;">
-            Qui compaiono <strong>solo le richieste in attesa</strong>. Non appena confermi o rifiuti una prenotazione, il messaggio WhatsApp viene inviato al cliente e la richiesta <strong>scompare automaticamente dalla pagina</strong> (rimanendo archiviata sul foglio Google).
+            A sinistra visualizzi i <strong>tavoli confermati</strong> (con opzione di cancellazione). A destra gestisci le <strong>nuove richieste in arrivo</strong> con conferma o rifiuto tramite WhatsApp in 1 clic.
           </p>
         </div>
 
-        <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
-          <button id="admin-refresh-btn" class="btn-primary" style="width: auto; padding: 10px 20px; font-size: 0.88rem; background-color: var(--accent-gold); color: #1a1718; border-color: var(--accent-gold);">
-            <i class="fa-solid fa-arrows-rotate"></i> Aggiorna
+        <div style="display: flex; gap: 12px; align-items: center;">
+          <button id="admin-refresh-btn" class="btn-primary" style="width: auto; padding: 10px 22px; font-size: 0.88rem; background-color: var(--accent-gold); color: #1a1718; border-color: var(--accent-gold);">
+            <i class="fa-solid fa-arrows-rotate"></i> Aggiorna Dati
           </button>
           <a href="https://docs.google.com/spreadsheets/d/1u5aKXWIb00V_u038qUka_eje1f8DpvLuG0wznZmRpcI/edit" target="_blank" rel="noopener" class="btn-secondary-hero" style="width: auto; padding: 10px 18px; font-size: 0.85rem;">
-            <i class="fa-solid fa-table"></i> Apri Foglio Google
+            <i class="fa-solid fa-table"></i> Apri Sheet
           </a>
         </div>
       </div>
 
-      <!-- Barra contatore e filtro visualizzazione -->
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; padding: 14px 20px; background: var(--bg-secondary); border-radius: 6px; border: 1px solid var(--border-card);">
-        <span style="font-size: 0.95rem; color: #fff; font-weight: 600;">
-          <i class="fa-solid fa-bell" style="color: var(--accent-gold); margin-right: 8px;"></i>
-          Richieste da gestire: <span id="pending-count-badge" style="color: var(--accent-gold); font-size: 1.1rem; font-weight: 700;">0</span>
-        </span>
+      <!-- Griglia 2 Colonne: Sinistra Confermati, Destra In Attesa -->
+      <div class="admin-columns-grid">
+        
+        <!-- COLONNA SINISTRA: TAVOLI PRENOTATI E CONFERMATI -->
+        <section class="admin-column" style="border-top: 4px solid var(--accent-green);">
+          <div class="column-header">
+            <h2 class="column-title">
+              <i class="fa-solid fa-circle-check" style="color: var(--accent-green);"></i>
+              Tavoli Confermati
+            </h2>
+            <span class="column-badge" id="confirmed-count-badge">0 tavoli</span>
+          </div>
 
-        <label style="display: flex; align-items: center; gap: 8px; font-size: 0.85rem; color: var(--text-muted); cursor: pointer;">
-          <input type="checkbox" id="toggle-show-all"> Mostra anche già elaborate (archivio)
-        </label>
-      </div>
+          <div id="confirmed-bookings-list">
+            <!-- Popolato dinamicamente da script.js -->
+          </div>
+        </section>
 
-      <!-- Contenitore Prenotazioni -->
-      <div id="pending-bookings-list">
-        <!-- Generato dinamicamente da script.js -->
+        <!-- COLONNA DESTRA: RICHIESTE IN ARRIVO (IN ATTESA) -->
+        <section class="admin-column" style="border-top: 4px solid var(--accent-gold);">
+          <div class="column-header">
+            <h2 class="column-title">
+              <i class="fa-solid fa-bell" style="color: var(--accent-gold);"></i>
+              Richieste in Arrivo
+            </h2>
+            <span class="column-badge" id="pending-count-badge">0 in attesa</span>
+          </div>
+
+          <div id="pending-bookings-list">
+            <!-- Popolato dinamicamente da script.js -->
+          </div>
+        </section>
+
       </div>
 
     </div>
