@@ -34,7 +34,7 @@ const SITE_CONFIG = {
   // Social Media
   socials: {
     facebook: "https://www.facebook.com/bullburger/?locale=it_IT",
-    instagram: "https://www.instagram.com/bullburger/"
+    instagram: "https://www.instagram.com/bullburgervillapiana/"
   },
 
   // Sezione "Il Ristorante" (I 3 Punti di Forza)
