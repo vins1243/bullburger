@@ -223,8 +223,8 @@ img {
   align-items: center;
   justify-content: center;
   text-align: center;
-  background: linear-gradient(rgba(20, 17, 18, 0.65), rgba(20, 17, 18, 0.8)),
-              url('https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=1920&q=80') center/cover no-repeat;
+  background: linear-gradient(rgba(253, 251, 247, 0.65), rgba(241, 225, 192, 0.85)),
+              url('https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=1920&q=80') center/cover no-repeat;
   padding: 80px 20px 60px;
 }
 
@@ -246,7 +246,12 @@ img {
   height: auto;
   margin: 0 auto;
   display: block;
-  filter: drop-shadow(0 12px 28px rgba(0,0,0,0.7));
+  background: rgba(255, 255, 255, 0.95);
+  padding: 16px 28px;
+  border-radius: 14px;
+  border: 2px solid var(--accent-red);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+  backdrop-filter: blur(8px);
 }
 
 /* Hero Action Buttons */
@@ -289,19 +294,17 @@ img {
   display: block;
   width: 100%;
   padding: 14px 36px;
-  background-color: var(--bg-card);
+  background-color: #ffffff;
   color: var(--text-dark);
   border: 2px solid var(--accent-red);
-  font-weight: 800;
   font-size: 0.95rem;
-  font-weight: 700;
+  font-weight: 800;
   letter-spacing: 2.5px;
   text-transform: uppercase;
   border-radius: 4px;
   text-align: center;
   cursor: pointer;
-  backdrop-filter: blur(8px);
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
   transition: var(--transition);
 }
 
@@ -319,8 +322,8 @@ img {
 .page-banner {
   padding: 70px 20px 50px;
   text-align: center;
-  background: linear-gradient(rgba(26, 23, 24, 0.85), rgba(36, 32, 34, 0.95)),
-              url('https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=1920&q=80') center/cover no-repeat;
+  background: linear-gradient(rgba(241, 225, 192, 0.88), rgba(229, 211, 178, 0.95)),
+              url('https://images.unsplash.com/photo-1586190848861-99aa4a171e90?auto=format&fit=crop&w=1920&q=80') center/cover no-repeat;
   border-bottom: 1px solid var(--border-light);
 }
 
@@ -330,13 +333,13 @@ img {
   font-weight: 700;
   letter-spacing: 3px;
   text-transform: uppercase;
-  color: #fff;
+  color: var(--text-dark);
   margin-bottom: 12px;
 }
 
 .page-banner-subtitle {
   font-size: 1.05rem;
-  color: var(--accent-gold);
+  color: var(--text-main); font-weight: 600;
   max-width: 700px;
   margin: 0 auto;
 }
