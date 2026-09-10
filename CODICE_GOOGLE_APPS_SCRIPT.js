@@ -1,7 +1,6 @@
 /**
- * SCRIPT GOOGLE APPS SCRIPT PER OL3 RISTORANTE PIZZERIA
- * Da incollare in Estensioni > Apps Script del foglio Google 'Prenotazioni - OL3 Ristorante':
- * https://docs.google.com/spreadsheets/d/1u5aKXWIb00V_u038qUka_eje1f8DpvLuG0wznZmRpcI/edit
+ * SCRIPT GOOGLE APPS SCRIPT PER OL3 RISTORANTE PIZZERIA (VERSIONE CORRETTA)
+ * Incolla in Estensioni > Apps Script del foglio Google 'Prenotazioni - OL3 Ristorante'
  */
 
 function doGet(e) {
@@ -13,7 +12,6 @@ function doGet(e) {
     const row = rows[i];
     if (!row[0]) continue;
     
-    // Formattazione data e ora sicura
     let dataStr = row[4];
     if (row[4] instanceof Date) {
       dataStr = Utilities.formatDate(row[4], "GMT+2", "yyyy-MM-dd");
@@ -45,7 +43,7 @@ function doPost(e) {
     const sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
     const payload = JSON.parse(e.postData.contents);
     
-    // Aggiornamento dello stato (Confermato / Rifiutato)
+    // Aggiornamento dello stato (Confermato / Rifiutato / Annullato)
     if (payload.action === "update_status") {
       const data = sheet.getDataRange().getValues();
       for (let i = 1; i < data.length; i++) {
@@ -58,8 +56,22 @@ function doPost(e) {
       return ContentService.createTextOutput(JSON.stringify({ status: "not_found" }))
         .setMimeType(ContentService.MimeType.JSON);
     }
+
+    // Rimozione riga prenotazione
+    if (payload.action === "delete_booking") {
+      const data = sheet.getDataRange().getValues();
+      for (let i = 1; i < data.length; i++) {
+        if (String(data[i][0]) === String(payload.id)) {
+          sheet.deleteRow(i + 1);
+          return ContentService.createTextOutput(JSON.stringify({ status: "success", deleted: true }))
+            .setMimeType(ContentService.MimeType.JSON);
+        }
+      }
+      return ContentService.createTextOutput(JSON.stringify({ status: "not_found" }))
+        .setMimeType(ContentService.MimeType.JSON);
+    }
     
-    // Nuova Prenotazione da prenota.html
+    // Nuova Prenotazione
     const newRow = [
       payload.id || ('book_' + Date.now()),
       new Date().toLocaleString('it-IT'),

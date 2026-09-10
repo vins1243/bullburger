@@ -1214,3 +1214,152 @@ img {
     padding: 36px 24px;
   }
 }
+
+
+/* ==========================================================================
+   DASHBOARD TAVOLI 2 COLONNE: CONFERMATI A SINISTRA, IN ARRIVO A DESTRA
+   ========================================================================== */
+
+.admin-columns-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+  align-items: start;
+}
+
+.admin-column {
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-card);
+  border-radius: 8px;
+  padding: 24px;
+}
+
+.column-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 16px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.column-title {
+  font-family: var(--font-serif);
+  font-size: 1.35rem;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.column-badge {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 3px 12px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--accent-gold);
+}
+
+.table-card {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-card);
+  border-radius: 6px;
+  padding: 20px;
+  margin-bottom: 16px;
+  transition: var(--transition);
+}
+
+.table-card:hover {
+  border-color: rgba(255, 255, 255, 0.25);
+  transform: translateY(-2px);
+}
+
+.table-card-confirmed {
+  border-left: 5px solid var(--accent-green);
+}
+
+.table-card-pending {
+  border-left: 5px solid var(--accent-gold);
+}
+
+.table-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 8px;
+}
+
+.table-card-name {
+  font-family: var(--font-serif);
+  font-size: 1.2rem;
+  color: #fff;
+  font-weight: 700;
+}
+
+.table-time-tag {
+  color: var(--accent-gold);
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+
+.table-card-info {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  margin-bottom: 12px;
+}
+
+.table-card-info span {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.btn-remove-booking {
+  background-color: rgba(209, 56, 43, 0.15);
+  color: #ff786b;
+  border: 1px solid rgba(209, 56, 43, 0.4);
+  padding: 8px 14px;
+  border-radius: 4px;
+  font-size: 0.80rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: var(--transition);
+}
+
+.btn-remove-booking:hover {
+  background-color: var(--accent-red);
+  color: #fff;
+}
+
+.btn-whatsapp-chat {
+  background-color: rgba(37, 211, 102, 0.15);
+  color: var(--accent-green);
+  border: 1px solid rgba(37, 211, 102, 0.4);
+  padding: 8px 14px;
+  border-radius: 4px;
+  font-size: 0.80rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: var(--transition);
+}
+
+.btn-whatsapp-chat:hover {
+  background-color: var(--accent-green);
+  color: #fff;
+}
+
+@media (max-width: 992px) {
+  .admin-columns-grid {
+    grid-template-columns: 1fr;
+  }
+}

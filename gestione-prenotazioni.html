@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Gestione Prenotazioni | OL3 Ristorante Pizzeria</title>
+  <title>Gestione Tavoli & Prenotazioni | OL3 Ristorante Pizzeria</title>
   
   <!-- Font Google -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -36,9 +36,9 @@
         <img src="foto/logo-2.png" alt="OL3 Ristorante Pizzeria" class="navbar-logo-img">
       </a>
       <ul class="nav-links">
-        <li><a href="index.html">SITO WEB</a></li>
-        <li><a href="https://docs.google.com/spreadsheets/d/1u5aKXWIb00V_u038qUka_eje1f8DpvLuG0wznZmRpcI/edit" target="_blank" rel="noopener" style="color: var(--accent-gold);"><i class="fa-solid fa-table"></i> APRI FOGLIO GOOGLE</a></li>
-        <li><a href="gestione-prenotazioni.html" class="active">GESTIONE PRENOTAZIONI</a></li>
+        <li><a href="index.html">SITO PUBBLICO</a></li>
+        <li><a href="https://docs.google.com/spreadsheets/d/1u5aKXWIb00V_u038qUka_eje1f8DpvLuG0wznZmRpcI/edit" target="_blank" rel="noopener" style="color: var(--accent-gold);"><i class="fa-solid fa-table"></i> FOGLIO GOOGLE</a></li>
+        <li><a href="gestione-prenotazioni.html" class="active">GESTIONE TAVOLI</a></li>
       </ul>
     </div>
   </nav>
@@ -46,59 +46,60 @@
   <main style="padding: 40px 0 90px;">
     <div class="container">
       
-      <!-- Box Collegamento Google Sheets -->
-      <div style="margin-bottom: 30px; padding: 20px 24px; background: rgba(214, 175, 93, 0.12); border: 1px solid rgba(214, 175, 93, 0.3); border-radius: 8px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
+      <!-- Intestazione Dashboard con Pulsante Aggiorna -->
+      <div class="admin-header">
         <div>
-          <h4 style="color: #fff; margin-bottom: 4px; font-size: 1.05rem;">
-            <i class="fa-solid fa-table" style="color: var(--accent-gold); margin-right: 8px;"></i>
-            Database Google Sheet: <strong>Prenotazioni - OL3 Ristorante</strong>
-          </h4>
-          <p style="font-size: 0.88rem; color: var(--text-muted); margin: 0;">
-            Le richieste vengono registrate in tempo reale. Puoi consultare il foglio Google completo su Drive o gestirle qui con 1 clic WhatsApp.
+          <h1 style="font-family: var(--font-serif); font-size: 2.2rem; color: #fff; margin-bottom: 6px;">
+            Pannello Gestione Tavoli
+          </h1>
+          <p style="color: var(--text-muted); font-size: 0.95rem;">
+            A sinistra visualizzi i <strong>tavoli confermati</strong> (con opzione di cancellazione). A destra gestisci le <strong>nuove richieste in arrivo</strong> con conferma o rifiuto tramite WhatsApp in 1 clic.
           </p>
         </div>
-        <div>
-          <a href="https://docs.google.com/spreadsheets/d/1u5aKXWIb00V_u038qUka_eje1f8DpvLuG0wznZmRpcI/edit" target="_blank" rel="noopener" class="btn-primary" style="padding: 10px 20px; font-size: 0.85rem; width: auto; background-color: var(--accent-gold); color: #1a1718; border-color: var(--accent-gold);">
-            <i class="fa-solid fa-arrow-up-right-from-square"></i> APRI SU GOOGLE DRIVE
+
+        <div style="display: flex; gap: 12px; align-items: center;">
+          <button id="admin-refresh-btn" class="btn-primary" style="width: auto; padding: 10px 22px; font-size: 0.88rem; background-color: var(--accent-gold); color: #1a1718; border-color: var(--accent-gold);">
+            <i class="fa-solid fa-arrows-rotate"></i> Aggiorna Dati
+          </button>
+          <a href="https://docs.google.com/spreadsheets/d/1u5aKXWIb00V_u038qUka_eje1f8DpvLuG0wznZmRpcI/edit" target="_blank" rel="noopener" class="btn-secondary-hero" style="width: auto; padding: 10px 18px; font-size: 0.85rem;">
+            <i class="fa-solid fa-table"></i> Apri Sheet
           </a>
         </div>
       </div>
 
-      <!-- Intestazione Dashboard -->
-      <div class="admin-header">
-        <div>
-          <h1 style="font-family: var(--font-serif); font-size: 2.2rem; color: #fff; margin-bottom: 6px;">
-            Richieste di Prenotazione
-          </h1>
-          <p style="color: var(--text-muted); font-size: 0.95rem;">
-            Ordina e gestisci le richieste arrivate. Con <strong>un semplice clic</strong> puoi confermare o rifiutare il tavolo inviando il messaggio WhatsApp personalizzato al cliente.
-          </p>
-        </div>
+      <!-- Griglia 2 Colonne: Sinistra Confermati, Destra In Attesa -->
+      <div class="admin-columns-grid">
+        
+        <!-- COLONNA SINISTRA: TAVOLI PRENOTATI E CONFERMATI -->
+        <section class="admin-column" style="border-top: 4px solid var(--accent-green);">
+          <div class="column-header">
+            <h2 class="column-title">
+              <i class="fa-solid fa-circle-check" style="color: var(--accent-green);"></i>
+              Tavoli Confermati
+            </h2>
+            <span class="column-badge" id="confirmed-count-badge">0 tavoli</span>
+          </div>
 
-        <!-- Filtri per Stato -->
-        <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
-          <button id="admin-refresh-btn" class="btn-primary" style="width: auto; padding: 8px 18px; font-size: 0.85rem; background-color: var(--accent-gold); color: #1a1718; border-color: var(--accent-gold);"><i class="fa-solid fa-arrows-rotate"></i> Aggiorna</button>
-          <div class="admin-filters">
-          <button class="admin-filter-btn active" data-status="all">Tutte le Richieste</button>
-          <button class="admin-filter-btn" data-status="In attesa">In Attesa</button>
-          <button class="admin-filter-btn" data-status="Confermato">Confermate</button>
-          <button class="admin-filter-btn" data-status="Rifiutato">Rifiutate</button>
-        </div>
-      </div>
+          <div id="confirmed-bookings-list">
+            <!-- Popolato dinamicamente da script.js -->
+          </div>
+        </section>
 
-      <!-- Elenco Prenotazioni -->
-      <div id="admin-bookings-container" class="booking-cards-list">
-        <!-- Generato dinamicamente da script.js -->
-      </div>
+        <!-- COLONNA DESTRA: RICHIESTE IN ARRIVO (IN ATTESA) -->
+        <section class="admin-column" style="border-top: 4px solid var(--accent-gold);">
+          <div class="column-header">
+            <h2 class="column-title">
+              <i class="fa-solid fa-bell" style="color: var(--accent-gold);"></i>
+              Richieste in Arrivo
+            </h2>
+            <span class="column-badge" id="pending-count-badge">0 in attesa</span>
+          </div>
 
-      <!-- Guida Operativa -->
-      <div style="margin-top: 50px; padding: 26px 30px; background: var(--bg-secondary); border-radius: 8px; border: 1px solid var(--border-card); font-size: 0.90rem; color: var(--text-muted); line-height: 1.7;">
-        <h4 style="color: #fff; margin-bottom: 8px; font-family: var(--font-serif); font-size: 1.15rem;"><i class="fa-solid fa-circle-info" style="color: var(--accent-gold);"></i> Come funziona la catena operativa:</h4>
-        <ul style="padding-left: 20px;">
-          <li>Il cliente compila il modulo su <strong>prenota.html</strong> inserendo il suo numero WhatsApp.</li>
-          <li>La richiesta viene archiviata nel tuo foglio <strong><a href="https://docs.google.com/spreadsheets/d/1u5aKXWIb00V_u038qUka_eje1f8DpvLuG0wznZmRpcI/edit" target="_blank" rel="noopener" style="color: var(--accent-gold); text-decoration: underline;">Google Sheet su Drive</a></strong> e su questa pagina.</li>
-          <li>Tu apri questa pagina (dal cellulare o computer) e con il tasto verde <strong style="color: var(--accent-green);">"CONFERMA VIA WHATSAPP"</strong> invii la conferma precompilata al cliente in 1 secondo.</li>
-        </ul>
+          <div id="pending-bookings-list">
+            <!-- Popolato dinamicamente da script.js -->
+          </div>
+        </section>
+
       </div>
 
     </div>
