@@ -27,7 +27,8 @@ const SITE_CONFIG = {
     province: "CS",
     country: "Italia",
     hours: "Tutti i giorni: 20:00 - 00:00",
-    mapsEmbedUrl: "https://maps.google.com/maps?q=Via+Nazionale+S.da+Statale+106+Jonica+87076+Villapiana+Lido+CS&t=&z=15&ie=UTF8&iwloc=&output=embed"
+    mapsPlaceUrl: "https://www.google.com/maps/place/Bull+Burger/@39.8053935,16.3968208,13z/data=!4m21!1m14!4m13!1m4!2m2!1d16.3879341!2d39.8195049!4e1!1m6!1m2!1s0x133f5fc4a03ec043:0x80ad513960d73089!2sBull+Burger,+Via+Nazionale,+S.da+Statale+106+Jonica,+87076+Villapiana+Lido+CS!2m2!1d16.4871083!2d39.8060219!3e0!3m5!1s0x133f5fc4a03ec043:0x80ad513960d73089!8m2!3d39.8060219!4d16.4871083!16s%2Fg%2F11gjj9by7s?entry=ttu",
+    mapsEmbedUrl: "https://maps.google.com/maps?q=Bull+Burger,+Via+Nazionale,+S.da+Statale+106+Jonica,+87076+Villapiana+Lido+CS&t=&z=16&ie=UTF8&iwloc=&output=embed"
   },
 
   // Social Media
