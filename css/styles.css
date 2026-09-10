@@ -4,20 +4,20 @@
    ========================================================================== */
 
 :root {
-  --bg-main: #242022;
+  --bg-main: #fdfbf7;
   --bg-secondary: #e5d3b2;
   --bg-card: #f1e1c0;
   --bg-olive: #736936;
   --bg-olive-dark: #5e552a;
-  --text-main: #f5f2eb;
-  --text-muted: #b8b1a9;
-  --text-dark: #1b1819;
-  --accent-red: #d1382b;
+  --text-main: #1f1c1d;
+  --text-muted: #524b4e;
+  --text-dark: #110e0f;
+  --accent-red: #d63e30;
   --accent-gold: #d63e30;
   --accent-green: #25d366; /* WhatsApp Green */
   --accent-green-dark: #128c7e;
-  --border-light: rgba(255, 255, 255, 0.1);
-  --border-card: rgba(255, 255, 255, 0.08);
+  --border-light: rgba(43, 39, 41, 0.15);
+  --border-card: rgba(43, 39, 41, 0.12);
   --font-serif: 'Playfair Display', Georgia, serif;
   --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
   --container-max: 1200px;
@@ -68,8 +68,9 @@ img {
    ========================================================================== */
 
 .top-bar {
-  background-color: #1a1718;
-  color: #a8a29b;
+  background-color: var(--bg-secondary);
+  color: var(--text-main);
+  font-weight: 600;
   font-size: 0.85rem;
   letter-spacing: 0.5px;
   border-bottom: 1px solid var(--border-light);
@@ -100,14 +101,15 @@ img {
   position: sticky;
   top: 0;
   z-index: 1000;
-  background-color: rgba(36, 32, 34, 0.95);
+  background-color: rgba(241, 225, 192, 0.96);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
   backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--border-light);
   transition: var(--transition);
 }
 
 .navbar.scrolled {
-  background-color: rgba(26, 23, 24, 0.98);
+  background-color: rgba(229, 211, 178, 0.98);
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
 }
 
@@ -143,14 +145,14 @@ img {
   font-weight: 600;
   letter-spacing: 1.6px;
   text-transform: uppercase;
-  color: var(--text-muted);
+  color: var(--text-main); font-weight: 700;
   position: relative;
   padding: 6px 0;
 }
 
 .nav-links a:hover,
 .nav-links a.active {
-  color: var(--text-main);
+  color: var(--accent-red);
 }
 
 .nav-links a::after {
@@ -287,9 +289,10 @@ img {
   display: block;
   width: 100%;
   padding: 14px 36px;
-  background-color: rgba(52, 46, 49, 0.9);
-  color: var(--accent-gold);
-  border: 1px solid var(--accent-gold);
+  background-color: var(--bg-card);
+  color: var(--text-dark);
+  border: 2px solid var(--accent-red);
+  font-weight: 800;
   font-size: 0.95rem;
   font-weight: 700;
   letter-spacing: 2.5px;
@@ -303,8 +306,8 @@ img {
 }
 
 .btn-secondary-hero:hover {
-  background-color: var(--accent-gold);
-  color: #1a1718;
+  background-color: var(--accent-red);
+  color: #fff;
   transform: translateY(-2px);
   box-shadow: 0 10px 24px rgba(214, 175, 93, 0.4);
 }
@@ -382,7 +385,7 @@ img {
   font-size: 1.15rem;
   letter-spacing: 1.5px;
   text-transform: uppercase;
-  color: #fff;
+  color: var(--text-dark);
   margin-bottom: 16px;
   line-height: 1.35;
 }
@@ -611,8 +614,8 @@ img {
 .menu-item-name {
   font-family: var(--font-serif);
   font-size: 1.15rem;
-  font-weight: 600;
-  color: #fff;
+  font-weight: 700;
+  color: var(--text-dark);
 }
 
 .menu-item-price {
@@ -761,9 +764,9 @@ img {
   width: 100%;
   height: 48px;
   padding: 0 16px;
-  background-color: var(--bg-secondary);
-  border: 1px solid var(--border-light);
-  color: #fff;
+  background-color: #ffffff;
+  border: 1px solid rgba(43, 39, 41, 0.25);
+  color: var(--text-dark);
   border-radius: 4px;
   font-family: inherit;
   font-size: 0.92rem;
@@ -775,9 +778,9 @@ img {
 .form-group textarea {
   width: 100%;
   padding: 14px 16px;
-  background-color: var(--bg-secondary);
-  border: 1px solid var(--border-light);
-  color: #fff;
+  background-color: #ffffff;
+  border: 1px solid rgba(43, 39, 41, 0.25);
+  color: var(--text-dark);
   border-radius: 4px;
   font-family: inherit;
   font-size: 0.92rem;
@@ -789,8 +792,8 @@ img {
 .form-group input:focus,
 .form-group select:focus,
 .form-group textarea:focus {
-  border-color: var(--accent-gold);
-  background-color: #2e282a;
+  border-color: var(--accent-red);
+  background-color: #ffffff;
 }
 
 .booking-info-box {
@@ -1146,11 +1149,11 @@ img {
    ========================================================================== */
 
 .footer {
-  background-color: #161314;
+  background-color: var(--bg-secondary);
   padding: 40px 0 24px;
   border-top: 1px solid var(--border-light);
   font-size: 0.85rem;
-  color: #8c857e;
+  color: var(--text-main);
   text-align: center;
 }
 
@@ -1163,7 +1166,7 @@ img {
 }
 
 .footer-links a:hover {
-  color: var(--accent-gold);
+  color: var(--accent-red);
 }
 
 .footer-copy {
@@ -1214,7 +1217,7 @@ img {
     top: 80px;
     left: 0;
     width: 100%;
-    background-color: #1f1b1d;
+    background-color: var(--bg-card);
     flex-direction: column;
     padding: 24px 0;
     gap: 20px;
