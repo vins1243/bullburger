@@ -33,6 +33,7 @@
 html {
   scroll-behavior: smooth;
   font-size: 16px;
+  scroll-padding-top: 80px;
 }
 
 body {
@@ -1572,4 +1573,152 @@ img {
 .form-group textarea::placeholder {
   color: #766f73 !important;
   opacity: 1;
+}
+
+/* ==========================================================================
+   OTTIMIZZAZIONE MOBILE (SMARTPHONE)
+   ========================================================================== */
+
+@media (max-width: 768px) {
+  /* Navbar più compatta su smartphone */
+  .nav-container {
+    height: 64px !important;
+  }
+  .navbar-logo-img {
+    height: 42px !important;
+    max-height: 46px !important;
+  }
+
+  .container {
+    padding: 0 16px;
+  }
+
+  /* Categorie del menu a scorrimento orizzontale touch con il pollice */
+  .menu-section {
+    padding: 24px 0 60px;
+  }
+  .menu-tabs {
+    display: flex !important;
+    justify-content: flex-start !important;
+    gap: 8px !important;
+    overflow-x: auto !important;
+    flex-wrap: nowrap !important;
+    padding: 4px 16px 14px !important;
+    margin: 0 -16px 20px !important;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .menu-tabs::-webkit-scrollbar {
+    display: none;
+  }
+  .menu-tab-btn {
+    flex-shrink: 0 !important;
+    padding: 8px 16px !important;
+    font-size: 0.80rem !important;
+    white-space: nowrap !important;
+    border-radius: 20px !important;
+  }
+
+  /* Titolo e sottotitolo categoria */
+  .menu-category-group {
+    margin-bottom: 36px;
+  }
+  .category-title {
+    font-size: 1.45rem;
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+  }
+  .category-subtitle {
+    font-size: 0.88rem;
+    color: var(--text-muted);
+    font-style: normal;
+    margin-bottom: 16px;
+    line-height: 1.4;
+  }
+
+  /* Card menu su mobile: layout verticale ordinato senza schiacciamenti */
+  .menu-items-grid {
+    gap: 12px;
+  }
+  .menu-card {
+    padding: 16px !important;
+    border-radius: 10px !important;
+    gap: 12px !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  }
+  .menu-item-header {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 6px !important;
+    margin-bottom: 8px !important;
+  }
+  .menu-item-name {
+    font-size: 1.15rem !important;
+    font-weight: 800 !important;
+    color: var(--text-dark) !important;
+    line-height: 1.25;
+  }
+  .menu-item-price {
+    font-size: 0.92rem !important;
+    font-weight: 700 !important;
+    color: var(--accent-red) !important;
+    background: rgba(214, 62, 48, 0.08) !important;
+    padding: 3px 8px !important;
+    border-radius: 4px !important;
+    display: inline-block !important;
+  }
+  .menu-item-desc {
+    font-size: 0.88rem !important;
+    line-height: 1.45 !important;
+    color: var(--text-main) !important;
+    margin-bottom: 10px !important;
+  }
+  .menu-tags {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 5px !important;
+  }
+  .tag-badge {
+    font-size: 0.72rem !important;
+    padding: 3px 8px !important;
+    border-radius: 12px !important;
+    background: rgba(43, 39, 41, 0.08) !important;
+    color: var(--text-dark) !important;
+    font-weight: 600 !important;
+  }
+
+  /* Modulo prenotazione e Hero su Mobile */
+  .booking-section {
+    padding: 24px 0 60px;
+  }
+  .reservation-box, .booking-info-box {
+    padding: 20px 16px !important;
+    border-radius: 8px;
+  }
+  .form-title {
+    font-size: 1.35rem !important;
+  }
+  .form-subtitle {
+    font-size: 0.85rem !important;
+    margin-bottom: 16px !important;
+  }
+  .form-group {
+    margin-bottom: 12px;
+  }
+  .form-group input, .form-group select {
+    height: 44px !important;
+    font-size: 0.90rem !important;
+  }
+  .hero {
+    min-height: 75vh !important;
+    padding: 50px 16px 36px !important;
+  }
+  .hero-logo-img {
+    max-width: 320px !important;
+    width: 90% !important;
+  }
+  .hero-buttons-stack {
+    max-width: 100% !important;
+    width: 100% !important;
+  }
 }
