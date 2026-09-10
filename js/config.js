@@ -1,5 +1,6 @@
 /**
  * CONFIGURAZIONE DEL SITO RISTORANTE - OL3 Ristorante Pizzeria
+ * Menu reale completo aggiornato con 9 categorie e 66 portate.
  */
 const SITE_CONFIG = {
   // Dati Generali del Ristorante
@@ -8,7 +9,7 @@ const SITE_CONFIG = {
     tagline: "Ristorante Pizzeria",
     logoHero: "foto/logo.png",
     logoNav: "foto/logo-2.png",
-    description: "Ristorante Pizzeria con impasti d'eccellenza, ingredienti selezionati e atmosfera accogliente a Villapiana Lido."
+    description: "Benvenuti da OL3: prodotti freschi e genuini preparati con rispetto per la materia prima, slow food, tagli nobili di carne ed eccellenze calabresi a Villapiana Lido."
   },
 
   // Contatti e Recapiti
@@ -35,214 +36,742 @@ const SITE_CONFIG = {
   highlights: [
     {
       number: "01",
-      title: "RISTORANTE TRADIZIONALE, TOCCO MODERNO",
-      text: "Un ristorante pizzeria dove la tradizione incontra l'innovazione, con ricette autentiche rivisitate in chiave moderna, ingredienti selezionati con cura e un'atmosfera che unisce calore e design contemporaneo. Qui il passato e il presente si fondono per offrire un'esperienza culinaria unica, dove ogni dettaglio racconta passione e qualità."
+      title: "MACELLERIA & CARNI PREGIATE",
+      text: "Grazie a oltre 35 anni di esperienza del nostro mastro macellaio, proponiamo l'eccellenza delle carni podoliche calabresi e dei più prestigiosi tagli internazionali (Tomahawk, T-Bone, Cowboy e selezioni Angus)."
     },
     {
       number: "02",
-      title: "SERVIAMO PIETANZE PREGIATE",
-      text: "Serviamo pietanze pregiate perché crediamo che ogni piatto debba essere un'esperienza unica, frutto di ingredienti eccellenti, lavorazioni attente e presentazioni curate. Selezioniamo materie prime di alta qualità, dalle farine pregiate per le nostre pizze agli ingredienti freschi e genuini che compongono i nostri piatti, garantendo sapori autentici ed equilibrati."
+      title: "PIZZE D'AUTORE & LIEVITAZIONE NATURALE",
+      text: "Dal pane impastato quotidianamente da noi alle pizze a lunga lievitazione preparate con le farine migliori. Ogni farcitura esalta i sapori unici della Calabria, dalla provola Silana DOP alla 'nduja e ai peperoni cruschi."
     },
     {
       number: "03",
-      title: "TI SERVIREMO COME MERITI",
-      text: "Ti serviremo come meriti perché crediamo che ogni ospite debba sentirsi accolto con calore, attenzione e professionalità. Dal momento in cui varchi la nostra porta, ci prendiamo cura di te con un servizio attento e discreto, pronto a soddisfare ogni tua esigenza."
+      title: "FILOSOFIA SLOW FOOD & CONVIVIALITÀ",
+      text: "Questo non è un fast food, ma un luogo in cui condividere il piacere della buona tavola. Ogni piatto è preparato rigorosamente al momento, rispettando i tempi naturali di cottura e la massima freschezza degli ingredienti."
     }
   ],
 
   // Sezione Storia
   story: {
-    title: "LA NOSTRA STORIA",
+    title: "LA NOSTRA STORIA & FILOSOFIA",
     paragraphs: [
-      "La storia del nostro ristorante pizzeria è un racconto di passione, tradizione e dedizione, nato dal sogno di una famiglia che ha sempre creduto che il buon cibo fosse molto più di un semplice pasto: un'esperienza capace di unire le persone e creare ricordi indimenticabili. Le nostre radici affondano nella cucina di casa, nei profumi dell'infanzia, nei gesti tramandati di generazione in generazione, affinati nel tempo con un solo obiettivo: regalare agli ospiti il piacere autentico della tavola.",
-      "Ogni ricetta porta con sé un pezzo della nostra storia, un equilibrio perfetto tra il rispetto della tradizione e la continua ricerca dell'eccellenza. Abbiamo selezionato con cura le migliori farine, i pomodori più dolci, i formaggi più pregiati, perché crediamo che la qualità sia il primo segreto per esaltare il gusto. Ogni impasto è lavorato con pazienza, ogni piatto è pensato per soddisfare e sorprendere, perché nulla è lasciato al caso: ogni cliente che varca la nostra porta deve sentirsi accolto come in famiglia, coccolato dall'atmosfera, dai sapori e dall'attenzione ai dettagli.",
-      "Col tempo, il nostro locale è diventato un punto di riferimento per chi cerca un'esperienza gastronomica sincera, fatta di ospitalità e amore per la cucina. Ogni sorriso che vediamo, ogni complimento ricevuto è la conferma che la nostra missione continua: offrire momenti di pura soddisfazione, dove il cibo non è solo nutrimento, ma un viaggio nei sapori e nelle emozioni. Perché per noi, la vera felicità sta nel vedere i nostri ospiti lasciare il locale con il cuore pieno e la voglia di tornare."
+      "Da noi troverete prodotti freschi e genuini, preparati con rispetto per la materia prima, rigorosamente al momento. Abbracciamo la filosofia dello slow food, del godersi il pasto come un'esperienza culinaria e conviviale.",
+      "Questo non è un fast food, ma un luogo in cui condividere il piacere di piatti preparati con cura e passione. Ricerca, amore per il territorio e dedizione ci portano a selezionare solo il meglio: grazie all'esperienza di oltre 35 anni del nostro macellaio, possiamo proporvi l'eccellenza delle carni podoliche e dei tagli pregiati internazionali.",
+      "Dal pane, impastato quotidianamente da noi, alle pizze con impasto fatto con cura e ricerca delle migliori farine, fino alle birre artigianali e ai drink rinfrescanti come il nostro celebre Ananzù all'anice selvatico della Sila, potrete assaporare i sapori autentici della nostra terra."
     ]
   },
 
   // Sezione Filosofia / Lievitazione
   philosophy: {
     title: "LA PERFEZIONE RICHIEDE TEMPO",
-    text: "La perfezione richiede tempo perché ogni dettaglio, dalla selezione degli ingredienti alla preparazione dei piatti, è frutto di cura, passione e dedizione. In un ristorante pizzeria, questo principio si traduce nella scelta delle migliori farine per l'impasto, nella lunga e paziente lievitazione che dona leggerezza e fragranza, nella preparazione attenta delle salse e nella ricerca dei prodotti più freschi e genuini. Non si tratta solo di cucinare, ma di rispettare i tempi naturali delle cose, di lasciare che i sapori si sviluppino armoniosamente, che ogni ingrediente trovi il suo equilibrio, che ogni pizza esca dal forno al momento giusto, con il cornicione perfettamente dorato e la mozzarella fusa alla perfezione. La velocità può riempire un piatto, ma solo il tempo può esaltarne l'anima. È nella pazienza del pizzaiolo che lavora l'impasto, nella cura dello chef che rifinisce ogni portata, nell'attenzione con cui il personale accoglie e serve ogni ospite, che si riconosce la vera qualità. Ogni esperienza culinaria che lascia un ricordo indelebile è il risultato di un percorso in cui nulla è lasciato al caso, perché la fretta può sfamare, ma solo la dedizione sa emozionare."
+    text: "La perfezione richiede tempo perché ogni dettaglio, dalla frollatura delle carni alla lunga maturazione dell'impasto della pizza, è frutto di pazienza, maestria e passione. Rispettare i tempi naturali della natura significa servire sapori autentici, bocconi teneri e pizze fragranti e altamente digeribili. Perché per noi di OL3 la fretta può sfamare, ma solo la dedizione sa regalare vere emozioni."
   },
 
   // Galleria Immagini
   gallery: [
     {
-      url: "https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=800&q=80",
-      caption: "Pizza Margherita Artigianale"
+      url: "https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=800&q=80",
+      caption: "I Nostri Tagli Pregiati alla Brace"
     },
     {
       url: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&w=800&q=80",
-      caption: "La Nostra Pizza Gourmet Speciale"
+      caption: "Pizza Gourmet Selezione OL3"
+    },
+    {
+      url: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=800&q=80",
+      caption: "I Nostri Burger Gourmet con Pane Fatto in Casa"
     },
     {
       url: "https://images.unsplash.com/photo-1574071318508-1cdbab80d002?auto=format&fit=crop&w=800&q=80",
-      caption: "Pizza Rustica con Pomodorini e Burrata"
-    },
-    {
-      url: "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=800&q=80",
-      caption: "Atmosfera e Dettagli del Nostro Locale"
+      caption: "Pizza Margherita Artigianale a Lunga Lievitazione"
     }
   ],
 
-  // MENU CENA
+  // MENU COMPLETO REALE OL3
   menu: {
-    categories: [
-      {
-        id: "antipasti",
-        name: "ANTIPASTI",
-        subtitle: "I piatti proposti sono perfetti per essere condivisi",
-        items: [
-          {
-            name: "Pane e salsine",
-            price: "4,50 €",
-            description: "Pane a lievitazione naturale accompagnato da hummus, barbabietola e feta montata",
-            tags: ["Vegetariano"],
-            image: "https://images.unsplash.com/photo-1541518763669-27fef04b14ea?auto=format&fit=crop&w=300&q=80"
-          },
-          {
-            name: "Insalata verde",
-            price: "Piccola 3,50 € / Media 5,50 €",
-            description: "Insalata fresca appena raccolta con verdure di stagione e mandorle tostate",
-            tags: ["Senza latticini", "Non piccante"],
-            image: "https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&w=300&q=80"
-          },
-          {
-            name: "Sashimi di tonno",
-            price: "4,50 €",
-            description: "Tonno fresco scottato, erbe fresche e un tocco di peperoncino",
-            tags: ["Pesce"],
-            image: "https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?auto=format&fit=crop&w=300&q=80"
-          }
-        ]
-      },
-      {
-        id: "portate-principali",
-        name: "PORTATE PRINCIPALI",
-        subtitle: "Una scelta diversificata di piatti saporiti, tutti di provenienza locale e freschi di giornata",
-        items: [
-          {
-            name: "Ravioli fatti a mano",
-            price: "6,50 €",
-            description: "Ravioli artigianali fatti a mano, ripieni di un mix di formaggi, in una salsa a pesto di basilico",
-            tags: ["Fatto in casa"],
-            image: "https://images.unsplash.com/photo-1587740908075-9e245070dfaa?auto=format&fit=crop&w=300&q=80"
-          },
-          {
-            name: "Bistecca in crosta di arachidi",
-            price: "8,00 €",
-            description: "Bistecca succosa e tenera cucinata in base ai tuoi gusti, servita con verdure al vapore",
-            tags: ["Arachidi"],
-            image: "https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=300&q=80"
-          },
-          {
-            name: "Pescato del giorno",
-            price: "8,00 €",
-            description: "Pescato fresco del giorno abbinato ad asparagi e crema di patate dolci",
-            tags: ["Pesce", "Molluschi"],
-            image: "https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?auto=format&fit=crop&w=300&q=80"
-          },
-          {
-            name: "Spiedini di tofu",
-            price: "7,50 €",
-            description: "Spiedini di tofu alla griglia, marinati in un mix di soia e sesamo con verdure di stagione arrostite",
-            tags: ["Vegano"],
-            image: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=300&q=80"
-          },
-          {
-            name: "Hamburger classico",
-            price: "Funghi 7,00 € | Pollo 7,50 € | Manzo 9,00 €",
-            description: "Il nostro classico hamburger con lattuga, sottaceti e pomodori costoluti, servito con patatine fritte",
-            tags: ["Carne"],
-            image: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=300&q=80"
-          },
-          {
-            name: "Cotoletta dorata",
-            price: "4,00 €",
-            description: "Croccante e dorata all'esterno, in una crosta di erbe e parmigiano",
-            tags: ["Tradizione"],
-            image: "https://images.unsplash.com/photo-1599488615731-7e5c2823ff28?auto=format&fit=crop&w=300&q=80"
-          }
-        ]
-      },
-      {
-        id: "dolci",
-        name: "DOLCI E DESSERT",
-        subtitle: "Delizie artigianali preparate quotidianamente dal nostro pasticciere",
-        items: [
-          {
-            name: "Cheesecake classica",
-            price: "6,50 €",
-            description: "Ricoperta con uno strato di marmellata di lamponi e fragole fresche affettate",
-            tags: ["Dolci"],
-            image: "https://images.unsplash.com/photo-1533134242443-d4fd215305ad?auto=format&fit=crop&w=300&q=80"
-          },
-          {
-            name: "Torta meringata al limone",
-            price: "6,50 €",
-            description: "Meringa al limone, crumble al pistacchio, servita con crema chantilly",
-            tags: ["Frutta a guscio"],
-            image: "https://images.unsplash.com/photo-1519869325930-281384150729?auto=format&fit=crop&w=300&q=80"
-          },
-          {
-            name: "Mousse al cioccolato",
-            price: "Singola 4,00 € | Doppia 7,00 €",
-            description: "Mousse al cioccolato fondente belga, vellutata e delicata",
-            tags: ["Cioccolato"],
-            image: "https://images.unsplash.com/photo-1541781774459-bb2af2f05b55?auto=format&fit=crop&w=300&q=80"
-          },
-          {
-            name: "Torta di carote speziata",
-            price: "5,00 €",
-            description: "Torta di carote leggermente aromatizzata alla cannella con glassa di cremoso formaggio",
-            tags: ["Dolci"],
-            image: "https://images.unsplash.com/photo-1621303837174-89787a7d4729?auto=format&fit=crop&w=300&q=80"
-          },
-          {
-            name: "Brownie artigianale",
-            price: "5,00 €",
-            description: "Brownie appena sfornato, ripieno di gocce di cioccolato fondente e noci croccanti",
-            tags: ["Senza latticini"],
-            image: "https://images.unsplash.com/photo-1606313564200-e75d5e30476c?auto=format&fit=crop&w=300&q=80"
-          }
-        ]
-      },
-      {
-        id: "bevande",
-        name: "BEVANDE",
-        subtitle: "Vini selezionati, bevande rinfrescanti e spremute naturali",
-        items: [
-          {
-            name: "Frullati salutari",
-            price: "3,00 €",
-            description: "Rinfrescati con la nostra selezione di frutta fresca di stagione",
-            tags: ["Freschezza"],
-            image: "https://images.unsplash.com/photo-1505252585461-04db1eb84625?auto=format&fit=crop&w=300&q=80"
-          },
-          {
-            name: "Spremute naturali",
-            price: "Piccola 2,00 € | Media 3,00 € | Grande 4,50 €",
-            description: "Una miscela rinfrescante di arancia, anguria, carota e zenzero appena spremuti",
-            tags: ["100% Naturale"],
-            image: "https://images.unsplash.com/photo-1613478223719-2ab802602423?auto=format&fit=crop&w=300&q=80"
-          },
-          {
-            name: "Vino della casa",
-            price: "2,00 € al calice",
-            description: "A scelta tra rosso corposo, bianco fresco o rosato vivace delle nostre colline",
-            tags: ["Vino"],
-            image: "https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?auto=format&fit=crop&w=300&q=80"
-          },
-          {
-            name: "Bibite & Soft Drink",
-            price: "1,50 €",
-            description: "Bibite classiche in vetro, chinotto, acqua minerale naturale e frizzante",
-            tags: ["Bevande"],
-            image: "https://images.unsplash.com/photo-1622483767028-3f66f32aef97?auto=format&fit=crop&w=300&q=80"
-          }
-        ]
-      }
-    ]
-  }
+  "categories": [
+    {
+      "id": "pizze-classiche",
+      "name": "PIZZE CLASSICHE",
+      "subtitle": "Impasto a lunga maturazione, lievitazione naturale e ingredienti della tradizione italiana",
+      "items": [
+        {
+          "name": "Margherita",
+          "price": "7,50 €",
+          "description": "Fior di latte, pomodoro (pelati DOP), basilico fresco, olio EVO",
+          "tags": [
+            "Classica",
+            "Vegetariano"
+          ],
+          "image": "https://images.unsplash.com/photo-1574071318508-1cdbab80d002?auto=format&fit=crop&w=400&q=80"
+        },
+        {
+          "name": "Focaccia all'Olio EVO",
+          "price": "5,00 €",
+          "description": "Focaccia fragrante con olio extravergine d'oliva e origano selvatico",
+          "tags": [
+            "Semplice",
+            "Vegano"
+          ],
+          "image": "https://images.unsplash.com/photo-1541518763669-27fef04b14ea?auto=format&fit=crop&w=400&q=80"
+        },
+        {
+          "name": "Marinaio",
+          "price": "7,50 €",
+          "description": "Pomodoro (pelati DOP), acciughe, aglio, capperi, olive nere al forno, olio EVO",
+          "tags": [
+            "Pesce",
+            "Senza latticini"
+          ],
+          "image": "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&w=400&q=80"
+        },
+        {
+          "name": "Calabrese Piccante",
+          "price": "8,50 €",
+          "description": "Pomodoro, fior di latte, salame piccante calabrese",
+          "tags": [
+            "Piccante",
+            "Tradizione"
+          ],
+          "image": "https://images.unsplash.com/photo-1628840042765-356cda07504e?auto=format&fit=crop&w=400&q=80"
+        },
+        {
+          "name": "Baciami Ancora",
+          "price": "8,50 €",
+          "description": "Fior di latte, tonno selezionato, cipolla rossa di Tropea IGP, erba cipollina",
+          "tags": [
+            "Gusto Unico",
+            "Pesce"
+          ],
+          "image": "https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=400&q=80"
+        },
+        {
+          "name": "Americana",
+          "price": "8,50 €",
+          "description": "Fior di latte, pomodoro (pelati DOP), würstel artigianali, patatine fritte",
+          "tags": [
+            "Per Tutti"
+          ],
+          "image": "https://images.unsplash.com/photo-1588315029754-2dd089d39a1a?auto=format&fit=crop&w=400&q=80"
+        },
+        {
+          "name": "Vegetariana",
+          "price": "9,00 €",
+          "description": "Fior di latte, melanzane, zucchine, peperoni arrostiti, rucola fresca, pomodorino pachino",
+          "tags": [
+            "Vegetariano"
+          ],
+          "image": "https://images.unsplash.com/photo-1571407970349-bc81e7e96d47?auto=format&fit=crop&w=400&q=80"
+        },
+        {
+          "name": "4 Formaggi",
+          "price": "10,00 €",
+          "description": "Fior di latte, emmental svizzero, grana DOP, gorgonzola cremoso",
+          "tags": [
+            "Formaggi",
+            "Vegetariano"
+          ],
+          "image": "https://images.unsplash.com/photo-1573821663912-569905455b1c?auto=format&fit=crop&w=400&q=80"
+        },
+        {
+          "name": "Capricciosa",
+          "price": "10,00 €",
+          "description": "Fior di latte, pomodoro (pelati DOP), prosciutto cotto, carciofi, salsiccia stagionata, olive, funghi misti",
+          "tags": [
+            "Ricca",
+            "Tradizione"
+          ],
+          "image": "https://images.unsplash.com/photo-1534308983496-4fabb1a015ee?auto=format&fit=crop&w=400&q=80"
+        },
+        {
+          "name": "Crudaiola",
+          "price": "11,00 €",
+          "description": "Fior di latte, prosciutto crudo di Parma, rucola fresca, scaglie di grana DOP, pomodorino pachino",
+          "tags": [
+            "Fresco"
+          ],
+          "image": "https://images.unsplash.com/photo-1590947132387-155cc02f3212?auto=format&fit=crop&w=400&q=80"
+        }
+      ]
+    },
+    {
+      "id": "pizze-ol3",
+      "name": "PIZZE SELEZIONE OL3",
+      "subtitle": "Pizze Gourmet d'autore con ingredienti d'eccellenza, carni selezionate e prodotti tipici calabresi",
+      "items": [
+        {
+          "name": "Sospiro",
+          "price": "13,00 €",
+          "description": "Fior di latte, patate tradizionali 'm'pacchiuse' aromatizzate, 'Nduja di Spilinga, provola Silana DOP, peperone crusco essiccato",
+          "tags": [
+            "Specialità OL3",
+            "Calabrese DOP"
+          ],
+          "image": "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&w=400&q=80"
+        },
+        {
+          "name": "Senza Parole",
+          "price": "15,00 €",
+          "description": "Fior di latte, pomodorino pachino, straccetti di bovino selezionato, pesto di rucola artigianale, bocconcini di bufala fresca",
+          "tags": [
+            "Gourmet Bovino",
+            "Bufala"
+          ],
+          "image": "https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=400&q=80"
+        },
+        {
+          "name": "Scostumata",
+          "price": "15,00 €",
+          "description": "Fior di latte, patate tradizionali 'm'pacchiuse', salsiccia fresca di nostra produzione, peperoni fritti, funghi misti, provola Silana DOP",
+          "tags": [
+            "Super Ricca",
+            "Salsiccia Artigianale"
+          ],
+          "image": "https://images.unsplash.com/photo-1574071318508-1cdbab80d002?auto=format&fit=crop&w=400&q=80"
+        },
+        {
+          "name": "Rucola e Carattere",
+          "price": "12,00 €",
+          "description": "Fior di latte, pomodoro (pelati DOP), salsiccia fresca, rucola selvatica, grana DOP, gorgonzola",
+          "tags": [
+            "Carattere Forte"
+          ],
+          "image": "https://images.unsplash.com/photo-1544982503-9f984c14501a?auto=format&fit=crop&w=400&q=80"
+        },
+        {
+          "name": "Porchettata",
+          "price": "12,50 €",
+          "description": "Purè di patate vellutato, pomodori secchi sott'olio, porchetta artigianale fatta in casa",
+          "tags": [
+            "Porchetta Nostrana"
+          ],
+          "image": "https://images.unsplash.com/photo-1593560708920-61dd98c46a4e?auto=format&fit=crop&w=400&q=80"
+        },
+        {
+          "name": "Del Pastore",
+          "price": "14,00 €",
+          "description": "Cornicione ripieno di ricotta fresca, pomodoro, fior di latte, polpettine fritte di carne, scaglie di pecorino calabrese",
+          "tags": [
+            "Bordo Ripieno",
+            "Polpettine"
+          ],
+          "image": "https://images.unsplash.com/photo-1595854341625-f33ee10dbf94?auto=format&fit=crop&w=400&q=80"
+        },
+        {
+          "name": "Armonia",
+          "price": "15,00 €",
+          "description": "Carpaccio di bovino finissimo, pesto di rucola, pomodorino pachino, scaglie di grana, buccia di limone BIO grattugiata",
+          "tags": [
+            "Raffinata",
+            "Carpaccio"
+          ],
+          "image": "https://images.unsplash.com/photo-1585238342024-78d387f4a707?auto=format&fit=crop&w=400&q=80"
+        },
+        {
+          "name": "Delicata",
+          "price": "14,00 €",
+          "description": "Fior di latte, bresaola punta d'anca, rucola fresca, pomodorino pachino, stracciatella pugliese fresca",
+          "tags": [
+            "Stracciatella"
+          ],
+          "image": "https://images.unsplash.com/photo-1571407970349-bc81e7e96d47?auto=format&fit=crop&w=400&q=80"
+        }
+      ]
+    },
+    {
+      "id": "carni",
+      "name": "SELEZIONE CARNI & PIATTI DI CARNE",
+      "subtitle": "Tagli nobili con oltre 35 anni di esperienza di macelleria: carne podolica calabrese e frollature internazionali",
+      "items": [
+        {
+          "name": "Tomahawk (Taglio min. 1 KG)",
+          "price": "60,00 € / Kg",
+          "description": "Bistecca con osso scenografica, frollatura dry aging minima 45 giorni, consigliata per 2-4 persone",
+          "tags": [
+            "Frollatura 45gg",
+            "Cottura brace"
+          ],
+          "image": "https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=400&q=80"
+        },
+        {
+          "name": "Cowboy Steak (Taglio min. 500g)",
+          "price": "30,00 € (500g)",
+          "description": "Costata succosa e ricca di marezzatura, frollatura minima 35 giorni",
+          "tags": [
+            "Frollatura 35gg"
+          ],
+          "image": "https://images.unsplash.com/photo-1558030006-450675393462?auto=format&fit=crop&w=400&q=80"
+        },
+        {
+          "name": "T-Bone Steak (Min. 500g)",
+          "price": "35,00 € (500g)",
+          "description": "Fiorentina con filetto e controfiletto, frollatura minima 40 giorni, consigliata per 1-2 persone",
+          "tags": [
+            "Frollatura 40gg"
+          ],
+          "image": "https://images.unsplash.com/photo-1603048588665-791ca8aea617?auto=format&fit=crop&w=400&q=80"
+        },
+        {
+          "name": "Entrecôte di Pregio (500g)",
+          "price": "35,00 € (500g)",
+          "description": "Angus Irlanda, Angus Prussiana o Nordland (chiedere al nostro maître la selezione periodica)",
+          "tags": [
+            "Internazionale"
+          ],
+          "image": "https://images.unsplash.com/photo-1546964124-0cce460f38ef?auto=format&fit=crop&w=400&q=80"
+        },
+        {
+          "name": "Tagliata Premium (Angus Irlanda / Prussiana)",
+          "price": "16,00 € (250g)",
+          "description": "Servita su letto di rucola, pomodorini pachino, scaglie di grana DOP e fondo bruno della casa",
+          "tags": [
+            "Angus"
+          ],
+          "image": "https://images.unsplash.com/photo-1504973959464-e4a8a5bfae1f?auto=format&fit=crop&w=400&q=80"
+        },
+        {
+          "name": "Tagliata di Scottona Podolica",
+          "price": "14,00 € (250g)",
+          "description": "Eccellenza bovina autoctona calabrese allevata allo stato brado, rucola, grana e pomodorino",
+          "tags": [
+            "Razza Podolica IGP"
+          ],
+          "image": "https://images.unsplash.com/photo-1529692236671-f1f6cf9683ba?auto=format&fit=crop&w=400&q=80"
+        },
+        {
+          "name": "Spezzatino di Vitello Angus in Lenta Cottura",
+          "price": "10,00 €",
+          "description": "Tenerissimo spezzatino di vitello Angus brasato lentamente con purè di patate Silane IGP",
+          "tags": [
+            "Lenta Cottura",
+            "Patata Silana"
+          ],
+          "image": "https://images.unsplash.com/photo-1534939561126-855b8675edd7?auto=format&fit=crop&w=400&q=80"
+        },
+        {
+          "name": "Tagliere di Salumi e Formaggi Selezionati",
+          "price": "15,00 €",
+          "description": "Salumi artigianali e formaggi stagionati del territorio calabrese con composte (porzione singola)",
+          "tags": [
+            "Km 0",
+            "Calabria"
+          ],
+          "image": "https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?auto=format&fit=crop&w=400&q=80"
+        },
+        {
+          "name": "Carpaccio di Bovino Fresco",
+          "price": "12,00 €",
+          "description": "Fettine sottilissime con pomodorino pachino, succo di limone BIO, olio EVO, rucola fresca, grana DOP, pepe nero",
+          "tags": [
+            "Freschezza"
+          ],
+          "image": "https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=400&q=80"
+        },
+        {
+          "name": "Tartare Battuta al Coltello",
+          "price": "12,00 €",
+          "description": "Battuta a coltello al momento, succo di limone BIO, olio EVO frantoiano e pepe nero macinato",
+          "tags": [
+            "Battuta a mano"
+          ],
+          "image": "https://images.unsplash.com/photo-1541544741938-0af808871cc0?auto=format&fit=crop&w=400&q=80"
+        },
+        {
+          "name": "Hamburger al Piatto Made in OL3",
+          "price": "12,00 €",
+          "description": "Hamburger 250g di puro manzo, pomodoro, fonduta di formaggio cheddar, lattuga croccante, salsa burger, patatine fritte",
+          "tags": [
+            "Al Piatto"
+          ],
+          "image": "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=400&q=80"
+        },
+        {
+          "name": "Straccetti di Bovino al Piatto",
+          "price": "12,00 €",
+          "description": "Straccetti saltati alla piastra con pesto di rucola fatto in casa, rucola fresca, pomodorino pachino, olio EVO",
+          "tags": [
+            "Secondo Piatto"
+          ],
+          "image": "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&w=400&q=80"
+        },
+        {
+          "name": "Insalatona di Bovino",
+          "price": "12,00 €",
+          "description": "Lattuga fresca, mais dolce, cipolla di Tropea IGP, pomodorini, scaglie di grana con straccetti di bovino alla griglia",
+          "tags": [
+            "Piatto Unico"
+          ],
+          "image": "https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&w=400&q=80"
+        }
+      ]
+    },
+    {
+      "id": "panini",
+      "name": "I NOSTRI PANINI GOURMET",
+      "subtitle": "Pane artigianale fatto in casa ogni giorno, farcito con carni scelte e ingredienti unici",
+      "items": [
+        {
+          "name": "King OL3",
+          "price": "18,00 €",
+          "description": "Doppio hamburger 250g (500g tot), bacon croccante, uovo all'occhio di bue, cheddar fuso, pomodoro, salsa segreta OL3, lattuga",
+          "tags": [
+            "Maxi Burger",
+            "500g Carne"
+          ],
+          "image": "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=400&q=80"
+        },
+        {
+          "name": "Hamburger Classico",
+          "price": "12,00 €",
+          "description": "Hamburger 250g di manzo selezionato, pomodoro, formaggio cheddar, salsa burger artigianale, lattuga croccante",
+          "tags": [
+            "Classico"
+          ],
+          "image": "https://images.unsplash.com/photo-1550547660-d9450f859349?auto=format&fit=crop&w=400&q=80"
+        },
+        {
+          "name": "Lacrima Facile",
+          "price": "12,00 €",
+          "description": "Salsiccia artigianale fatta in casa, provola affumicata silana, patate tradizionali, 'nduja di Spilinga, lattuga croccante",
+          "tags": [
+            "Piccante",
+            "Salsiccia Fresca"
+          ],
+          "image": "https://images.unsplash.com/photo-1521305916504-4a1121188589?auto=format&fit=crop&w=400&q=80"
+        },
+        {
+          "name": "Scostumato",
+          "price": "12,00 €",
+          "description": "Salsiccia fatta in casa, patate tradizionali 'm'pacchiuse', peperoni saltati, funghi misti trifolati, provola fusa",
+          "tags": [
+            "Gustoso"
+          ],
+          "image": "https://images.unsplash.com/photo-1549611016-3a70d82b5040?auto=format&fit=crop&w=400&q=80"
+        },
+        {
+          "name": "Dello Chef",
+          "price": "13,00 €",
+          "description": "Porchetta selezionata fatta in casa, pomodori secchi, crema ai funghi porcini, provola silana, lattuga croccante",
+          "tags": [
+            "Porchetta"
+          ],
+          "image": "https://images.unsplash.com/photo-1625813506062-0aeb1d7a094b?auto=format&fit=crop&w=400&q=80"
+        },
+        {
+          "name": "Succulento",
+          "price": "10,00 €",
+          "description": "Straccetti teneri di bovino alla piastra, rucola fresca di campo, scaglie di grana DOP, pomodoro",
+          "tags": [
+            "Straccetti"
+          ],
+          "image": "https://images.unsplash.com/photo-1586190848861-99aa4a171e90?auto=format&fit=crop&w=400&q=80"
+        },
+        {
+          "name": "Croccante",
+          "price": "10,00 €",
+          "description": "Cotoletta di pollo dorata e super croccante, pomodoro, formaggio filante, lattuga croccante",
+          "tags": [
+            "Pollo Croccante"
+          ],
+          "image": "https://images.unsplash.com/photo-1606755962773-d324e0a13086?auto=format&fit=crop&w=400&q=80"
+        }
+      ]
+    },
+    {
+      "id": "primi",
+      "name": "PRIMI IN TEGLIA",
+      "subtitle": "Le paste al forno calde e ricche della tradizione domenicale",
+      "items": [
+        {
+          "name": "Lasagna Tradizionale al Ragù",
+          "price": "8,00 €",
+          "description": "Sfoglia fresca tirata a mano, ragù di carni scelte a cottura lenta, besciamella e fior di latte",
+          "tags": [
+            "Classico"
+          ],
+          "image": "https://images.unsplash.com/photo-1574894709920-11b28e7367e3?auto=format&fit=crop&w=400&q=80"
+        },
+        {
+          "name": "Lasagna Salmone e Zucchine",
+          "price": "10,00 €",
+          "description": "Sfoglia artigianale con filetti di salmone rosa, zucchine di stagione trifolate e delicata besciamella",
+          "tags": [
+            "Pesce",
+            "Delicata"
+          ],
+          "image": "https://images.unsplash.com/photo-1619895092538-128341789043?auto=format&fit=crop&w=400&q=80"
+        }
+      ]
+    },
+    {
+      "id": "fritti-antipasti",
+      "name": "FRITTI & ANTIPASTI SFIZIOSI",
+      "subtitle": "Dorati, croccanti e ideali da condividere al centro della tavola",
+      "items": [
+        {
+          "name": "Parmigiana di Melanzane",
+          "price": "8,00 €",
+          "description": "La vera parmigiana alla calabrese con melanzane dorate, sugo ristretto di pomodoro e provola filante",
+          "tags": [
+            "Fatto in casa"
+          ],
+          "image": "https://images.unsplash.com/photo-1625944525533-473f1a3d54e7?auto=format&fit=crop&w=400&q=80"
+        },
+        {
+          "name": "Frittura di Calamari",
+          "price": "12,00 €",
+          "description": "Calamari teneri passati in semola e fritti al momento, serviti caldi con spicchi di limone BIO",
+          "tags": [
+            "Pesce Fresco"
+          ],
+          "image": "https://images.unsplash.com/photo-1599488615731-7e5c2823ff28?auto=format&fit=crop&w=400&q=80"
+        },
+        {
+          "name": "Dippers Patatine Gorgonzola & Speck",
+          "price": "6,50 €",
+          "description": "Patatine a barchetta croccanti con fonduta calda di gorgonzola DOP e speck tirolese croccante",
+          "tags": [
+            "Sfizioso"
+          ],
+          "image": "https://images.unsplash.com/photo-1576107232684-1279f3908594?auto=format&fit=crop&w=400&q=80"
+        },
+        {
+          "name": "Polpettine Fritte di Carne (6 pz)",
+          "price": "3,50 €",
+          "description": "Morbide polpettine artigianali di manzo e maiale con impasto alle erbe aromatiche",
+          "tags": [
+            "Fatto a mano"
+          ],
+          "image": "https://images.unsplash.com/photo-1529042410759-befb1204b468?auto=format&fit=crop&w=400&q=80"
+        },
+        {
+          "name": "Patatine Classiche Stick",
+          "price": "Piccola 3,50 € / Media 6,50 €",
+          "description": "Patatine dorate e croccanti servite calde con sale iodato",
+          "tags": [
+            "Vegetariano"
+          ],
+          "image": "https://images.unsplash.com/photo-1573080496219-bb080dd4f877?auto=format&fit=crop&w=400&q=80"
+        },
+        {
+          "name": "Anelli di Cipolla Dorati",
+          "price": "5,00 €",
+          "description": "Anelli di cipolla dolce pastellati alla birra e fritti",
+          "tags": [
+            "Vegetariano"
+          ],
+          "image": "https://images.unsplash.com/photo-1639024471285-0afc274b711a?auto=format&fit=crop&w=400&q=80"
+        },
+        {
+          "name": "Stick di Pollo (Nuggets)",
+          "price": "5,00 €",
+          "description": "Bocconcini di filetto di pollo panati e croccanti",
+          "tags": [
+            "Pollo"
+          ],
+          "image": "https://images.unsplash.com/photo-1562967914-608f82629710?auto=format&fit=crop&w=400&q=80"
+        },
+        {
+          "name": "Supplì Artigianale al Pomodoro",
+          "price": "2,50 € al pezzo",
+          "description": "Riso al sugo mantecato con cuore filante di mozzarella fior di latte",
+          "tags": [
+            "Al pezzo"
+          ],
+          "image": "https://images.unsplash.com/photo-1541529086526-db283c563270?auto=format&fit=crop&w=400&q=80"
+        },
+        {
+          "name": "Crocchè di Patate Napoletano",
+          "price": "2,50 € al pezzo",
+          "description": "Purè di patate fresche, prezzemolo, pepe e cuore di formaggio filante",
+          "tags": [
+            "Al pezzo"
+          ],
+          "image": "https://images.unsplash.com/photo-1608897013039-887f21d8c804?auto=format&fit=crop&w=400&q=80"
+        },
+        {
+          "name": "Crocchè di Riso Tradizionale",
+          "price": "5,00 €",
+          "description": "Porzione di crocchè dorati di riso speziato della tradizione",
+          "tags": [
+            "Porzione"
+          ],
+          "image": "https://images.unsplash.com/photo-1541529086526-db283c563270?auto=format&fit=crop&w=400&q=80"
+        }
+      ]
+    },
+    {
+      "id": "contorni",
+      "name": "CONTORNI FRESCHI & AL FORNO",
+      "subtitle": "Accompagnamenti saporiti con verdure locali e patate della Sila IGP",
+      "items": [
+        {
+          "name": "Patate al Forno IGP Silane",
+          "price": "4,50 €",
+          "description": "Patate della Sila IGP tagliate a spicchi con buccia, cotte al forno con aglio in camicia, rosmarino e olio EVO",
+          "tags": [
+            "Patata Silana IGP",
+            "Vegano"
+          ],
+          "image": "https://images.unsplash.com/photo-1518977676601-b53f82aba655?auto=format&fit=crop&w=400&q=80"
+        },
+        {
+          "name": "Verdure di Stagione Grigliate",
+          "price": "4,50 €",
+          "description": "Zucchine, melanzane e peperoni grigliati alla piastra con foglie di menta fresca e olio EVO",
+          "tags": [
+            "Vegano",
+            "Leggero"
+          ],
+          "image": "https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&w=400&q=80"
+        },
+        {
+          "name": "Insalata Verde da Campo",
+          "price": "3,00 €",
+          "description": "Lattuga e rucola fresca condite con olio EVO frantoiano, succo di limone BIO e sale marino",
+          "tags": [
+            "Vegano",
+            "Bio"
+          ],
+          "image": "https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&w=400&q=80"
+        }
+      ]
+    },
+    {
+      "id": "birre-bevande",
+      "name": "BIRRE ALLA SPINA & BEVANDE",
+      "subtitle": "Grandi birre tedesche ed europee alla spina, bibite fresche in vetro e acque minerali",
+      "items": [
+        {
+          "name": "Spaten Chiara Classica (5.2% vol)",
+          "price": "0,25L €3,00 | 0,50L €6,00 | 1L €12,00",
+          "description": "Storica birra bavarese dorata, equilibrata e piacevolmente maltata",
+          "tags": [
+            "Alla Spina",
+            "Lager"
+          ],
+          "image": "https://images.unsplash.com/photo-1535958636474-b021ee887b13?auto=format&fit=crop&w=400&q=80"
+        },
+        {
+          "name": "Leffe Rossa d'Abbazia (6.6% vol)",
+          "price": "0,30L €4,50 | 0,50L €8,00 | 1L €15,00",
+          "description": "Birra rossa belga ad alta fermentazione, sapore dolce, speziato e corposo",
+          "tags": [
+            "Alla Spina",
+            "Rossa"
+          ],
+          "image": "https://images.unsplash.com/photo-1567696911980-2eed69a46042?auto=format&fit=crop&w=400&q=80"
+        },
+        {
+          "name": "König Ludwig Weissbier (5.5% vol)",
+          "price": "0,30L €4,50 | 0,50L €8,00 | 1L €15,00",
+          "description": "Birra di frumento bavarese non filtrata, torbida naturale, rinfrescante con note fruttate",
+          "tags": [
+            "Alla Spina",
+            "Weissbier"
+          ],
+          "image": "https://images.unsplash.com/photo-1608270191795-0be1f5c6e8e2?auto=format&fit=crop&w=400&q=80"
+        },
+        {
+          "name": "Acqua Minerale (1 Litro)",
+          "price": "2,50 €",
+          "description": "Disponibile naturale o frizzante in bottiglia di vetro",
+          "tags": [
+            "Acqua"
+          ],
+          "image": "https://images.unsplash.com/photo-1548839140-29a749e1bc4e?auto=format&fit=crop&w=400&q=80"
+        },
+        {
+          "name": "Coca Cola / Coca Cola Zero (in vetro)",
+          "price": "3,00 €",
+          "description": "Servita fredda con ghiaccio e fetta di limone",
+          "tags": [
+            "Bibite"
+          ],
+          "image": "https://images.unsplash.com/photo-1622483767028-3f66f32aef97?auto=format&fit=crop&w=400&q=80"
+        },
+        {
+          "name": "Fanta / Sprite / Lemon Soda (in vetro)",
+          "price": "3,00 €",
+          "description": "Bibite rinfrescanti gassate in bottiglia",
+          "tags": [
+            "Bibite"
+          ],
+          "image": "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?auto=format&fit=crop&w=400&q=80"
+        },
+        {
+          "name": "Estathé Limone o Pesca",
+          "price": "3,50 €",
+          "description": "Il classico tè freddo italiano infuso",
+          "tags": [
+            "Tè freddo"
+          ],
+          "image": "https://images.unsplash.com/photo-1556679343-c7306c1976bc?auto=format&fit=crop&w=400&q=80"
+        },
+        {
+          "name": "Acqua Tonica Premium",
+          "price": "3,50 €",
+          "description": "Tonica amara con chinino naturale",
+          "tags": [
+            "Tonica"
+          ],
+          "image": "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=400&q=80"
+        }
+      ]
+    },
+    {
+      "id": "cocktail-digestivi",
+      "name": "COCKTAIL GASTRONOMICI & DIGESTIVI",
+      "subtitle": "Miscelazione d'eccellenza, aperitivi e amari silani per concludere al meglio la serata",
+      "items": [
+        {
+          "name": "Ananzù Signature Drink",
+          "price": "10,00 €",
+          "description": "Long drink rinfrescante a base di liquore all'anice selvatico della Sila (ananzù), ideale come digestivo aromatico (quantità limitata)",
+          "tags": [
+            "Signature OL3",
+            "Raro Silano"
+          ],
+          "image": "https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?auto=format&fit=crop&w=400&q=80"
+        },
+        {
+          "name": "Aperol Spritz",
+          "price": "5,00 €",
+          "description": "Aperol, Prosecco DOC, spruzzo di soda, fetta d'arancia e oliva",
+          "tags": [
+            "Aperitivo"
+          ],
+          "image": "https://images.unsplash.com/photo-1560512823-829485b8bf24?auto=format&fit=crop&w=400&q=80"
+        },
+        {
+          "name": "Gin Tonic Premium (Elephant Gin)",
+          "price": "7,00 € – 8,00 €",
+          "description": "Distillato premium con botaniche selezionate e acqua tonica artigianale",
+          "tags": [
+            "Cocktail"
+          ],
+          "image": "https://images.unsplash.com/photo-1551024709-8f23befc6f87?auto=format&fit=crop&w=400&q=80"
+        },
+        {
+          "name": "Negroni Classico",
+          "price": "8,00 €",
+          "description": "Campari, vermouth rosso di Torino, London dry gin, scorza d'arancia",
+          "tags": [
+            "Cocktail Classico"
+          ],
+          "image": "https://images.unsplash.com/photo-1551538827-9c037cb4f32a?auto=format&fit=crop&w=400&q=80"
+        },
+        {
+          "name": "Americano / Campari & Soda",
+          "price": "5,00 €",
+          "description": "Bitter Campari, vermouth rosso, soda e fetta d'arancia fresca",
+          "tags": [
+            "Aperitivo"
+          ],
+          "image": "https://images.unsplash.com/photo-1536935338788-846bb9981813?auto=format&fit=crop&w=400&q=80"
+        }
+      ]
+    }
+  ]
+}
 };
