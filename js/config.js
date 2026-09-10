@@ -26,7 +26,7 @@ const SITE_CONFIG = {
     city: "Villapiana Lido",
     province: "CS",
     country: "Italia",
-    hours: "Tutti i giorni: 19:00 - 23:30",
+    hours: "Tutti i giorni: 20:00 - 00:00",
     mapsEmbedUrl: "https://maps.google.com/maps?q=Via+Nazionale+S.da+Statale+106+Jonica+87076+Villapiana+Lido+CS&t=&z=15&ie=UTF8&iwloc=&output=embed"
   },
 

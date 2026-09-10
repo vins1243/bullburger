@@ -1722,3 +1722,12 @@ img {
     width: 100% !important;
   }
 }
+
+.topbar-address-link {
+  color: inherit;
+  transition: var(--transition);
+}
+.topbar-address-link:hover {
+  color: var(--accent-red) !important;
+  text-decoration: underline;
+}
