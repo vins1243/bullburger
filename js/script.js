@@ -1,25 +1,23 @@
 /**
- * JAVASCRIPT PRINCIPALE
- * Renderizza dinamicamente i dati di SITE_CONFIG e gestisce l'interattività.
+ * JAVASCRIPT PRINCIPALE - OL3 Ristorante Pizzeria
+ * Gestisce la navigazione e i dati dinamici su index, menu e prenota.
  */
 
 document.addEventListener('DOMContentLoaded', () => {
-  renderBrandAndTexts();
+  renderCommonData();
   renderHighlights();
   renderStory();
   renderPhilosophy();
   renderGallery();
   renderMenu();
-  renderContact();
+  renderContactMap();
   initNavigation();
   initReservationForm();
 });
 
 // Renderizza Testi del Brand e Top Bar
-function renderBrandAndTexts() {
+function renderCommonData() {
   document.querySelectorAll('[data-brand-name]').forEach(el => el.textContent = SITE_CONFIG.brand.name);
-  document.querySelectorAll('[data-brand-tagline]').forEach(el => el.textContent = SITE_CONFIG.brand.tagline);
-  document.querySelectorAll('[data-brand-since]').forEach(el => el.textContent = SITE_CONFIG.brand.since);
   document.querySelectorAll('[data-contact-address]').forEach(el => el.textContent = SITE_CONFIG.contact.address + ', ' + SITE_CONFIG.contact.cap + ' ' + SITE_CONFIG.contact.city + ' (' + SITE_CONFIG.contact.province + ')');
   document.querySelectorAll('[data-contact-phone]').forEach(el => {
     el.textContent = SITE_CONFIG.contact.phoneDisplay;
@@ -28,16 +26,14 @@ function renderBrandAndTexts() {
   document.querySelectorAll('[data-contact-hours]').forEach(el => el.textContent = SITE_CONFIG.contact.hours);
 
   // Social Links
-  const fbLinks = document.querySelectorAll('.social-fb');
-  fbLinks.forEach(a => a.href = SITE_CONFIG.socials.facebook);
-  const igLinks = document.querySelectorAll('.social-ig');
-  igLinks.forEach(a => a.href = SITE_CONFIG.socials.instagram);
+  document.querySelectorAll('.social-fb').forEach(a => a.href = SITE_CONFIG.socials.facebook);
+  document.querySelectorAll('.social-ig').forEach(a => a.href = SITE_CONFIG.socials.instagram);
 }
 
 // Renderizza I 3 Punti di Forza
 function renderHighlights() {
   const container = document.getElementById('highlights-container');
-  if (!container) return;
+  if (!container || !SITE_CONFIG.highlights) return;
 
   container.innerHTML = SITE_CONFIG.highlights.map(item => `
     <div class="highlight-card">
@@ -52,24 +48,24 @@ function renderHighlights() {
 function renderStory() {
   const titleEl = document.getElementById('story-title');
   const bodyEl = document.getElementById('story-paragraphs');
-  if (titleEl) titleEl.textContent = SITE_CONFIG.story.title;
-  if (bodyEl) {
+  if (titleEl && SITE_CONFIG.story) titleEl.textContent = SITE_CONFIG.story.title;
+  if (bodyEl && SITE_CONFIG.story) {
     bodyEl.innerHTML = SITE_CONFIG.story.paragraphs.map(p => `<p>${p}</p>`).join('');
   }
 }
 
-// Renderizza Filosofia / Tempo
+// Renderizza Filosofia
 function renderPhilosophy() {
   const titleEl = document.getElementById('philosophy-title');
   const textEl = document.getElementById('philosophy-text');
-  if (titleEl) titleEl.textContent = SITE_CONFIG.philosophy.title;
-  if (textEl) textEl.textContent = SITE_CONFIG.philosophy.text;
+  if (titleEl && SITE_CONFIG.philosophy) titleEl.textContent = SITE_CONFIG.philosophy.title;
+  if (textEl && SITE_CONFIG.philosophy) textEl.textContent = SITE_CONFIG.philosophy.text;
 }
 
 // Renderizza Galleria
 function renderGallery() {
   const container = document.getElementById('gallery-container');
-  if (!container) return;
+  if (!container || !SITE_CONFIG.gallery) return;
 
   container.innerHTML = SITE_CONFIG.gallery.map(item => `
     <div class="gallery-item">
@@ -81,19 +77,23 @@ function renderGallery() {
   `).join('');
 }
 
-// Renderizza Menu con Categorie e Filtri
+// Renderizza Menu (presente su menu.html)
 function renderMenu() {
   const tabsContainer = document.getElementById('menu-tabs');
   const listContainer = document.getElementById('menu-category-list');
-  if (!tabsContainer || !listContainer) return;
+  if (!tabsContainer || !listContainer || !SITE_CONFIG.menu) return;
 
   // Render Tabs
   tabsContainer.innerHTML = `
-    <button class="menu-tab-btn active" data-category="all">TUTTO IL MENU</button>
+    <button class="menu-tab-btn active" data-category="all">TUTTO IL MENU (${getTotalMenuItems()})</button>
     ${SITE_CONFIG.menu.categories.map(cat => `
-      <button class="menu-tab-btn" data-category="${cat.id}">${cat.name}</button>
+      <button class="menu-tab-btn" data-category="${cat.id}">${cat.name} (${cat.items.length})</button>
     `).join('')}
   `;
+
+  function getTotalMenuItems() {
+    return SITE_CONFIG.menu.categories.reduce((sum, c) => sum + c.items.length, 0);
+  }
 
   // Render Category Groups
   function displayCategories(filterId) {
@@ -132,7 +132,6 @@ function renderMenu() {
 
   displayCategories('all');
 
-  // Event listener sui Tab
   tabsContainer.addEventListener('click', (e) => {
     if (e.target.classList.contains('menu-tab-btn')) {
       document.querySelectorAll('.menu-tab-btn').forEach(b => b.classList.remove('active'));
@@ -143,15 +142,15 @@ function renderMenu() {
   });
 }
 
-// Renderizza Dati Contatto e Mappa
-function renderContact() {
+// Renderizza Mappa
+function renderContactMap() {
   const mapIframe = document.getElementById('maps-iframe');
-  if (mapIframe) {
+  if (mapIframe && SITE_CONFIG.contact) {
     mapIframe.src = SITE_CONFIG.contact.mapsEmbedUrl;
   }
 }
 
-// Navigazione, Navbar Scrolled e Mobile Toggle
+// Navigazione e Menu Mobile
 function initNavigation() {
   const navbar = document.querySelector('.navbar');
   const toggleBtn = document.querySelector('.mobile-toggle');
@@ -178,18 +177,27 @@ function initNavigation() {
   }
 }
 
-// Gestione modulo prenotazione
+// Gestione Modulo Prenotazione (prenota.html)
 function initReservationForm() {
   const form = document.getElementById('reservation-form');
   if (!form) return;
 
+  // Imposta come data minima la data odierna
+  const dateInput = document.getElementById('res-date');
+  if (dateInput) {
+    const today = new Date().toISOString().split('T')[0];
+    dateInput.min = today;
+  }
+
   form.addEventListener('submit', (e) => {
     e.preventDefault();
     const name = document.getElementById('res-name').value;
+    const phone = document.getElementById('res-phone').value;
     const date = document.getElementById('res-date').value;
+    const time = document.getElementById('res-time').value;
     const guests = document.getElementById('res-guests').value;
 
-    alert(`Grazie ${name}! La richiesta di prenotazione per ${guests} persone il ${date} è stata inviata con successo. Verrai ricontattato a breve per la conferma.`);
+    alert(`Grazie ${name}! La tua richiesta di prenotazione per ${guests} persone il giorno ${date} alle ore ${time} è stata inviata. Ti contatteremo al ${phone} per la conferma del tavolo.`);
     form.reset();
   });
 }

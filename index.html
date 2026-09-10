@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>OL3 Ristorante Pizzeria | Villapiana Lido</title>
-  <meta name="description" content="OL3 Ristorante Pizzeria a Piazza Enrico Berlinguer, Villapiana Lido CS. Pizze artigianali a lunga lievitazione, ingredienti genuini e atmosfera calorosa.">
+  <meta name="description" content="OL3 Ristorante Pizzeria a Piazza Enrico Berlinguer, Villapiana Lido CS. Pizze artigianali a lunga lievitazione, carni podoliche selezionate e atmosfera calorosa.">
   
   <!-- Font Google: Playfair Display e Plus Jakarta Sans -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -35,14 +35,15 @@
   <!-- Barra di Navigazione Principale -->
   <nav class="navbar">
     <div class="container nav-container">
-      <a href="#home" class="brand-logo" aria-label="OL3 Ristorante Pizzeria Home">
+      <a href="index.html" class="brand-logo" aria-label="OL3 Ristorante Pizzeria Home">
         <img src="foto/logo-2.png" alt="OL3 Ristorante Pizzeria" class="navbar-logo-img">
       </a>
 
       <ul class="nav-links">
-        <li><a href="#home" class="active">HOME</a></li>
+        <li><a href="index.html" class="active">HOME</a></li>
         <li><a href="#il-locale">IL LOCALE</a></li>
-        <li><a href="#menu">MENU</a></li>
+        <li><a href="menu.html">MENU</a></li>
+        <li><a href="prenota.html">PRENOTA UN TAVOLO</a></li>
         <li><a href="#contatti">CONTATTI</a></li>
       </ul>
 
@@ -64,7 +65,12 @@
       <div class="hero-logo-container">
         <img src="foto/logo.png" alt="OL3 Ristorante Pizzeria" class="hero-logo-img">
       </div>
-      <a href="#menu" class="btn-primary">MENU CENA</a>
+      
+      <!-- 2 Bottoni al centro pagina -->
+      <div class="hero-buttons-stack">
+        <a href="menu.html" class="btn-primary">IL NOSTRO MENU</a>
+        <a href="prenota.html" class="btn-secondary-hero">PRENOTA UN TAVOLO</a>
+      </div>
     </div>
   </header>
 
@@ -81,7 +87,7 @@
   <section class="story-section">
     <div class="container">
       <div class="story-card">
-        <h2 class="section-title" id="story-title">LA NOSTRA STORIA</h2>
+        <h2 class="section-title" id="story-title">LA NOSTRA STORIA & FILOSOFIA</h2>
         <div id="story-paragraphs">
           <!-- Paragrafi inseriti da config.js -->
         </div>
@@ -109,27 +115,7 @@
     </div>
   </section>
 
-  <!-- Sezione Menu Cena -->
-  <section id="menu" class="menu-section">
-    <div class="container">
-      <div class="menu-header">
-        <h2 class="section-title">MENU CENA</h2>
-        <p style="color: var(--text-muted); font-size: 1.05rem;">Scopri le nostre creazioni culinarie preparate con ingredienti genuini</p>
-      </div>
-
-      <!-- Filtri Menu Categorie -->
-      <div class="menu-tabs" id="menu-tabs">
-        <!-- Pulsanti categorie generati da config.js -->
-      </div>
-
-      <!-- Elenco Piatti per Categoria -->
-      <div id="menu-category-list">
-        <!-- Categorie e piatti renderizzati dinamicamente da config.js -->
-      </div>
-    </div>
-  </section>
-
-  <!-- Sezione Contatti & Mappa -->
+  <!-- Sezione Contatti & Mappa (senza modulo prenotazione) -->
   <section id="contatti" class="contact-section">
     <div class="container">
       <h2 class="section-title">CONTATTACI</h2>
@@ -163,42 +149,6 @@
           allowfullscreen 
           title="Mappa OL3 Ristorante Pizzeria">
         </iframe>
-      </div>
-
-      <!-- Modulo Richiesta Tavolo / Contatto Rapido -->
-      <div class="reservation-box">
-        <h3 style="font-family: var(--font-serif); font-size: 1.5rem; text-align: center; margin-bottom: 24px; color: #fff;">PRENOTA UN TAVOLO</h3>
-        <form id="reservation-form">
-          <div class="form-grid">
-            <div class="form-group">
-              <input type="text" id="res-name" placeholder="Il tuo nome completo" required>
-            </div>
-            <div class="form-group">
-              <input type="tel" id="res-phone" placeholder="Numero di telefono" required>
-            </div>
-          </div>
-          <div class="form-grid">
-            <div class="form-group">
-              <input type="date" id="res-date" required>
-            </div>
-            <div class="form-group">
-              <select id="res-guests" required>
-                <option value="" disabled selected>Numero di persone</option>
-                <option value="2">2 Persone</option>
-                <option value="3">3 Persone</option>
-                <option value="4">4 Persone</option>
-                <option value="5">5 Persone</option>
-                <option value="6+">6 o più persone</option>
-              </select>
-            </div>
-          </div>
-          <div class="form-group">
-            <textarea id="res-notes" rows="3" placeholder="Note speciali, intolleranze o richieste..."></textarea>
-          </div>
-          <div style="text-align: center; margin-top: 10px;">
-            <button type="submit" class="btn-primary" style="width: 100%;">INVIA RICHIESTA PRENOTAZIONE</button>
-          </div>
-        </form>
       </div>
     </div>
   </section>
