@@ -41,6 +41,15 @@ function formatWhatsAppNumber(phone) {
 function toIsoDate(d) {
   if (!d) return '';
   let s = String(d).trim();
+
+  const mGviz = s.match(/Date\((\d{4}),\s*(\d{1,2}),\s*(\d{1,2})\)/);
+  if (mGviz) {
+    const y = mGviz[1];
+    const m = String(parseInt(mGviz[2], 10) + 1).padStart(2, '0');
+    const day = String(mGviz[3]).padStart(2, '0');
+    return `${y}-${m}-${day}`;
+  }
+
   if (/^\d{4}-\d{2}-\d{2}$/.test(s)) return s;
   const m = s.match(/^(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{4})$/);
   if (m) {

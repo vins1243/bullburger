@@ -985,11 +985,32 @@
       function toIso(d) {
         if (!d) return '';
         const s = String(d).trim();
-        const m = s.match(/^(\d{4})-(\d{2})-(\d{2})/);
-        if (m) return m[0];
+
+        // Supporto formato Google Visualization: Date(yyyy, m, d) dove m parte da 0 (8 = Settembre)
+        const mGviz = s.match(/Date\((\d{4}),\s*(\d{1,2}),\s*(\d{1,2})\)/);
+        if (mGviz) {
+          const y = mGviz[1];
+          const m = String(parseInt(mGviz[2], 10) + 1).padStart(2, '0');
+          const day = String(mGviz[3]).padStart(2, '0');
+          return `${y}-${m}-${day}`;
+        }
+
+        const mIso = s.match(/^(\d{4})-(\d{2})-(\d{2})/);
+        if (mIso) return mIso[0];
+
         const mIt = s.match(/^(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{4})/);
         if (mIt) return `${mIt[3]}-${mIt[2].padStart(2, '0')}-${mIt[1].padStart(2, '0')}`;
+
         return s;
+      }
+
+      function formatItalianDate(d) {
+        const iso = toIso(d);
+        if (/^\d{4}-\d{2}-\d{2}$/.test(iso)) {
+          const p = iso.split('-');
+          return `${p[2]}/${p[1]}/${p[0]}`;
+        }
+        return d;
       }
 
       async function loadBookings() {
@@ -1166,7 +1187,7 @@
             hint.innerHTML = `
               <span><i class="fa-solid fa-calendar-check" style="color: var(--accent-red);"></i> <strong>Ci sono prenotazioni registrate in altre date:</strong></span>
               <div style="display: flex; gap: 6px; flex-wrap: wrap;">
-                ${dates.map(d => `<button class="nav-date-btn" style="background: var(--accent-red); color: #fff; border: none; padding: 4px 10px; font-size: 0.82rem;" onclick="document.getElementById('admin-target-date').value='${d}'; document.getElementById('admin-target-date').dispatchEvent(new Event('change'));">Vai al ${d}</button>`).join('')}
+                ${dates.map(d => `<button class="nav-date-btn" style="background: var(--accent-red); color: #fff; border: none; padding: 5px 12px; font-size: 0.85rem;" onclick="document.getElementById('admin-target-date').value='${toIso(d)}'; document.getElementById('admin-target-date').dispatchEvent(new Event('change'));">Vai al ${formatItalianDate(d)}</button>`).join('')}
               </div>
             `;
           } else {
