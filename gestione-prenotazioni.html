@@ -1147,6 +1147,117 @@
         }
       }
 
+      
+      // GESTIONE MODALE NUOVA PRENOTAZIONE DA TAVOLO VERDE
+      const newModal = document.getElementById('new-booking-modal');
+      const newModalClose = document.getElementById('new-modal-close');
+      const newModalCancel = document.getElementById('admin-book-cancel-btn');
+      const newBookingForm = document.getElementById('admin-new-booking-form');
+      const guestsSelect = document.getElementById('admin-book-guests');
+      const tablesCalcSpan = document.getElementById('admin-book-tables-calc');
+      const shiftSelect = document.getElementById('admin-book-shift');
+
+      if (newModalClose) newModalClose.addEventListener('click', () => newModal.classList.remove('active'));
+      if (newModalCancel) newModalCancel.addEventListener('click', () => newModal.classList.remove('active'));
+      if (newModal) newModal.addEventListener('click', (e) => { if (e.target === newModal) newModal.classList.remove('active'); });
+
+      if (guestsSelect && tablesCalcSpan) {
+        guestsSelect.addEventListener('change', () => {
+          const g = parseInt(guestsSelect.value, 10) || 2;
+          const t = Math.ceil(g / 2);
+          tablesCalcSpan.textContent = `${t} Tavol${t === 1 ? 'o' : 'i'} da 2 posti uniti (${t * 2} posti occupati)`;
+        });
+      }
+
+      function openNewBookingModal(startTableNum) {
+        const titleEl = document.getElementById('new-modal-table-label');
+        if (titleEl) titleEl.textContent = `Nuova Prenotazione (Tavolo T${String(startTableNum).padStart(2, '0')})`;
+        const nameInput = document.getElementById('admin-book-name');
+        if (nameInput) nameInput.value = '';
+        const phoneInput = document.getElementById('admin-book-phone');
+        if (phoneInput) phoneInput.value = '';
+        const notesInput = document.getElementById('admin-book-notes');
+        if (notesInput) notesInput.value = '';
+        if (guestsSelect) {
+          guestsSelect.value = '2';
+          if (tablesCalcSpan) tablesCalcSpan.textContent = '1 Tavolo da 2 posti';
+        }
+        if (shiftSelect) shiftSelect.value = currentShift;
+        if (newModal) newModal.classList.add('active');
+      }
+
+      if (newBookingForm) {
+        newBookingForm.addEventListener('submit', (e) => {
+          e.preventDefault();
+          const name = document.getElementById('admin-book-name').value.trim();
+          const phone = document.getElementById('admin-book-phone').value.trim();
+          const guests = parseInt(guestsSelect.value, 10) || 2;
+          const shiftVal = shiftSelect.value;
+          const notes = document.getElementById('admin-book-notes').value.trim();
+          const needed = Math.ceil(guests / 2);
+
+          const bookingId = 'BULL_' + Date.now();
+          const displayTurno = shiftVal.includes('20:00') ? '1° Turno (20:00 - 21:30)' : '2° Turno (dalle 21:30)';
+
+          const newBooking = {
+            id: bookingId,
+            created_at: new Date().toLocaleString('it-IT'),
+            name: name,
+            phone: phone,
+            date: currentDate,
+            time: displayTurno,
+            guests: guests,
+            tables: needed,
+            notes: notes ? (notes + ' [Inserito da Sala]') : '[Inserito da Sala]',
+            status: 'Confermata'
+          };
+
+          // Salva localmente subito
+          allBookings.push(newBooking);
+          try {
+            const loc = JSON.parse(localStorage.getItem(LOCAL_KEY) || '[]');
+            loc.push(newBooking);
+            localStorage.setItem(LOCAL_KEY, JSON.stringify(loc));
+          } catch(err) {}
+
+          // Invia a Google Apps Script / Foglio Google (POST + GET)
+          const postPayload = {
+            id: newBooking.id,
+            name: newBooking.name,
+            phone: newBooking.phone,
+            date: newBooking.date,
+            time: newBooking.time,
+            guests: newBooking.guests,
+            tables: newBooking.tables,
+            notes: newBooking.notes,
+            status: 'Confermata'
+          };
+
+          fetch(APPS_SCRIPT_URL, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+            body: JSON.stringify(postPayload)
+          }).catch(() => {});
+
+          const getParams = new URLSearchParams({
+            action: 'book',
+            id: newBooking.id,
+            name: newBooking.name,
+            phone: newBooking.phone,
+            date: newBooking.date,
+            time: newBooking.time,
+            guests: String(newBooking.guests),
+            tables: String(newBooking.tables),
+            notes: newBooking.notes
+          });
+          fetch(APPS_SCRIPT_URL + '?' + getParams.toString(), { mode: 'no-cors' }).catch(() => {});
+
+          if (newModal) newModal.classList.remove('active');
+          updateHallDisplay();
+        });
+      }
+
       function showBookingDetail(b, assignedNums) {
         selectedBooking = b;
         document.getElementById('modal-table-label').textContent = `Tavoli: ${assignedNums.map(n => 'T' + String(n).padStart(2, '0')).join(', ')}`;
@@ -1161,6 +1272,10 @@
         document.getElementById('modal-notes').textContent = b.notes || 'Nessuna nota segnalata';
         modal.classList.add('active');
       }
+
+      window.openNewBookingModal = openNewBookingModal;
+      window.showBookingDetail = showBookingDetail;
+      window.updateHallDisplay = updateHallDisplay;
 
       // Avvio immediato
       updateHallDisplay();
