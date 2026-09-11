@@ -80,6 +80,21 @@ function formatFriendlyDate(isoDate) {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
+function isTurno1(tStr) {
+  if (!tStr) return false;
+  const s = String(tStr).toLowerCase().trim();
+  if (s.includes('2°') || s.includes('secondo') || s.includes('dalle 21:30') || s.startsWith('21:30')) return false;
+  return s.includes('1°') || s.includes('primo') || s.includes('20:00') || s.includes('1');
+}
+
+function isTurno2(tStr) {
+  if (!tStr) return false;
+  const s = String(tStr).toLowerCase().trim();
+  if (s.includes('2°') || s.includes('secondo') || s.includes('dalle 21:30') || s.startsWith('21:30')) return true;
+  if (s.includes('21:30') && !s.includes('20:00')) return true;
+  return false;
+}
+
 function cleanTime(t) {
   if (!t) return '';
   let s = String(t).trim();
@@ -610,9 +625,7 @@ function initAdminDashboard() {
       const sameDate = (toIsoDate(b.date) === currentDate);
       const statusOk = b.status && !b.status.toLowerCase().includes('annull');
       const turnoStr = String(b.time || '').toLowerCase();
-      const sameShift = (currentShift === '20:00') 
-        ? (turnoStr.includes('20:00') || (turnoStr.includes('1') && !turnoStr.includes('dalle 21:30')))
-        : (turnoStr.includes('21:30') || turnoStr.includes('2'));
+      const sameShift = (currentShift === '20:00') ? isTurno1(b.time) : isTurno2(b.time);
       return sameDate && statusOk && sameShift;
     });
 

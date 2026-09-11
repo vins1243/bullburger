@@ -229,26 +229,34 @@
       z-index: 10;
     }
 
-    /* ROSSO: DISPONIBILE */
+    /* VERDE: DISPONIBILE / LIBERO */
     .table-box.available {
+      background: linear-gradient(135deg, #28d06b, #1ea952);
+      color: #ffffff;
+      border: 2px solid #168a40;
+    }
+
+    .table-box.available:hover {
+      box-shadow: 0 8px 20px rgba(30, 169, 82, 0.45);
+    }
+
+    /* ROSSO: OCCUPATO / PRENOTATO */
+    .table-box.occupied {
       background: linear-gradient(135deg, #e6392a, #d63e30);
       color: #ffffff;
       border: 2px solid #b52a1f;
     }
 
-    .table-box.available:hover {
+    .table-box.occupied:hover {
       box-shadow: 0 8px 20px rgba(214, 62, 48, 0.45);
     }
 
-    /* GRIGIO: OCCUPATO */
-    .table-box.occupied {
-      background: linear-gradient(135deg, #787275, #5a5457);
+    /* Tavoli uniti occupati (rosso profondo con bordo rifinito) */
+    .table-box.occupied.merged-table {
+      background: linear-gradient(135deg, #dc3526, #c22d1f) !important;
+      border: 2px solid #941e13 !important;
       color: #ffffff;
-      border: 2px solid #433e41;
-    }
-
-    .table-box.occupied:hover {
-      box-shadow: 0 8px 20px rgba(74, 68, 71, 0.45);
+      box-shadow: 0 6px 18px rgba(214, 62, 48, 0.35);
     }
 
     .table-box.linked-group {
@@ -422,22 +430,22 @@
     <!-- Statistiche -->
     <div class="hall-stats-bar">
       <div class="stat-pill">
-        <div class="stat-icon-circle" style="background: rgba(214, 62, 48, 0.15); color: var(--accent-red);">
+        <div class="stat-icon-circle" style="background: rgba(30, 169, 82, 0.15); color: #1ea952;">
           <i class="fa-solid fa-chair"></i>
         </div>
         <div class="stat-info">
           <h4>Tavoli Disponibili</h4>
-          <strong id="stat-available-tables" style="color: var(--accent-red);">50</strong> <span style="font-size: 0.85rem; color: var(--text-muted);">/ 50</span>
+          <strong id="stat-available-tables" style="color: #1ea952;">50</strong> <span style="font-size: 0.85rem; color: var(--text-muted);">/ 50</span>
         </div>
       </div>
 
       <div class="stat-pill">
-        <div class="stat-icon-circle" style="background: rgba(90, 84, 87, 0.15); color: #5a5457;">
+        <div class="stat-icon-circle" style="background: rgba(214, 62, 48, 0.15); color: var(--accent-red);">
           <i class="fa-solid fa-ban"></i>
         </div>
         <div class="stat-info">
           <h4>Tavoli Occupati</h4>
-          <strong id="stat-occupied-tables" style="color: #5a5457;">0</strong> <span style="font-size: 0.85rem; color: var(--text-muted);">/ 50</span>
+          <strong id="stat-occupied-tables" style="color: var(--accent-red);">0</strong> <span style="font-size: 0.85rem; color: var(--text-muted);">/ 50</span>
         </div>
       </div>
 
@@ -730,12 +738,12 @@
 
     <div class="legend-bar">
       <div class="legend-item">
-        <div class="legend-color-box" style="background: #d63e30; border: 1.5px solid #b52a1f;"></div>
-        <span>Rosso = Tavolo Disponibile (Libero)</span>
+        <div class="legend-color-box" style="background: #1ea952; border: 1.5px solid #168a40;"></div>
+        <span>Verde = Tavolo Disponibile (Libero)</span>
       </div>
       <div class="legend-item">
-        <div class="legend-color-box" style="background: #615c5f; border: 1.5px solid #433e41;"></div>
-        <span>Grigio = Tavolo Occupato (Prenotato - Clicca per dettagli)</span>
+        <div class="legend-color-box" style="background: #d63e30; border: 1.5px solid #b52a1f;"></div>
+        <span>Rosso = Tavolo Occupato (Prenotato - Clicca per dettagli)</span>
       </div>
     </div>
   </main>
@@ -746,7 +754,7 @@
       <button class="modal-close-btn" id="modal-close">&times;</button>
       
       <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px;">
-        <div style="width: 48px; height: 48px; border-radius: 8px; background: #615c5f; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 1.3rem;">
+        <div style="width: 48px; height: 48px; border-radius: 8px; background: var(--accent-red); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 1.3rem;">
           <i class="fa-solid fa-chair"></i>
         </div>
         <div>
@@ -885,6 +893,21 @@
         });
       }
 
+            function isTurno1(tStr) {
+        if (!tStr) return false;
+        const s = String(tStr).toLowerCase().trim();
+        if (s.includes('2°') || s.includes('secondo') || s.includes('dalle 21:30') || s.startsWith('21:30')) return false;
+        return s.includes('1°') || s.includes('primo') || s.includes('20:00') || s.includes('1');
+      }
+
+      function isTurno2(tStr) {
+        if (!tStr) return false;
+        const s = String(tStr).toLowerCase().trim();
+        if (s.includes('2°') || s.includes('secondo') || s.includes('dalle 21:30') || s.startsWith('21:30')) return true;
+        if (s.includes('21:30') && !s.includes('20:00')) return true;
+        return false;
+      }
+
       function toIso(d) {
         if (!d) return '';
         const s = String(d).trim();
@@ -964,9 +987,7 @@
           const sameDate = (toIso(b.date) === currentDate);
           const statusOk = !String(b.status || '').toLowerCase().includes('annull');
           const tStr = String(b.time || '').toLowerCase();
-          const sameShift = (currentShift === '20:00')
-            ? (tStr.includes('20:00') || (tStr.includes('1') && !tStr.includes('dalle 21:30')))
-            : (tStr.includes('21:30') || tStr.includes('2'));
+          const sameShift = (currentShift === '20:00') ? isTurno1(b.time) : isTurno2(b.time);
           return sameDate && statusOk && sameShift;
         });
 
