@@ -548,57 +548,57 @@ function initAdminDashboard() {
     });
   }
 
-    async function fetchFromSheet() {
+      async function fetchFromSheet() {
     let sheetData = [];
 
-    // 1. Lettura ad alta velocità da Google Sheets (Google Visualization API - Sempre affidabile e senza blocchi)
-    const sheetId = '1Xpp-soY_AA9UGtxy_feMHO7Qjsg1n1s0CD7lFzBCgV4';
-    const gvizUrl = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json&tq=select%20*`;
-    try {
-      const gvizResp = await fetch(gvizUrl);
-      const text = await gvizResp.text();
-      const match = text.match(/google\.visualization\.Query\.setResponse\((.*)\);/);
-      if (match) {
-        const json = JSON.parse(match[1]);
-        if (json && json.table && Array.isArray(json.table.rows)) {
-          json.table.rows.forEach(r => {
-            if (!r || !r.c) return;
-            const c = r.c;
-            const val = (idx) => (c[idx] && c[idx].v !== null && c[idx].v !== undefined) ? c[idx].v : '';
-            const bId = String(val(0));
-            if (!bId || bId.toLowerCase() === 'id' || bId.toLowerCase() === 'id prenotazione') return;
-            sheetData.push({
-              id: bId,
-              created_at: String(val(1)),
-              name: String(val(2)),
-              phone: String(val(3)),
-              date: toIsoDate(val(4)),
-              time: String(val(5)),
-              guests: String(val(6)),
-              tables: String(val(7) || Math.ceil(parseInt(val(6), 10) / 2)),
-              status: String(val(8) || 'Confermata'),
-              notes: String(val(9) || '')
-            });
-          });
+    // 1. Prova prima l'endpoint Apps Script
+    const endpoint = getGoogleSheetEndpoint();
+    if (endpoint) {
+      try {
+        const resp = await fetch(endpoint);
+        const res = await resp.json();
+        if (res && res.status === 'success' && Array.isArray(res.data)) {
+          sheetData = res.data.map(normalizeBooking);
         }
+      } catch(err) {
+        console.log('Lettura Apps Script:', err);
       }
-    } catch(err) {
-      console.log('Lettura GVIZ:', err);
     }
 
-    // 2. Se GVIZ non ha risposto o è vuoto, prova l'endpoint Google Apps Script
+    // 2. Prova Google Visualization API come fallback
     if (sheetData.length === 0) {
-      const endpoint = getGoogleSheetEndpoint();
-      if (endpoint) {
-        try {
-          const resp = await fetch(endpoint);
-          const res = await resp.json();
-          if (res && res.status === 'success' && Array.isArray(res.data)) {
-            sheetData = res.data.map(normalizeBooking);
+      const sheetId = '1Xpp-soY_AA9UGtxy_feMHO7Qjsg1n1s0CD7lFzBCgV4';
+      const gvizUrl = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json&tq=select%20*`;
+      try {
+        const gvizResp = await fetch(gvizUrl);
+        const text = await gvizResp.text();
+        const match = text.match(/google\.visualization\.Query\.setResponse\((.*)\);/);
+        if (match) {
+          const json = JSON.parse(match[1]);
+          if (json && json.table && Array.isArray(json.table.rows)) {
+            json.table.rows.forEach(r => {
+              if (!r || !r.c) return;
+              const c = r.c;
+              const val = (idx) => (c[idx] && c[idx].v !== null && c[idx].v !== undefined) ? c[idx].v : '';
+              const bId = String(val(0));
+              if (!bId || bId.toLowerCase() === 'id' || bId.toLowerCase() === 'id prenotazione') return;
+              sheetData.push({
+                id: bId,
+                created_at: String(val(1)),
+                name: String(val(2)),
+                phone: String(val(3)),
+                date: toIsoDate(val(4)),
+                time: String(val(5)),
+                guests: String(val(6)),
+                tables: String(val(7) || Math.ceil(parseInt(val(6), 10) / 2)),
+                status: String(val(8) || 'Confermata'),
+                notes: String(val(9) || '')
+              });
+            });
           }
-        } catch(err) {
-          console.log('Lettura Apps Script:', err);
         }
+      } catch(err) {
+        console.log('Lettura GVIZ:', err);
       }
     }
 
