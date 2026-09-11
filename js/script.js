@@ -6,6 +6,10 @@
 const STORAGE_KEY = 'bullburger_prenotazioni_db';
 
 document.addEventListener('DOMContentLoaded', () => {
+  try {
+    localStorage.removeItem('bullburger_prenotazioni_db');
+    localStorage.removeItem('ol3_prenotazioni_db');
+  } catch(e) {}
   renderCommonData();
   renderHighlights();
   renderStory();
@@ -352,7 +356,7 @@ function initReservationForm() {
       status: 'Confermata'
     };
 
-    saveBookingLocally(booking);
+    
 
     // Sincronizzazione con Google Sheet via Google Apps Script (POST + GET Fallback)
     const endpoint = getGoogleSheetEndpoint();
@@ -614,7 +618,7 @@ function initAdminDashboard() {
     if (sheetData.length > 0) {
       activeBookings = sheetData.map(normalizeBooking);
     } else {
-      activeBookings = getLocalBookings();
+      activeBookings = [];
     }
   }
 
@@ -622,7 +626,7 @@ function initAdminDashboard() {
     gridContainer.innerHTML = '';
 
     // Unisci prenotazioni dal foglio con quelle salvate localmente
-    const local = getLocalBookings();
+    const local = [];
     const sheetBookings = (activeBookings && Array.isArray(activeBookings)) ? activeBookings : [];
     const allBookingsMap = new Map();
     sheetBookings.forEach(b => { if (b && b.id) allBookingsMap.set(b.id, b); });

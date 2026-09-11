@@ -862,6 +862,12 @@
       const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyFO2Zf7hi5SjHnMQLM2o9pt2CEKlXqQlRfmBueAWOiDz5REyTUpWpK39W270ktiNI5RA/exec';
       const LOCAL_KEY = 'bullburger_prenotazioni_db';
 
+            // Eliminazione totale memoria locale: il Foglio Google è l'unica fonte di verità
+      try {
+        localStorage.removeItem('bullburger_prenotazioni_db');
+        localStorage.removeItem('ol3_prenotazioni_db');
+      } catch(e) {}
+
       let allBookings = [];
       let currentDate = '2026-09-12'; // Default su data con prenotazione o oggi
       let currentShift = '20:00';
@@ -948,10 +954,7 @@
           if (confirm(`Confermi di voler cancellare la prenotazione di ${selectedBooking.name}? I tavoli verranno liberati.`)) {
             // Elimina localmente
             allBookings = allBookings.filter(b => b.id !== selectedBooking.id);
-            try {
-              const local = JSON.parse(localStorage.getItem(LOCAL_KEY) || '[]').filter(b => b.id !== selectedBooking.id);
-              localStorage.setItem(LOCAL_KEY, JSON.stringify(local));
-            } catch(e) {}
+            
 
             // Invia cancellazione
             fetch(APPS_SCRIPT_URL, {
@@ -1076,26 +1079,7 @@
           }
         }
 
-        // 3. Sincronizzazione con memoria locale
-        try {
-          const loc = JSON.parse(localStorage.getItem(LOCAL_KEY) || '[]');
-          loc.forEach(b => {
-            if (b && b.id && !loaded.some(x => x.id === b.id)) {
-              loaded.push({
-                id: b.id,
-                created_at: b.created_at || '',
-                name: b.name || 'Cliente',
-                phone: b.phone || '',
-                date: toIso(b.date),
-                time: String(b.time || ''),
-                guests: parseInt(b.guests, 10) || 2,
-                tables: parseInt(b.tables, 10) || Math.ceil((parseInt(b.guests, 10) || 2) / 2),
-                status: b.status || 'Confermata',
-                notes: b.notes || ''
-              });
-            }
-          });
-        } catch(e) {}
+
 
         allBookings = loaded;
       }
@@ -1263,11 +1247,7 @@
 
           // Salva localmente subito
           allBookings.push(newBooking);
-          try {
-            const loc = JSON.parse(localStorage.getItem(LOCAL_KEY) || '[]');
-            loc.push(newBooking);
-            localStorage.setItem(LOCAL_KEY, JSON.stringify(loc));
-          } catch(err) {}
+          
 
           // Invia a Google Apps Script / Foglio Google (POST + GET)
           const postPayload = {
