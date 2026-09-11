@@ -551,6 +551,32 @@ function initAdminDashboard() {
     gridContainer.innerHTML = '';
     const bookings = (activeBookings && activeBookings.length > 0) ? activeBookings : getLocalBookings();
 
+    
+    // Se non ci sono prenotazioni per questa data, verifica se ce ne sono in altre date per aiutare l'utente
+    const otherDateBookings = bookings.filter(b => toIsoDate(b.date) !== currentDate && b.status && !b.status.toLowerCase().includes('annull'));
+    let hintContainer = document.getElementById('other-dates-hint');
+    if (!hintContainer) {
+      hintContainer = document.createElement('div');
+      hintContainer.id = 'other-dates-hint';
+      hintContainer.style.cssText = 'background: #faf2e1; border: 1px dashed var(--accent-red); border-radius: 8px; padding: 12px 18px; margin-bottom: 20px; font-size: 0.90rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;';
+      const controlsBar = document.querySelector('.controls-bar');
+      if (controlsBar) controlsBar.parentNode.insertBefore(hintContainer, controlsBar.nextSibling);
+    }
+
+    if (otherDateBookings.length > 0 && filtered.length === 0) {
+      const datesList = [...new Set(otherDateBookings.map(b => toIsoDate(b.date)))];
+      hintContainer.style.display = 'flex';
+      hintContainer.innerHTML = `
+        <div>
+          <i class="fa-solid fa-calendar-check" style="color: var(--accent-red); margin-right: 6px;"></i>
+          <strong>Attenzione:</strong> Ci sono prenotazioni attive registrate in altre date:
+          ${datesList.map(d => `<button class="nav-date-btn" style="padding: 4px 10px; margin-left: 6px; font-size: 0.82rem;" onclick="document.getElementById('admin-target-date').value='${d}'; document.getElementById('admin-target-date').dispatchEvent(new Event('change'));">${formatItalianDate(d)}</button>`).join('')}
+        </div>
+      `;
+    } else {
+      if (hintContainer) hintContainer.style.display = 'none';
+    }
+
     // Filtra prenotazioni per data e turno selezionato
     const filtered = bookings.filter(b => {
       const sameDate = (toIsoDate(b.date) === currentDate);
