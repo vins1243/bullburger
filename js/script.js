@@ -310,17 +310,19 @@ function initReservationForm() {
     const email = document.getElementById('res-email') ? document.getElementById('res-email').value.trim() : '';
     const notes = document.getElementById('res-notes') ? document.getElementById('res-notes').value.trim() : '';
 
+    const tablesNeeded = Math.ceil(parseInt(guests, 10) / 2);
     const booking = {
-      id: 'book_' + Date.now(),
+      id: 'BULL_' + Date.now(),
       created_at: new Date().toLocaleString('it-IT'),
       name: name,
       phone: phone,
       date: date,
       time: time,
       guests: guests,
+      tables: tablesNeeded,
       email: email,
       notes: notes,
-      status: 'In attesa'
+      status: 'Confermata'
     };
 
     saveBookingLocally(booking);

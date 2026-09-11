@@ -15,7 +15,7 @@ const SITE_CONFIG = {
   // Contatti e Recapiti
   // Integrazione Google Sheets per Prenotazioni in Tempo Reale
   googleSheetUrl: "https://docs.google.com/spreadsheets/d/1u5aKXWIb00V_u038qUka_eje1f8DpvLuG0wznZmRpcI/edit",
-  googleSheetEndpoint: "https://script.google.com/macros/s/AKfycbywuk8Mgl7oeB8vrXjmsftYINLiRTpuRNToJYdur0TDXJTXAvJXA_9GfmGeuQuwT80h/exec", // Incolla qui l'URL della Web App di Google Apps Script
+  googleSheetEndpoint: "https://script.google.com/macros/s/AKfycbyFO2Zf7hi5SjHnMQLM2o9pt2CEKlXqQlRfmBueAWOiDz5REyTUpWpK39W270ktiNI5RA/exec", // Incolla qui l'URL della Web App di Google Apps Script
 
   contact: {
     phone: "3293122388",
