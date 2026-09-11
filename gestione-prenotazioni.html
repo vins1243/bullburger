@@ -955,20 +955,9 @@
       }
 
       function updateHallDisplay() {
-        // Reset dei 50 tavoli a ROSSO (Disponibile)
-        for (let i = 1; i <= 50; i++) {
-          const el = document.getElementById(`table-box-${i}`);
-          if (el) {
-            el.className = 'table-box available';
-            el.innerHTML = `
-              <span class="table-num">T${String(i).padStart(2, '0')}</span>
-              <span class="table-seats-badge"><i class="fa-solid fa-chair"></i> 2p</span>
-              <span class="table-status-label" style="font-size: 0.65rem; font-weight: 700; margin-top: 3px; opacity: 0.9;">LIBERO</span>
-            `;
-            el.title = `Tavolo ${i}: Disponibile (2 posti liberi)`;
-            el.onclick = null;
-          }
-        }
+        const grid = document.getElementById('tables-grid-container');
+        if (!grid) return;
+        grid.innerHTML = '';
 
         // Filtra prenotazioni per data e turno
         const activeForShift = allBookings.filter(b => {
@@ -985,33 +974,56 @@
         let totalTables = 0;
         let nextTable = 1;
 
-        // Assegna tavoli alle prenotazioni (diventano GRIGI)
+        // 1. Renderizza i Tavoli Occupati (UNICO TAVOLO GRIGIO con dimensione doppia, tripla, ecc.)
         activeForShift.forEach(b => {
           const needed = b.tables || Math.ceil(b.guests / 2);
           totalGuests += b.guests;
           totalTables += needed;
 
+          const startNum = nextTable;
+          const endNum = Math.min(50, nextTable + needed - 1);
           const assignedNums = [];
-          for (let k = 0; k < needed; k++) {
-            const tNum = nextTable;
-            if (tNum <= 50) {
-              assignedNums.push(tNum);
-              const el = document.getElementById(`table-box-${tNum}`);
-              if (el) {
-                el.className = 'table-box occupied' + (needed > 1 ? ' linked-group' : '');
-                el.innerHTML = `
-                  <span class="table-num">T${String(tNum).padStart(2, '0')}</span>
-                  <span class="table-seats-badge"><i class="fa-solid fa-users"></i> ${b.guests}p</span>
-                  <span class="table-guest-name">${b.name.split(' ')[0]}</span>
-                `;
-                el.title = `Tavolo ${tNum}: Occupato da ${b.name} (${b.guests} persone). Clicca per dettagli.`;
-                el.onclick = () => showBookingDetail(b, assignedNums);
-              }
-              nextTable++;
-            }
-          }
+          for (let n = startNum; n <= endNum; n++) assignedNums.push(n);
+          nextTable = endNum + 1;
           b._tableNums = assignedNums;
+
+          const tableLabel = (needed === 1) 
+            ? `T${String(startNum).padStart(2, '0')}` 
+            : `TAVOLO UNITO T${String(startNum).padStart(2, '0')} - T${String(endNum).padStart(2, '0')}`;
+
+          const boxDiv = document.createElement('div');
+          boxDiv.className = 'table-box occupied merged-table';
+          boxDiv.style.gridColumn = `span ${Math.min(needed, 10)}`;
+          boxDiv.title = `${tableLabel}: Prenotato da ${b.name} (${b.guests} persone su ${needed} tavoli da 2). Clicca per dettagli.`;
+          boxDiv.onclick = () => showBookingDetail(b, assignedNums);
+
+          boxDiv.innerHTML = `
+            <div style="display: flex; align-items: center; justify-content: space-between; width: 100%; margin-bottom: 4px; padding: 0 4px;">
+              <span class="table-num" style="font-size: 0.95rem; font-weight: 800; letter-spacing: 0.5px;">${tableLabel}</span>
+              <span class="table-seats-badge" style="background: rgba(0,0,0,0.35); font-weight: 700;"><i class="fa-solid fa-users"></i> ${b.guests} Persone</span>
+            </div>
+            <strong style="font-size: 1.15rem; letter-spacing: 0.5px; text-transform: uppercase; margin: 3px 0; color: #ffffff;">${b.name}</strong>
+            <span style="font-size: 0.78rem; opacity: 0.9; margin-top: 2px;">
+              <i class="fa-solid fa-chair"></i> Dimensione ${needed === 2 ? 'Doppia (2 tavoli da 2)' : needed === 3 ? 'Tripla (3 tavoli da 2)' : needed + ' tavoli uniti'}
+            </span>
+          `;
+
+          grid.appendChild(boxDiv);
         });
+
+        // 2. Renderizza i restanti Tavoli Liberi (Singoli in Rosso da 2 posti)
+        for (let i = nextTable; i <= 50; i++) {
+          const freeDiv = document.createElement('div');
+          freeDiv.className = 'table-box available';
+          freeDiv.style.gridColumn = 'span 1';
+          freeDiv.title = `Tavolo ${i}: Disponibile (2 posti liberi)`;
+          freeDiv.innerHTML = `
+            <span class="table-num">T${String(i).padStart(2, '0')}</span>
+            <span class="table-seats-badge"><i class="fa-solid fa-chair"></i> 2p</span>
+            <span class="table-status-label" style="font-size: 0.65rem; font-weight: 700; margin-top: 3px; opacity: 0.9;">LIBERO</span>
+          `;
+          grid.appendChild(freeDiv);
+        }
 
         // Aggiorna statistiche
         const avail = Math.max(0, 50 - totalTables);
