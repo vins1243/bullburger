@@ -104,6 +104,7 @@ img {
   z-index: 1000;
   background-color: rgba(241, 225, 192, 0.96);
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
   backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--border-light);
   transition: var(--transition);
@@ -241,10 +242,6 @@ img {
   width: 100%;
 }
 
-/* ==========================================================================
-   EFFETTO MATERIALIZZAZIONE LOGO HERO
-   ========================================================================== */
-
 .hero-logo-img {
   max-width: 580px;
   width: 95%;
@@ -258,8 +255,8 @@ img {
 @keyframes logoMaterialize {
   0% {
     opacity: 0;
-    transform: scale(0.70) translateY(30px);
-    filter: blur(16px) brightness(1.8) drop-shadow(0 0 40px rgba(255, 255, 255, 0.9));
+    transform: scale(0.72) translateY(28px);
+    filter: blur(14px) brightness(1.7) drop-shadow(0 0 35px rgba(255, 255, 255, 0.85));
   }
   65% {
     opacity: 0.95;
@@ -281,7 +278,7 @@ img {
   width: 100%;
   max-width: 320px;
   margin-top: 10px;
-  animation: heroButtonsFadeIn 0.9s 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation: heroButtonsFadeIn 0.9s 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
 @keyframes heroButtonsFadeIn {
@@ -295,7 +292,16 @@ img {
   }
 }
 
-
+/* Hero Action Buttons */
+.hero-buttons-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: center;
+  width: 100%;
+  max-width: 320px;
+  margin-top: 10px;
+}
 
 .btn-primary {
   display: block;
@@ -326,17 +332,19 @@ img {
   display: block;
   width: 100%;
   padding: 14px 36px;
-  background-color: #faf2e1;
+  background-color: var(--bg-card);
   color: var(--text-dark);
   border: 2px solid var(--accent-red);
-  font-size: 0.95rem;
   font-weight: 800;
+  font-size: 0.95rem;
+  font-weight: 700;
   letter-spacing: 2.5px;
   text-transform: uppercase;
   border-radius: 4px;
   text-align: center;
   cursor: pointer;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
   transition: var(--transition);
 }
 
@@ -474,7 +482,7 @@ img {
   font-size: 1rem;
   line-height: 1.85;
   margin-bottom: 24px;
-  color: #ede9de;
+  color: var(--text-dark); font-weight: 500;
   text-align: justify;
 }
 
@@ -874,62 +882,100 @@ img {
 }
 
 /* Success Confirmation Overlay Card */
+/* Box di Conferma Immediata Prenotazione (Tema Chiaro, No WhatsApp) */
 .booking-success-box {
+  background-color: var(--bg-card) !important;
+  border: 2px solid var(--accent-red) !important;
+  border-radius: 12px !important;
+  padding: 36px 28px !important;
+  text-align: center !important;
+  color: var(--text-dark) !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08) !important;
   display: none;
-  background: #202b23;
-  border: 1px solid #2e5636;
-  border-radius: 8px;
-  padding: 40px 32px;
-  text-align: center;
-  animation: fadeIn 0.4s ease;
 }
 
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.booking-success-box .success-icon {
-  width: 70px;
-  height: 70px;
+.success-icon {
+  width: 64px;
+  height: 64px;
   border-radius: 50%;
   background-color: rgba(37, 211, 102, 0.15);
+  color: var(--accent-green);
+  font-size: 2.2rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 0 auto 20px;
-  color: var(--accent-green);
-  font-size: 2.2rem;
+  margin: 0 auto 16px;
 }
 
-.booking-success-box h3 {
+.success-title {
   font-family: var(--font-serif);
   font-size: 1.8rem;
-  color: #fff;
-  margin-bottom: 12px;
+  font-weight: 800;
+  color: var(--text-dark) !important;
+  margin-bottom: 8px;
+}
+
+.success-subtitle {
+  color: var(--text-main) !important;
+  font-size: 1rem;
+  font-weight: 500;
+  margin-bottom: 20px;
 }
 
 .booking-summary-pill {
   display: inline-block;
-  background: rgba(255, 255, 255, 0.08);
+  background-color: #faf2e1;
+  border: 1px solid rgba(43, 39, 41, 0.2);
+  color: var(--text-dark);
   padding: 8px 18px;
-  border-radius: 30px;
-  color: var(--accent-gold);
-  font-weight: 600;
+  border-radius: 25px;
   font-size: 0.95rem;
-  margin: 14px 0 20px;
+  font-weight: 700;
+  margin-bottom: 20px;
 }
 
-.whatsapp-success-message {
-  background: rgba(37, 211, 102, 0.12);
-  border: 1px solid rgba(37, 211, 102, 0.25);
-  padding: 20px;
-  border-radius: 6px;
-  color: #e5fbe8;
-  font-size: 0.96rem;
-  line-height: 1.6;
-  margin-bottom: 24px;
+.booking-confirmed-card {
+  background-color: #faf2e1;
+  border: 1px solid rgba(43, 39, 41, 0.15);
+  border-radius: 8px;
+  padding: 16px 20px;
+  margin-bottom: 18px;
   text-align: left;
+}
+
+.confirmed-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(43, 39, 41, 0.08);
+  font-size: 0.95rem;
+  color: var(--text-dark);
+}
+
+.confirmed-row:last-child {
+  border-bottom: none;
+}
+
+.row-label {
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.code-value {
+  color: var(--accent-red);
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.booking-note {
+  font-size: 0.88rem;
+  color: var(--text-muted);
+}
+
+.booking-note a {
+  color: var(--accent-red);
+  font-weight: 700;
 }
 
 .whatsapp-success-message i {
@@ -1460,10 +1506,10 @@ img {
   flex: 1;
 }
 
-.date-
+.date-nav-arrow {
   background: var(--bg-card);
   border: 1px solid var(--border-light);
-  color: var(--text-dark);
+  color: #fff;
   width: 36px;
   height: 36px;
   border-radius: 4px;
@@ -1480,7 +1526,7 @@ img {
   border-color: var(--accent-gold);
 }
 
-.date-
+.date-input-field {
   background: var(--bg-card);
   border: 1px solid var(--border-light);
   color: var(--text-dark);
@@ -1542,7 +1588,7 @@ img {
   flex-wrap: wrap;
 }
 
-.date-
+.date-nav-btn {
   background: var(--bg-card);
   color: var(--text-dark);
   border: 1px solid var(--border-light);
@@ -1563,7 +1609,7 @@ img {
   border-color: var(--accent-gold);
 }
 
-.date-
+.date-picker-large {
   background: #2b2527;
   color: var(--text-dark);
   border: 1px solid var(--border-light);
@@ -1611,36 +1657,38 @@ img {
   opacity: 1;
 }
 
+
 /* ==========================================================================
-   OTTIMIZZAZIONE MOBILE (SMARTPHONE)
+   OTTIMIZZAZIONE MOBILE (SMARTPHONE & TABLET)
    ========================================================================== */
 
 @media (max-width: 768px) {
-  /* Navbar più compatta su smartphone */
+  /* Navbar compatta per non rubare spazio su mobile */
   .nav-container {
-    height: 64px !important;
+    height: 64px;
   }
   .navbar-logo-img {
-    height: 42px !important;
-    max-height: 46px !important;
+    height: 42px;
+    max-height: 46px;
   }
 
+  /* Spaziatura generale pagine */
   .container {
     padding: 0 16px;
   }
 
-  /* Categorie del menu a scorrimento orizzontale touch con il pollice */
+  /* Menu Page: Categorie a scorrimento orizzontale touch */
   .menu-section {
-    padding: 24px 0 60px;
+    padding: 30px 0 60px;
   }
   .menu-tabs {
-    display: flex !important;
-    justify-content: flex-start !important;
-    gap: 8px !important;
-    overflow-x: auto !important;
-    flex-wrap: nowrap !important;
-    padding: 4px 16px 14px !important;
-    margin: 0 -16px 20px !important;
+    display: flex;
+    justify-content: flex-start;
+    gap: 8px;
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    padding: 4px 16px 14px;
+    margin: 0 -16px 24px;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
   }
@@ -1648,16 +1696,15 @@ img {
     display: none;
   }
   .menu-tab-btn {
-    flex-shrink: 0 !important;
-    padding: 8px 16px !important;
-    font-size: 0.80rem !important;
-    white-space: nowrap !important;
-    border-radius: 20px !important;
+    flex-shrink: 0;
+    padding: 8px 16px;
+    font-size: 0.80rem;
+    white-space: nowrap;
+    border-radius: 20px;
   }
 
-  /* Titolo e sottotitolo categoria */
   .menu-category-group {
-    margin-bottom: 36px;
+    margin-bottom: 40px;
   }
   .category-title {
     font-size: 1.45rem;
@@ -1668,92 +1715,95 @@ img {
     font-size: 0.88rem;
     color: var(--text-muted);
     font-style: normal;
-    margin-bottom: 16px;
+    margin-bottom: 18px;
     line-height: 1.4;
   }
 
-  /* Card menu su mobile: layout verticale ordinato senza schiacciamenti */
+  /* Card menu ottimizzate per mobile: disposizione verticale pulita */
   .menu-items-grid {
-    gap: 12px;
+    gap: 14px;
   }
   .menu-card {
-    padding: 16px !important;
-    border-radius: 10px !important;
-    gap: 12px !important;
+    padding: 16px;
+    border-radius: 10px;
+    gap: 14px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
   }
   .menu-item-header {
-    flex-direction: column !important;
-    align-items: flex-start !important;
-    gap: 6px !important;
-    margin-bottom: 8px !important;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+    margin-bottom: 8px;
   }
   .menu-item-name {
-    font-size: 1.15rem !important;
-    font-weight: 800 !important;
-    color: var(--text-dark) !important;
+    font-size: 1.15rem;
+    font-weight: 800;
+    color: var(--text-dark);
     line-height: 1.25;
   }
   .menu-item-price {
-    font-size: 0.92rem !important;
-    font-weight: 700 !important;
-    color: var(--accent-red) !important;
-    background: rgba(214, 62, 48, 0.08) !important;
-    padding: 3px 8px !important;
-    border-radius: 4px !important;
-    display: inline-block !important;
+    font-size: 0.92rem;
+    font-weight: 700;
+    color: var(--accent-red);
+    background: rgba(214, 62, 48, 0.08);
+    padding: 3px 8px;
+    border-radius: 4px;
+    display: inline-block;
   }
   .menu-item-desc {
-    font-size: 0.88rem !important;
-    line-height: 1.45 !important;
-    color: var(--text-main) !important;
-    margin-bottom: 10px !important;
+    font-size: 0.88rem;
+    line-height: 1.45;
+    color: var(--text-main);
+    margin-bottom: 10px;
   }
   .menu-tags {
-    display: flex !important;
-    flex-wrap: wrap !important;
-    gap: 5px !important;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
   }
   .tag-badge {
-    font-size: 0.72rem !important;
-    padding: 3px 8px !important;
-    border-radius: 12px !important;
-    background: rgba(43, 39, 41, 0.08) !important;
-    color: var(--text-dark) !important;
-    font-weight: 600 !important;
+    font-size: 0.72rem;
+    padding: 3px 8px;
+    border-radius: 12px;
+    background: rgba(43, 39, 41, 0.08);
+    color: var(--text-dark);
+    font-weight: 600;
   }
 
-  /* Modulo prenotazione e Hero su Mobile */
+  /* Modulo Prenotazione su Mobile */
   .booking-section {
-    padding: 24px 0 60px;
+    padding: 30px 0 60px;
   }
-  .reservation-box, .booking-info-box {
-    padding: 20px 16px !important;
+  .reservation-box {
+    padding: 24px 18px;
+    border-radius: 8px;
+  }
+  .booking-info-box {
+    padding: 24px 18px;
     border-radius: 8px;
   }
   .form-title {
-    font-size: 1.35rem !important;
+    font-size: 1.4rem;
   }
   .form-subtitle {
-    font-size: 0.85rem !important;
-    margin-bottom: 16px !important;
+    font-size: 0.85rem;
+    margin-bottom: 18px;
   }
   .form-group {
-    margin-bottom: 12px;
+    margin-bottom: 14px;
   }
-  .form-group input, .form-group select {
-    height: 44px !important;
-    font-size: 0.90rem !important;
+  .form-group input,
+  .form-group select {
+    height: 46px;
+    font-size: 0.90rem;
   }
-  .hero {
-    min-height: 75vh !important;
-    padding: 50px 16px 36px !important;
-  }
-  /* ==========================================================================
-   EFFETTO MATERIALIZZAZIONE LOGO HERO
-   ========================================================================== */
 
-.hero-logo-img {
+  /* Sezione Hero su Mobile */
+  .hero {
+    min-height: 75vh;
+    padding: 60px 16px 40px;
+  }
+  .hero-logo-img {
   max-width: 580px;
   width: 95%;
   height: auto;
@@ -1766,8 +1816,8 @@ img {
 @keyframes logoMaterialize {
   0% {
     opacity: 0;
-    transform: scale(0.70) translateY(30px);
-    filter: blur(16px) brightness(1.8) drop-shadow(0 0 40px rgba(255, 255, 255, 0.9));
+    transform: scale(0.72) translateY(28px);
+    filter: blur(14px) brightness(1.7) drop-shadow(0 0 35px rgba(255, 255, 255, 0.85));
   }
   65% {
     opacity: 0.95;
@@ -1789,7 +1839,7 @@ img {
   width: 100%;
   max-width: 320px;
   margin-top: 10px;
-  animation: heroButtonsFadeIn 0.9s 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation: heroButtonsFadeIn 0.9s 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
 @keyframes heroButtonsFadeIn {
@@ -1803,8 +1853,8 @@ img {
   }
 }
   .hero-buttons-stack {
-    max-width: 100% !important;
-    width: 100% !important;
+    max-width: 100%;
+    width: 100%;
   }
 }
 
@@ -1813,6 +1863,6 @@ img {
   transition: var(--transition);
 }
 .topbar-address-link:hover {
-  color: var(--accent-red) !important;
+  color: var(--accent-red);
   text-decoration: underline;
 }

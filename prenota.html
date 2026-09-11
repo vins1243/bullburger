@@ -23,7 +23,7 @@
   <div class="top-bar">
     <div class="container">
       <div class="top-bar-contact">
-        <span><i class=\"fa-solid fa-location-dot\"></i> <a href=\"https://maps.google.com/?q=Via+Nazionale+S.da+Statale+106+Jonica+87076+Villapiana+Lido+CS\" target=\"_blank\" rel=\"noopener\" class=\"topbar-address-link\" data-contact-address>Via Nazionale, S.da Statale 106 Jonica, 87076 Villapiana Lido (CS)</a></span>
+        <span><i class="fa-solid fa-location-dot"></i> <a href="https://www.google.com/maps/place/Bull+Burger/@39.8053935,16.3968208,13z/data=!4m21!1m14!4m13!1m4!2m2!1d16.3879341!2d39.8195049!4e1!1m6!1m2!1s0x133f5fc4a03ec043:0x80ad513960d73089!2sBull+Burger,+Via+Nazionale,+S.da+Statale+106+Jonica,+87076+Villapiana+Lido+CS!2m2!1d16.4871083!2d39.8060219!3e0!3m5!1s0x133f5fc4a03ec043:0x80ad513960d73089!8m2!3d39.8060219!4d16.4871083!16s%2Fg%2F11gjj9by7s?entry=ttu" target="_blank" rel="noopener" class="topbar-address-link" data-contact-address>Via Nazionale, S.da Statale 106 Jonica, 87076 Villapiana Lido (CS)</a></span>
         <span><i class="fa-solid fa-phone"></i> Tel: <a href="tel:3293122388" data-contact-phone>329 312 2388</a></span>
       </div>
       <div class="top-bar-hours">
@@ -77,7 +77,7 @@
         <!-- Avviso Numero WhatsApp -->
         <div class="whatsapp-notice-card">
           <i class="fa-solid fa-circle-check" style="color: var(--accent-green);"></i>
-          <p><strong>PRENOTAZIONE IMMEDIATA AUTOMATICA:</strong> Seleziona data, turno e numero di persone. Il sistema calcola automaticamente i tavoli necessari e conferma istantaneamente il tuo posto senza attese!</p>
+          <p><strong>PRENOTAZIONE IMMEDIATA AUTOMATICA:</strong> Seleziona data, turno e numero di persone. Il sistema calcola automaticamente i tavoli necessari e conferma istantaneamente la disponibilità senza attese!</p>
         </div>
 
         <h2 class="form-title">Richiedi la Disponibilità</h2>
@@ -148,22 +148,32 @@
         <!-- Scheda Esito Ricezione Prenotazione -->
         <div id="booking-success-card" class="booking-success-box">
           <div class="success-icon"><i class="fa-solid fa-circle-check"></i></div>
-          <h3>Grazie per la richiesta di prenotazione!</h3>
-          <p style="color: var(--text-muted); font-size: 1.05rem;">Abbiamo registrato con successo la tua richiesta:</p>
+          <h3 class="success-title">Prenotazione Confermata!</h3>
+          <p class="success-subtitle">Il tuo posto da Bull Burger è riservato con successo. Ti aspettiamo!</p>
           
           <div class="booking-summary-pill">
-            <span id="confirmed-date-time">Data e Ora</span> • <span id="confirmed-guests">Persone</span>
+            <span id="confirmed-date-time">Data e Turno</span> • <span id="confirmed-guests">Ospiti</span>
           </div>
 
-          <div class="whatsapp-success-message">
-            <i class="fa-brands fa-whatsapp"></i>
-            <strong>La conferma dell'appuntamento ti arriverà tramite WhatsApp</strong> al numero indicato (<strong id="confirmed-phone" style="color: var(--accent-gold);">...</strong>). Il nostro staff verificherà la disponibilità del tavolo e ti invierà la conferma in tempi brevissimi.
+          <div class="booking-confirmed-card">
+            <div class="confirmed-row">
+              <span class="row-label"><i class="fa-solid fa-ticket"></i> Codice:</span>
+              <strong id="confirmed-code" class="code-value">BULL_...</strong>
+            </div>
+            <div class="confirmed-row">
+              <span class="row-label"><i class="fa-solid fa-user"></i> Intestata a:</span>
+              <strong id="confirmed-name">...</strong>
+            </div>
+            <div class="confirmed-row">
+              <span class="row-label"><i class="fa-solid fa-chair"></i> Tavoli riservati:</span>
+              <strong id="confirmed-tables-count" style="color: var(--accent-red);">...</strong>
+            </div>
           </div>
 
-          <p style="font-size: 0.88rem; color: var(--text-main); font-weight: 500;">Per comunicazioni urgenti puoi contattarci al <a href="tel:3293122388" style="color: var(--accent-gold); font-weight:700;">329 312 2388</a>.</p>
-          <a href="index.html" class="btn-secondary-hero" style="display: inline-block; width: auto; margin-top: 20px; padding: 10px 28px;">TORNA ALLA HOME</a>
+          <p class="booking-note">In caso di variazioni o ritardo puoi contattarci al <a href="tel:3293122388">329 312 2388</a>.</p>
+          <a href="index.html" class="btn-secondary-hero" style="display: inline-block; width: auto; margin-top: 18px; padding: 10px 28px;">TORNA ALLA HOME</a>
         </div>
-
+        </div>
       </div>
 
       <!-- Info Box Laterale -->
@@ -190,7 +200,7 @@
           <div class="info-icon"><i class="fa-solid fa-location-dot"></i></div>
           <div class="info-content">
             <h4>Dove Siamo</h4>
-            <p><a href=\"https://maps.google.com/?q=Via+Nazionale+S.da+Statale+106+Jonica+87076+Villapiana+Lido+CS\" target=\"_blank\" rel=\"noopener\" style=\"color: inherit; text-decoration: underline;\">Via Nazionale, S.da Statale 106 Jonica, 87076 Villapiana Lido (CS)</a>.</p>
+            <p><a href="https://www.google.com/maps/place/Bull+Burger/@39.8053935,16.3968208,13z/data=!4m21!1m14!4m13!1m4!2m2!1d16.3879341!2d39.8195049!4e1!1m6!1m2!1s0x133f5fc4a03ec043:0x80ad513960d73089!2sBull+Burger,+Via+Nazionale,+S.da+Statale+106+Jonica,+87076+Villapiana+Lido+CS!2m2!1d16.4871083!2d39.8060219!3e0!3m5!1s0x133f5fc4a03ec043:0x80ad513960d73089!8m2!3d39.8060219!4d16.4871083!16s%2Fg%2F11gjj9by7s?entry=ttu" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Via Nazionale, S.da Statale 106 Jonica, 87076 Villapiana Lido (CS)</a>.</p>
           </div>
         </div>
 

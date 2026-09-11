@@ -3,142 +3,548 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Gestione Tavoli & Prenotazioni | Bullburger</title>
+  <title>Mappa Sala & Gestione Tavoli | Bull Burger</title>
   
   <!-- Font Google -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;0,900;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;0,900;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   
   <!-- Icone FontAwesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   
   <!-- Stili -->
   <link rel="stylesheet" href="css/styles.css">
+
+  <style>
+    /* Stili dedicati per la Piantina della Sala */
+    body {
+      background-color: var(--bg-main);
+      color: var(--text-dark);
+      min-height: 100vh;
+    }
+
+    .admin-container {
+      max-width: 1350px;
+      margin: 0 auto;
+      padding: 24px 20px 80px;
+    }
+
+    .hall-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-bottom: 24px;
+      padding-bottom: 20px;
+      border-bottom: 1.5px solid var(--border-light);
+    }
+
+    .hall-title-area h1 {
+      font-family: var(--font-serif);
+      font-size: 2.1rem;
+      color: var(--text-dark);
+      margin-bottom: 4px;
+    }
+
+    .hall-title-area p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+    }
+
+    /* Barra Controlli Data e Turno */
+    .controls-bar {
+      background-color: var(--bg-card);
+      border: 1.5px solid var(--border-card);
+      border-radius: 12px;
+      padding: 18px 24px;
+      margin-bottom: 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 18px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+    }
+
+    .date-control-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .nav-date-btn {
+      background: #faf2e1;
+      border: 1px solid rgba(43, 39, 41, 0.2);
+      color: var(--text-dark);
+      padding: 8px 16px;
+      border-radius: 6px;
+      font-weight: 700;
+      cursor: pointer;
+      font-size: 0.88rem;
+      transition: var(--transition);
+    }
+
+    .nav-date-btn:hover {
+      background: var(--accent-red);
+      color: #fff;
+    }
+
+    .date-input-styled {
+      background: #ffffff;
+      border: 1.5px solid rgba(43, 39, 41, 0.25);
+      color: var(--text-dark);
+      font-weight: 700;
+      padding: 8px 14px;
+      border-radius: 6px;
+      font-size: 0.95rem;
+      color-scheme: light;
+      outline: none;
+    }
+
+    /* Selettore Turno */
+    .shift-toggle-group {
+      display: flex;
+      gap: 8px;
+      background: #faf2e1;
+      padding: 4px;
+      border-radius: 8px;
+      border: 1px solid rgba(43, 39, 41, 0.15);
+    }
+
+    .shift-btn {
+      padding: 8px 20px;
+      border-radius: 6px;
+      border: none;
+      font-weight: 700;
+      font-size: 0.90rem;
+      cursor: pointer;
+      color: var(--text-main);
+      background: transparent;
+      transition: var(--transition);
+    }
+
+    .shift-btn.active {
+      background: var(--accent-red);
+      color: #fff;
+      box-shadow: 0 2px 8px rgba(214, 62, 48, 0.35);
+    }
+
+    /* Barra Statistiche Live */
+    .hall-stats-bar {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .stat-pill {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-card);
+      border-radius: 10px;
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+    }
+
+    .stat-icon-circle {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      flex-shrink: 0;
+    }
+
+    .stat-info h4 {
+      font-size: 0.80rem;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: var(--text-muted);
+      margin-bottom: 2px;
+    }
+
+    .stat-info strong {
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: var(--text-dark);
+    }
+
+    /* IL RETTANGOLO DELLA SALA (PIANTINA SIMULAZIONE) */
+    .restaurant-hall-frame {
+      background-color: #faf2e1;
+      border: 3px solid #2b2729;
+      border-radius: 16px;
+      padding: 30px;
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
+      position: relative;
+    }
+
+    .hall-top-boundary {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 18px;
+      background: rgba(43, 39, 41, 0.08);
+      border-radius: 6px;
+      margin-bottom: 26px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      letter-spacing: 1px;
+    }
+
+    /* Griglia 50 Tavoli da 2 */
+    .tables-grid {
+      display: grid;
+      grid-template-columns: repeat(10, 1fr);
+      gap: 14px;
+      margin-bottom: 26px;
+    }
+
+    /* Singolo Tavolo */
+    .table-box {
+      aspect-ratio: 1 / 1;
+      border-radius: 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 8px 4px;
+      cursor: pointer;
+      position: relative;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+      user-select: none;
+    }
+
+    .table-box:hover {
+      transform: translateY(-4px) scale(1.04);
+      z-index: 10;
+    }
+
+    /* TAVOLO ROSSO: DISPONIBILE / LIBERO */
+    .table-box.available {
+      background: linear-gradient(135deg, #e6392a, #d63e30);
+      color: #ffffff;
+      border: 2px solid #b52a1f;
+    }
+
+    .table-box.available:hover {
+      box-shadow: 0 8px 20px rgba(214, 62, 48, 0.45);
+    }
+
+    /* TAVOLO GRIGIO: OCCUPATO / PRENOTATO */
+    .table-box.occupied {
+      background: linear-gradient(135deg, #787275, #5a5457);
+      color: #ffffff;
+      border: 2px solid #433e41;
+    }
+
+    .table-box.occupied:hover {
+      box-shadow: 0 8px 20px rgba(74, 68, 71, 0.45);
+    }
+
+    /* Tavoli Uniti per la stessa prenotazione */
+    .table-box.linked-group {
+      border: 2.5px dashed #f1e1c0;
+    }
+
+    .table-num {
+      font-size: 0.95rem;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+
+    .table-seats-badge {
+      font-size: 0.70rem;
+      font-weight: 700;
+      padding: 2px 6px;
+      border-radius: 4px;
+      background: rgba(0, 0, 0, 0.2);
+      line-height: 1;
+    }
+
+    .table-guest-name {
+      font-size: 0.68rem;
+      font-weight: 700;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 90%;
+      margin-top: 4px;
+    }
+
+    .hall-bottom-boundary {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 10px;
+      border-top: 2px dashed rgba(43, 39, 41, 0.2);
+      font-weight: 700;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      letter-spacing: 1px;
+    }
+
+    /* Legenda Colori */
+    .legend-bar {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      margin-top: 18px;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 700;
+      font-size: 0.90rem;
+    }
+
+    .legend-color-box {
+      width: 22px;
+      height: 22px;
+      border-radius: 6px;
+    }
+
+    /* MODALE / SCHEDA DETTAGLIO TAVOLO PRENOTATO */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(4px);
+      z-index: 2000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .modal-overlay.active {
+      display: flex;
+    }
+
+    .detail-card-modal {
+      background-color: var(--bg-card);
+      border: 2px solid var(--accent-red);
+      border-radius: 12px;
+      max-width: 520px;
+      width: 100%;
+      padding: 30px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+      position: relative;
+    }
+
+    .modal-close-btn {
+      position: absolute;
+      top: 18px;
+      right: 18px;
+      background: none;
+      border: none;
+      font-size: 1.4rem;
+      cursor: pointer;
+      color: var(--text-muted);
+    }
+
+    .modal-close-btn:hover {
+      color: var(--accent-red);
+    }
+
+    @media (max-width: 1100px) {
+      .tables-grid {
+        grid-template-columns: repeat(5, 1fr);
+      }
+      .hall-stats-bar {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 600px) {
+      .tables-grid {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 8px;
+      }
+      .table-box {
+        padding: 4px 2px;
+      }
+      .table-num {
+        font-size: 0.80rem;
+      }
+      .table-seats-badge {
+        font-size: 0.60rem;
+      }
+      .hall-stats-bar {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
 </head>
-<body style="background-color: var(--bg-main);">
+<body>
 
   <!-- Barra Superiore -->
   <div class="top-bar">
     <div class="container">
       <div class="top-bar-contact">
-        <span><i class="fa-solid fa-lock"></i> Area Riservata Gestione Tavoli • Bullburger</span>
+        <span><i class="fa-solid fa-lock"></i> Area Riservata Sala • Bull Burger</span>
       </div>
-      <div>
-        <a href="index.html" style="color: var(--accent-gold);"><i class="fa-solid fa-arrow-left"></i> Torna al Sito Pubblico</a>
+      <div style="display: flex; gap: 18px; align-items: center;">
+        <a href="https://docs.google.com/spreadsheets/d/1Xpp-soY_AA9UGtxy_feMHO7Qjsg1n1s0CD7lFzBCgV4/edit" target="_blank" rel="noopener" style="color: var(--accent-red); font-weight: 700;">
+          <i class="fa-solid fa-table"></i> Apri Foglio Google
+        </a>
+        <a href="index.html" style="color: var(--text-dark); font-weight: 600;">
+          <i class="fa-solid fa-arrow-left"></i> Torna al Sito Pubblico
+        </a>
       </div>
     </div>
   </div>
 
-  <nav class="navbar">
-    <div class="container nav-container">
-      <a href="index.html" class="brand-logo">
-        <img src="foto/logo-2.png" alt="Bullburger" class="navbar-logo-img">
-      </a>
-      <ul class="nav-links">
-        <li><a href="index.html">SITO PUBBLICO</a></li>
-        <li><a href="https://docs.google.com/spreadsheets/d/1u5aKXWIb00V_u038qUka_eje1f8DpvLuG0wznZmRpcI/edit" target="_blank" rel="noopener" style="color: var(--accent-gold);"><i class="fa-solid fa-table"></i> FOGLIO GOOGLE</a></li>
-        <li><a href="gestione-prenotazioni.html" class="active">GESTIONE TAVOLI</a></li>
-      </ul>
+  <main class="admin-container">
+    <!-- Intestazione -->
+    <div class="hall-header">
+      <div class="hall-title-area">
+        <h1>Simulazione Piantina Sala</h1>
+        <p>Monitoraggio in tempo reale dei <strong>50 tavoli da 2 posti</strong> (100 coperti max per turno).</p>
+      </div>
+
+      <button id="refresh-data-btn" class="nav-date-btn" style="background: var(--accent-red); color: #fff; padding: 10px 20px;">
+        <i class="fa-solid fa-arrows-rotate"></i> Aggiorna Dati dal Foglio
+      </button>
     </div>
-  </nav>
 
-  <main style="padding: 40px 0 90px;">
-    <div class="container">
-      
-      <!-- Intestazione Dashboard -->
-      <div class="admin-header">
-        <div>
-          <h1 style="font-family: var(--font-serif); font-size: 2.2rem; color: var(--text-dark); margin-bottom: 6px;">
-            Pannello Gestione Tavoli
-          </h1>
-          <p style="color: var(--text-muted); font-size: 0.95rem;">
-            A sinistra consulti i <strong>tavoli confermati divisi per giorno</strong> (con scambiatore data avanti/indietro). A destra gestisci le <strong>nuove richieste in arrivo</strong> da confermare con un clic su WhatsApp.
-          </p>
+    <!-- Controlli Data e Turno -->
+    <div class="controls-bar">
+      <!-- Data -->
+      <div class="date-control-group">
+        <button id="btn-prev-day" class="nav-date-btn" title="Giorno precedente"><i class="fa-solid fa-chevron-left"></i></button>
+        <input type="date" id="admin-target-date" class="date-input-styled">
+        <button id="btn-next-day" class="nav-date-btn" title="Giorno successivo"><i class="fa-solid fa-chevron-right"></i></button>
+        <button id="btn-today" class="nav-date-btn">Oggi</button>
+      </div>
+
+      <!-- Turno -->
+      <div class="shift-toggle-group">
+        <button id="btn-turno-1" class="shift-btn active" data-shift="20:00">
+          <i class="fa-solid fa-clock"></i> 1° Turno (20:00 - 21:30)
+        </button>
+        <button id="btn-turno-2" class="shift-btn" data-shift="21:30">
+          <i class="fa-solid fa-clock"></i> 2° Turno (dalle 21:30)
+        </button>
+      </div>
+    </div>
+
+    <!-- Statistiche Turno Selezionato -->
+    <div class="hall-stats-bar">
+      <div class="stat-pill">
+        <div class="stat-icon-circle" style="background: rgba(214, 62, 48, 0.15); color: var(--accent-red);">
+          <i class="fa-solid fa-chair"></i>
         </div>
-
-        <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
-          <button id="admin-refresh-btn" class="btn-primary" style="width: auto; padding: 10px 22px; font-size: 0.88rem; background-color: var(--accent-gold); color: #1a1718; border-color: var(--accent-gold);">
-            <i class="fa-solid fa-arrows-rotate"></i> Aggiorna Dati dal Foglio
-          </button>
-          <a href="https://docs.google.com/spreadsheets/d/1u5aKXWIb00V_u038qUka_eje1f8DpvLuG0wznZmRpcI/edit" target="_blank" rel="noopener" class="btn-secondary-hero" style="width: auto; padding: 10px 18px; font-size: 0.85rem;">
-            <i class="fa-solid fa-table"></i> Foglio Drive
-          </a>
+        <div class="stat-info">
+          <h4>Tavoli Disponibili</h4>
+          <strong id="stat-available-tables" style="color: var(--accent-red);">50</strong> <span style="font-size: 0.85rem; color: var(--text-muted);">/ 50</span>
         </div>
       </div>
 
-      <!-- Griglia 2 Colonne -->
-      <div class="admin-columns-grid">
-        
-        <!-- COLONNA SINISTRA: TAVOLI CONFERMATI CON SCAMBIATORE DI DATA IN ALTO -->
-        <section class="admin-column" style="border-top: 4px solid var(--accent-green);">
-          <div class="column-header" style="margin-bottom: 14px;">
-            <h2 class="column-title">
-              <i class="fa-solid fa-circle-check" style="color: var(--accent-green);"></i>
-              Tavoli Confermati
-            </h2>
-            <span class="column-badge" id="confirmed-count-badge">0 tavoli</span>
-          </div>
-
-          <!-- SCAMBIATORE DI DATA IN ALTO AL TAB PRENOTAZIONI CONFERMATE -->
-          <div class="date-switcher-box">
-            <div class="date-switcher-row">
-              <button id="date-prev-btn" class="date-nav-btn" title="Giorno precedente">
-                <i class="fa-solid fa-chevron-left"></i> Giorno prima
-              </button>
-              
-              <input type="date" id="admin-date-picker" class="date-picker-large">
-              
-              <button id="date-next-btn" class="date-nav-btn" title="Giorno successivo">
-                Giorno dopo <i class="fa-solid fa-chevron-right"></i>
-              </button>
-            </div>
-
-            <div class="date-status-subbar">
-              <span id="date-display-friendly" style="color: var(--accent-gold); font-weight: 600;">
-                Oggi
-              </span>
-              <div style="display: flex; gap: 8px;">
-                <button id="date-today-btn" class="date-nav-today-btn">Oggi</button>
-                <button id="date-all-btn" class="date-nav-today-btn" style="border-color: var(--border-light); color: var(--text-muted);">Tutti i giorni</button>
-              </div>
-            </div>
-          </div>
-
-          <!-- Lista Tavoli Confermati del giorno o divisi per giorno -->
-          <div id="confirmed-bookings-list">
-            <!-- Popolato dinamicamente da script.js -->
-          </div>
-        </section>
-
-        <!-- COLONNA DESTRA: RICHIESTE IN ARRIVO (IN ORDINE DI ARRIVO) -->
-        <section class="admin-column" style="border-top: 4px solid var(--accent-gold);">
-          <div class="column-header" style="margin-bottom: 14px;">
-            <h2 class="column-title">
-              <i class="fa-solid fa-bell" style="color: var(--accent-gold);"></i>
-              Richieste in Arrivo
-            </h2>
-            <span class="column-badge" id="pending-count-badge">0 in attesa</span>
-          </div>
-          <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 16px;">
-            Elenco delle nuove prenotazioni in ordine di arrivo. Clicca su Conferma o Rifiuta per aprire WhatsApp col messaggio in grassetto.
-          </p>
-
-          <div id="pending-bookings-list">
-            <!-- Popolato dinamicamente da script.js -->
-          </div>
-        </section>
-
+      <div class="stat-pill">
+        <div class="stat-icon-circle" style="background: rgba(90, 84, 87, 0.15); color: #5a5457;">
+          <i class="fa-solid fa-ban"></i>
+        </div>
+        <div class="stat-info">
+          <h4>Tavoli Occupati</h4>
+          <strong id="stat-occupied-tables" style="color: #5a5457;">0</strong> <span style="font-size: 0.85rem; color: var(--text-muted);">/ 50</span>
+        </div>
       </div>
 
+      <div class="stat-pill">
+        <div class="stat-icon-circle" style="background: rgba(37, 211, 102, 0.15); color: var(--accent-green);">
+          <i class="fa-solid fa-users"></i>
+        </div>
+        <div class="stat-info">
+          <h4>Ospiti Prenotati</h4>
+          <strong id="stat-total-guests">0</strong>
+        </div>
+      </div>
+
+      <div class="stat-pill">
+        <div class="stat-icon-circle" style="background: rgba(43, 39, 41, 0.1); color: var(--text-dark);">
+          <i class="fa-solid fa-receipt"></i>
+        </div>
+        <div class="stat-info">
+          <h4>Prenotazioni Turno</h4>
+          <strong id="stat-bookings-count">0</strong>
+        </div>
+      </div>
+    </div>
+
+    <!-- RETTANGOLO DELLA SALA -->
+    <div class="restaurant-hall-frame">
+      <div class="hall-top-boundary">
+        <span><i class="fa-solid fa-cash-register"></i> BANCONE CASSA & ORDINI</span>
+        <span>CUCINA & GRIGLIE <i class="fa-solid fa-fire-burner"></i></span>
+      </div>
+
+      <!-- Griglia interattiva 50 tavoli -->
+      <div class="tables-grid" id="tables-grid-container">
+        <!-- Generato dinamicamente da script.js -->
+      </div>
+
+      <div class="hall-bottom-boundary">
+        <i class="fa-solid fa-door-open"></i> INGRESSO PRINCIPALE SALA
+      </div>
+    </div>
+
+    <!-- Legenda Colori -->
+    <div class="legend-bar">
+      <div class="legend-item">
+        <div class="legend-color-box" style="background: #d63e30; border: 1.5px solid #b52a1f;"></div>
+        <span>Rosso = Tavolo Disponibile (Libero)</span>
+      </div>
+      <div class="legend-item">
+        <div class="legend-color-box" style="background: #615c5f; border: 1.5px solid #433e41;"></div>
+        <span>Grigio = Tavolo Occupato (Prenotato - Clicca per dettagli)</span>
+      </div>
     </div>
   </main>
 
-  <footer class="footer">
-    <div class="container">
-      <p class="footer-copy">© 2025 by Bullburger • Gestione Tavoli</p>
+  <!-- Modale Dettaglio Prenotazione Tavolo Occupato -->
+  <div class="modal-overlay" id="table-modal">
+    <div class="detail-card-modal">
+      <button class="modal-close-btn" id="modal-close">&times;</button>
+      
+      <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px;">
+        <div style="width: 48px; height: 48px; border-radius: 8px; background: #615c5f; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 1.3rem;">
+          <i class="fa-solid fa-chair"></i>
+        </div>
+        <div>
+          <h3 id="modal-table-label" style="font-family: var(--font-serif); font-size: 1.4rem; color: var(--text-dark); margin-bottom: 2px;">Tavolo Occupato</h3>
+          <span id="modal-booking-id" style="font-size: 0.80rem; color: var(--accent-red); font-weight: 700;">ID Prenotazione</span>
+        </div>
+      </div>
+
+      <div style="background: #faf2e1; border-radius: 8px; padding: 16px; margin-bottom: 20px;">
+        <p style="margin-bottom: 8px;"><strong>Cliente:</strong> <span id="modal-client-name">-</span></p>
+        <p style="margin-bottom: 8px;"><strong>Telefono:</strong> <a id="modal-client-phone" href="#" style="color: var(--accent-red); font-weight: 700;">-</a></p>
+        <p style="margin-bottom: 8px;"><strong>Ospiti:</strong> <span id="modal-guests-count">-</span></p>
+        <p style="margin-bottom: 8px;"><strong>Tavoli Riservati:</strong> <span id="modal-tables-count">-</span></p>
+        <p style="margin-bottom: 8px;"><strong>Turno:</strong> <span id="modal-shift-name">-</span></p>
+        <p style="margin-bottom: 0;"><strong>Note / Allergie:</strong> <span id="modal-notes" style="color: var(--text-muted);">-</span></p>
+      </div>
+
+      <div style="display: flex; gap: 10px; justify-content: flex-end;">
+        <button id="modal-delete-btn" class="nav-date-btn" style="background: var(--accent-red); color: #fff; border-color: var(--accent-red);">
+          <i class="fa-solid fa-trash"></i> Libera Tavoli (Cancella)
+        </button>
+      </div>
     </div>
-  </footer>
+  </div>
 
   <script src="js/config.js"></script>
   <script src="js/script.js"></script>
