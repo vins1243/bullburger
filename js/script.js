@@ -124,7 +124,8 @@ function normalizeBooking(b) {
     time: cleanTime(b.time),
     guests: String(b.guests || ''),
     notes: String(b.notes || ''),
-    status: String(b.status || 'In attesa')
+    status: String(b.status || 'Confermata'),
+    tables: String(b.tables || calculateTables(b.guests))
   };
 }
 
@@ -549,35 +550,16 @@ function initAdminDashboard() {
 
   function renderHall() {
     gridContainer.innerHTML = '';
-    const bookings = (activeBookings && activeBookings.length > 0) ? activeBookings : getLocalBookings();
 
-    
-    // Se non ci sono prenotazioni per questa data, verifica se ce ne sono in altre date per aiutare l'utente
-    const otherDateBookings = bookings.filter(b => toIsoDate(b.date) !== currentDate && b.status && !b.status.toLowerCase().includes('annull'));
-    let hintContainer = document.getElementById('other-dates-hint');
-    if (!hintContainer) {
-      hintContainer = document.createElement('div');
-      hintContainer.id = 'other-dates-hint';
-      hintContainer.style.cssText = 'background: #faf2e1; border: 1px dashed var(--accent-red); border-radius: 8px; padding: 12px 18px; margin-bottom: 20px; font-size: 0.90rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;';
-      const controlsBar = document.querySelector('.controls-bar');
-      if (controlsBar) controlsBar.parentNode.insertBefore(hintContainer, controlsBar.nextSibling);
-    }
+    // Unisci prenotazioni dal foglio con quelle salvate localmente
+    const local = getLocalBookings();
+    const sheetBookings = (activeBookings && Array.isArray(activeBookings)) ? activeBookings : [];
+    const allBookingsMap = new Map();
+    sheetBookings.forEach(b => { if (b && b.id) allBookingsMap.set(b.id, b); });
+    local.forEach(b => { if (b && b.id && !allBookingsMap.has(b.id)) allBookingsMap.set(b.id, b); });
+    const bookings = Array.from(allBookingsMap.values());
 
-    if (otherDateBookings.length > 0 && filtered.length === 0) {
-      const datesList = [...new Set(otherDateBookings.map(b => toIsoDate(b.date)))];
-      hintContainer.style.display = 'flex';
-      hintContainer.innerHTML = `
-        <div>
-          <i class="fa-solid fa-calendar-check" style="color: var(--accent-red); margin-right: 6px;"></i>
-          <strong>Attenzione:</strong> Ci sono prenotazioni attive registrate in altre date:
-          ${datesList.map(d => `<button class="nav-date-btn" style="padding: 4px 10px; margin-left: 6px; font-size: 0.82rem;" onclick="document.getElementById('admin-target-date').value='${d}'; document.getElementById('admin-target-date').dispatchEvent(new Event('change'));">${formatItalianDate(d)}</button>`).join('')}
-        </div>
-      `;
-    } else {
-      if (hintContainer) hintContainer.style.display = 'none';
-    }
-
-    // Filtra prenotazioni per data e turno selezionato
+    // 1. Filtra per data e turno
     const filtered = bookings.filter(b => {
       const sameDate = (toIsoDate(b.date) === currentDate);
       const statusOk = b.status && !b.status.toLowerCase().includes('annull');
@@ -588,8 +570,31 @@ function initAdminDashboard() {
       return sameDate && statusOk && sameShift;
     });
 
+    // 2. Notifica intelligente se ci sono prenotazioni in altre date
+    const otherDateBookings = bookings.filter(b => toIsoDate(b.date) !== currentDate && b.status && !b.status.toLowerCase().includes('annull'));
+    let hintContainer = document.getElementById('other-dates-hint');
+    if (!hintContainer) {
+      hintContainer = document.createElement('div');
+      hintContainer.id = 'other-dates-hint';
+      hintContainer.style.cssText = 'background: #faf2e1; border: 1.5px dashed var(--accent-red); border-radius: 8px; padding: 12px 18px; margin-bottom: 20px; font-size: 0.92rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; color: var(--text-dark);';
+      const controlsBar = document.querySelector('.controls-bar');
+      if (controlsBar && controlsBar.parentNode) controlsBar.parentNode.insertBefore(hintContainer, controlsBar.nextSibling);
+    }
+
+    if (otherDateBookings.length > 0 && filtered.length === 0) {
+      const datesList = [...new Set(otherDateBookings.map(b => toIsoDate(b.date)))];
+      hintContainer.style.display = 'flex';
+      hintContainer.innerHTML = `
+        <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+          <span><i class="fa-solid fa-calendar-check" style="color: var(--accent-red);"></i> <strong>Prenotazioni trovate per altre date:</strong></span>
+          ${datesList.map(d => `<button class="nav-date-btn" style="padding: 4px 12px; font-size: 0.85rem; background: var(--accent-red); color: #fff; border: none;" onclick="document.getElementById('admin-target-date').value='${d}'; document.getElementById('admin-target-date').dispatchEvent(new Event('change'));"><i class="fa-solid fa-arrow-right"></i> Vai al ${formatItalianDate(d)}</button>`).join('')}
+        </div>
+      `;
+    } else {
+      if (hintContainer) hintContainer.style.display = 'none';
+    }
+
     // Mappa dei 50 tavoli (1..50)
-    // Ciascun tavolo: { id: 1..50, booking: null/object, isLinked: bool }
     const tables = [];
     for (let i = 1; i <= 50; i++) {
       tables.push({ number: i, booking: null, isLinked: false });
