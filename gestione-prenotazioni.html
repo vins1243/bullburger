@@ -855,16 +855,20 @@
   </div>
 
   <script>
-    // SCRIPT AUTONOMO INTEGRATO PER LA PIANTINA DEI TAVOLI
     (function() {
       const SHEET_ID = '1Xpp-soY_AA9UGtxy_feMHO7Qjsg1n1s0CD7lFzBCgV4';
       const GVIZ_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&tq=select%20*`;
       const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyFO2Zf7hi5SjHnMQLM2o9pt2CEKlXqQlRfmBueAWOiDz5REyTUpWpK39W270ktiNI5RA/exec';
-      const LOCAL_KEY = 'bullburger_prenotazioni_db';
+
+      // Azzeramento totale memoria locale residua
+      try {
+        localStorage.removeItem('bullburger_prenotazioni_db');
+        localStorage.removeItem('ol3_prenotazioni_db');
+      } catch(e) {}
 
       let allBookings = [];
-      let currentDate = '2026-09-12'; // Default su data con prenotazione o oggi
-      let currentShift = '20:00';
+      let currentDate = new Date().toISOString().split('T')[0];
+      let currentShift = '20:00'; // 20:00 = 1° Turno, 21:30 = 2° Turno
       let selectedBooking = null;
 
       const dateInput = document.getElementById('admin-target-date');
@@ -874,9 +878,19 @@
       const btnTurno1 = document.getElementById('btn-turno-1');
       const btnTurno2 = document.getElementById('btn-turno-2');
       const btnRefresh = document.getElementById('refresh-data-btn');
+
       const modal = document.getElementById('table-modal');
       const modalClose = document.getElementById('modal-close');
       const modalDelete = document.getElementById('modal-delete-btn');
+
+      // Modale nuova prenotazione
+      const newModal = document.getElementById('new-booking-modal');
+      const newModalClose = document.getElementById('new-modal-close');
+      const newModalCancel = document.getElementById('admin-book-cancel-btn');
+      const newBookingForm = document.getElementById('admin-new-booking-form');
+      const guestsSelect = document.getElementById('admin-book-guests');
+      const tablesCalcSpan = document.getElementById('admin-book-tables-calc');
+      const shiftSelect = document.getElementById('admin-book-shift');
 
       if (dateInput) {
         dateInput.value = currentDate;
@@ -946,216 +960,18 @@
         modalDelete.addEventListener('click', () => {
           if (!selectedBooking) return;
           if (confirm(`Confermi di voler cancellare la prenotazione di ${selectedBooking.name}? I tavoli verranno liberati.`)) {
-            // Elimina localmente
             allBookings = allBookings.filter(b => b.id !== selectedBooking.id);
-            try {
-              const local = JSON.parse(localStorage.getItem(LOCAL_KEY) || '[]').filter(b => b.id !== selectedBooking.id);
-              localStorage.setItem(LOCAL_KEY, JSON.stringify(local));
-            } catch(e) {}
-
-            // Invia cancellazione
             fetch(APPS_SCRIPT_URL, {
               method: 'POST',
               mode: 'no-cors',
               headers: { 'Content-Type': 'text/plain;charset=utf-8' },
               body: JSON.stringify({ action: 'delete_booking', id: selectedBooking.id })
             }).catch(() => {});
-
             modal.classList.remove('active');
             updateHallDisplay();
           }
         });
       }
-
-            function isTurno1(tStr) {
-        if (!tStr) return false;
-        const s = String(tStr).toLowerCase().trim();
-        if (s.includes('2°') || s.includes('secondo') || s.includes('dalle 21:30') || s.startsWith('21:30')) return false;
-        return s.includes('1°') || s.includes('primo') || s.includes('20:00') || s.includes('1');
-      }
-
-      function isTurno2(tStr) {
-        if (!tStr) return false;
-        const s = String(tStr).toLowerCase().trim();
-        if (s.includes('2°') || s.includes('secondo') || s.includes('dalle 21:30') || s.startsWith('21:30')) return true;
-        if (s.includes('21:30') && !s.includes('20:00')) return true;
-        return false;
-      }
-
-      function toIso(d) {
-        if (!d) return '';
-        const s = String(d).trim();
-        const m = s.match(/^(\d{4})-(\d{2})-(\d{2})/);
-        if (m) return m[0];
-        const mIt = s.match(/^(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{4})/);
-        if (mIt) return `${mIt[3]}-${mIt[2].padStart(2, '0')}-${mIt[1].padStart(2, '0')}`;
-        return s;
-      }
-
-      async function loadBookings() {
-        let loaded = [];
-        // 1. Leggi direttamente da Google Sheets
-        try {
-          const res = await fetch(GVIZ_URL);
-          const txt = await res.text();
-          const match = txt.match(/google\.visualization\.Query\.setResponse\((.*)\);/);
-          if (match) {
-            const json = JSON.parse(match[1]);
-            if (json && json.table && Array.isArray(json.table.rows)) {
-              json.table.rows.forEach(r => {
-                if (!r || !r.c) return;
-                const c = r.c;
-                const v = idx => (c[idx] && c[idx].v !== null && c[idx].v !== undefined) ? c[idx].v : '';
-                const id = String(v(0));
-                if (!id || id.toLowerCase().includes('id')) return;
-                loaded.push({
-                  id: id,
-                  created_at: String(v(1)),
-                  name: String(v(2)),
-                  phone: String(v(3)),
-                  date: toIso(v(4)),
-                  time: String(v(5)),
-                  guests: parseInt(v(6), 10) || 2,
-                  tables: parseInt(v(7), 10) || Math.ceil((parseInt(v(6), 10) || 2) / 2),
-                  status: String(v(8) || 'Confermata'),
-                  notes: String(v(9) || '')
-                });
-              });
-            }
-          }
-        } catch(e) {
-          console.warn('GVIZ load fallback:', e);
-        }
-
-        // 2. Unisci con localStorage
-        try {
-          const loc = JSON.parse(localStorage.getItem(LOCAL_KEY) || '[]');
-          loc.forEach(b => {
-            if (b && b.id && !loaded.some(x => x.id === b.id)) {
-              loaded.push({
-                id: b.id,
-                created_at: b.created_at || '',
-                name: b.name || 'Cliente',
-                phone: b.phone || '',
-                date: toIso(b.date),
-                time: String(b.time || ''),
-                guests: parseInt(b.guests, 10) || 2,
-                tables: parseInt(b.tables, 10) || Math.ceil((parseInt(b.guests, 10) || 2) / 2),
-                status: b.status || 'Confermata',
-                notes: b.notes || ''
-              });
-            }
-          });
-        } catch(e) {}
-
-        allBookings = loaded;
-      }
-
-      function updateHallDisplay() {
-        const grid = document.getElementById('tables-grid-container');
-        if (!grid) return;
-        grid.innerHTML = '';
-
-        // Filtra prenotazioni per data e turno
-        const activeForShift = allBookings.filter(b => {
-          const sameDate = (toIso(b.date) === currentDate);
-          const statusOk = !String(b.status || '').toLowerCase().includes('annull');
-          const tStr = String(b.time || '').toLowerCase();
-          const sameShift = (currentShift === '20:00') ? isTurno1(b.time) : isTurno2(b.time);
-          return sameDate && statusOk && sameShift;
-        });
-
-        let totalGuests = 0;
-        let totalTables = 0;
-        let nextTable = 1;
-
-        // 1. Renderizza i Tavoli Occupati (UNICO TAVOLO GRIGIO con dimensione doppia, tripla, ecc.)
-        activeForShift.forEach(b => {
-          const needed = b.tables || Math.ceil(b.guests / 2);
-          totalGuests += b.guests;
-          totalTables += needed;
-
-          const startNum = nextTable;
-          const endNum = Math.min(50, nextTable + needed - 1);
-          const assignedNums = [];
-          for (let n = startNum; n <= endNum; n++) assignedNums.push(n);
-          nextTable = endNum + 1;
-          b._tableNums = assignedNums;
-
-          const tableLabel = (needed === 1) 
-            ? `T${String(startNum).padStart(2, '0')}` 
-            : `TAVOLO UNITO T${String(startNum).padStart(2, '0')} - T${String(endNum).padStart(2, '0')}`;
-
-          const boxDiv = document.createElement('div');
-          boxDiv.className = 'table-box occupied merged-table';
-          boxDiv.style.gridColumn = `span ${Math.min(needed, 10)}`;
-          boxDiv.title = `${tableLabel}: Prenotato da ${b.name} (${b.guests} persone su ${needed} tavoli da 2). Clicca per dettagli.`;
-          boxDiv.onclick = () => showBookingDetail(b, assignedNums);
-
-          boxDiv.innerHTML = `
-            <div style="display: flex; align-items: center; justify-content: space-between; width: 100%; margin-bottom: 4px; padding: 0 4px;">
-              <span class="table-num" style="font-size: 0.95rem; font-weight: 800; letter-spacing: 0.5px;">${tableLabel}</span>
-              <span class="table-seats-badge" style="background: rgba(0,0,0,0.35); font-weight: 700;"><i class="fa-solid fa-users"></i> ${b.guests} Persone</span>
-            </div>
-            <strong style="font-size: 1.15rem; letter-spacing: 0.5px; text-transform: uppercase; margin: 3px 0; color: #ffffff;">${b.name}</strong>
-            <span style="font-size: 0.78rem; opacity: 0.9; margin-top: 2px;">
-              <i class="fa-solid fa-chair"></i> Dimensione ${needed === 2 ? 'Doppia (2 tavoli da 2)' : needed === 3 ? 'Tripla (3 tavoli da 2)' : needed + ' tavoli uniti'}
-            </span>
-          `;
-
-          grid.appendChild(boxDiv);
-        });
-
-        // 2. Renderizza i restanti Tavoli Liberi (Singoli in Rosso da 2 posti)
-        for (let i = nextTable; i <= 50; i++) {
-          const freeDiv = document.createElement('div');
-          freeDiv.className = 'table-box available';
-          freeDiv.style.gridColumn = 'span 1';
-          freeDiv.title = `Tavolo ${i}: Disponibile (2 posti liberi). Clicca per prenotare.`;
-          freeDiv.onclick = () => openNewBookingModal(i);
-          freeDiv.innerHTML = `
-            <span class="table-num">T${String(i).padStart(2, '0')}</span>
-            <span class="table-seats-badge"><i class="fa-solid fa-chair"></i> 2p</span>
-            <span class="table-status-label" style="font-size: 0.65rem; font-weight: 700; margin-top: 3px; opacity: 0.9;">LIBERO</span>
-          `;
-          grid.appendChild(freeDiv);
-        }
-
-        // Aggiorna statistiche
-        const avail = Math.max(0, 50 - totalTables);
-        document.getElementById('stat-available-tables').textContent = avail;
-        document.getElementById('stat-occupied-tables').textContent = totalTables;
-        document.getElementById('stat-total-guests').textContent = totalGuests;
-        document.getElementById('stat-bookings-count').textContent = activeForShift.length;
-
-        // Hint per altre date
-        const otherDates = allBookings.filter(b => toIso(b.date) !== currentDate && !String(b.status || '').toLowerCase().includes('annull'));
-        const hint = document.getElementById('other-dates-hint');
-        if (hint) {
-          if (otherDates.length > 0 && activeForShift.length === 0) {
-            const dates = [...new Set(otherDates.map(b => toIso(b.date)))];
-            hint.style.display = 'flex';
-            hint.innerHTML = `
-              <span><i class="fa-solid fa-calendar-check" style="color: var(--accent-red);"></i> <strong>Ci sono prenotazioni registrate in altre date:</strong></span>
-              <div style="display: flex; gap: 6px; flex-wrap: wrap;">
-                ${dates.map(d => `<button class="nav-date-btn" style="background: var(--accent-red); color: #fff; border: none; padding: 4px 10px; font-size: 0.82rem;" onclick="document.getElementById('admin-target-date').value='${d}'; document.getElementById('admin-target-date').dispatchEvent(new Event('change'));">Vai al ${d}</button>`).join('')}
-              </div>
-            `;
-          } else {
-            hint.style.display = 'none';
-          }
-        }
-      }
-
-      
-      // GESTIONE MODALE NUOVA PRENOTAZIONE DA TAVOLO VERDE
-      const newModal = document.getElementById('new-booking-modal');
-      const newModalClose = document.getElementById('new-modal-close');
-      const newModalCancel = document.getElementById('admin-book-cancel-btn');
-      const newBookingForm = document.getElementById('admin-new-booking-form');
-      const guestsSelect = document.getElementById('admin-book-guests');
-      const tablesCalcSpan = document.getElementById('admin-book-tables-calc');
-      const shiftSelect = document.getElementById('admin-book-shift');
 
       if (newModalClose) newModalClose.addEventListener('click', () => newModal.classList.remove('active'));
       if (newModalCancel) newModalCancel.addEventListener('click', () => newModal.classList.remove('active'));
@@ -1165,7 +981,7 @@
         guestsSelect.addEventListener('change', () => {
           const g = parseInt(guestsSelect.value, 10) || 2;
           const t = Math.ceil(g / 2);
-          tablesCalcSpan.textContent = `${t} Tavol${t === 1 ? 'o' : 'i'} da 2 posti uniti (${t * 2} posti occupati)`;
+          tablesCalcSpan.textContent = `${t} Tavol${t === 1 ? 'o' : 'i'} da 2 posti (${t * 2} posti totali)`;
         });
       }
 
@@ -1212,32 +1028,14 @@
             status: 'Confermata'
           };
 
-          // Salva localmente subito
           allBookings.push(newBooking);
-          try {
-            const loc = JSON.parse(localStorage.getItem(LOCAL_KEY) || '[]');
-            loc.push(newBooking);
-            localStorage.setItem(LOCAL_KEY, JSON.stringify(loc));
-          } catch(err) {}
 
-          // Invia a Google Apps Script / Foglio Google (POST + GET)
-          const postPayload = {
-            id: newBooking.id,
-            name: newBooking.name,
-            phone: newBooking.phone,
-            date: newBooking.date,
-            time: newBooking.time,
-            guests: newBooking.guests,
-            tables: newBooking.tables,
-            notes: newBooking.notes,
-            status: 'Confermata'
-          };
-
+          // Sincronizza con Google Apps Script
           fetch(APPS_SCRIPT_URL, {
             method: 'POST',
             mode: 'no-cors',
             headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-            body: JSON.stringify(postPayload)
+            body: JSON.stringify(newBooking)
           }).catch(() => {});
 
           const getParams = new URLSearchParams({
@@ -1256,6 +1054,228 @@
           if (newModal) newModal.classList.remove('active');
           updateHallDisplay();
         });
+      }
+
+      // Parser universale date
+      function toIso(d) {
+        if (!d) return '';
+        const s = String(d).trim();
+
+        // 1. Formato GVIZ Date(yyyy, m, d, ...) con m a base 0 (8 = Settembre)
+        const mGviz = s.match(/Date\s*\(\s*(\d{4})\s*,\s*(\d{1,2})\s*,\s*(\d{1,2})/i);
+        if (mGviz) {
+          const y = mGviz[1];
+          const m = String(parseInt(mGviz[2], 10) + 1).padStart(2, '0');
+          const day = String(parseInt(mGviz[3], 10)).padStart(2, '0');
+          return `${y}-${m}-${day}`;
+        }
+
+        // 2. Formato ISO YYYY-MM-DD
+        const mIso = s.match(/^(\d{4})-(\d{2})-(\d{2})/);
+        if (mIso) return `${mIso[1]}-${mIso[2]}-${mIso[3]}`;
+
+        // 3. Formato Italiano DD/MM/YYYY o DD-MM-YYYY
+        const mIt = s.match(/^(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{4})/);
+        if (mIt) return `${mIt[3]}-${mIt[2].padStart(2, '0')}-${mIt[1].padStart(2, '0')}`;
+
+        return s;
+      }
+
+      function formatItalianDate(d) {
+        const iso = toIso(d);
+        if (/^\d{4}-\d{2}-\d{2}$/.test(iso)) {
+          const p = iso.split('-');
+          return `${p[2]}/${p[1]}/${p[0]}`;
+        }
+        return d;
+      }
+
+      function isTurno1(tStr) {
+        if (!tStr) return false;
+        const s = String(tStr).toLowerCase().trim();
+        if (s.includes('2°') || s.includes('secondo') || s.includes('dalle 21:30') || s.startsWith('21:30')) return false;
+        return s.includes('1°') || s.includes('primo') || s.includes('20:00') || s.includes('1');
+      }
+
+      function isTurno2(tStr) {
+        if (!tStr) return false;
+        const s = String(tStr).toLowerCase().trim();
+        if (s.includes('2°') || s.includes('secondo') || s.includes('dalle 21:30') || s.startsWith('21:30')) return true;
+        if (s.includes('21:30') && !s.includes('20:00')) return true;
+        return false;
+      }
+
+      // Lettura multi-canale dal Foglio Google
+      async function loadBookings() {
+        let loaded = [];
+
+        // Canale 1: GVIZ (lettura diretta del foglio)
+        try {
+          const res = await fetch(GVIZ_URL);
+          const txt = await res.text();
+          const match = txt.match(/google\.visualization\.Query\.setResponse\((.*)\);/);
+          if (match) {
+            const json = JSON.parse(match[1]);
+            if (json && json.table && Array.isArray(json.table.rows)) {
+              json.table.rows.forEach(r => {
+                if (!r || !r.c) return;
+                const c = r.c;
+                const val = idx => {
+                  if (!c[idx]) return '';
+                  return (c[idx].f !== null && c[idx].f !== undefined && c[idx].f !== '') ? c[idx].f : (c[idx].v !== null && c[idx].v !== undefined ? c[idx].v : '');
+                };
+                const id = String(val(0));
+                if (!id || id.toLowerCase().includes('id')) return;
+                const rawDate = val(4);
+                loaded.push({
+                  id: id,
+                  created_at: String(val(1)),
+                  name: String(val(2)),
+                  phone: String(val(3)),
+                  date: toIso(rawDate),
+                  time: String(val(5)),
+                  guests: parseInt(val(6), 10) || 2,
+                  tables: parseInt(val(7), 10) || Math.ceil((parseInt(val(6), 10) || 2) / 2),
+                  status: String(val(8) || 'Confermata'),
+                  notes: String(val(9) || '')
+                });
+              });
+            }
+          }
+        } catch(e) {
+          console.warn('GVIZ load fallback:', e);
+        }
+
+        // Canale 2: Apps Script Web App
+        if (loaded.length === 0) {
+          try {
+            const resp = await fetch(APPS_SCRIPT_URL);
+            const res = await resp.json();
+            if (res && res.status === 'success' && Array.isArray(res.data)) {
+              res.data.forEach(b => {
+                if (!b || !b.id) return;
+                loaded.push({
+                  id: String(b.id),
+                  created_at: b.created_at || '',
+                  name: b.name || 'Cliente',
+                  phone: b.phone || '',
+                  date: toIso(b.date),
+                  time: String(b.time || ''),
+                  guests: parseInt(b.guests, 10) || 2,
+                  tables: parseInt(b.tables, 10) || Math.ceil((parseInt(b.guests, 10) || 2) / 2),
+                  status: b.status || 'Confermata',
+                  notes: b.notes || ''
+                });
+              });
+            }
+          } catch(err) {
+            console.warn('Lettura Apps Script:', err);
+          }
+        }
+
+        allBookings = loaded;
+
+        // Se la data selezionata non ha prenotazioni ma ce ne sono in altre date, apri la prima data utile
+        const activeDates = [...new Set(allBookings.filter(b => !String(b.status || '').toLowerCase().includes('annull')).map(b => b.date))].filter(Boolean).sort();
+        if (activeDates.length > 0 && !activeDates.includes(currentDate)) {
+          currentDate = activeDates[0];
+          if (dateInput) dateInput.value = currentDate;
+        }
+      }
+
+      function updateHallDisplay() {
+        const grid = document.getElementById('tables-grid-container');
+        if (!grid) return;
+        grid.innerHTML = '';
+
+        // Filtra prenotazioni per data e turno
+        const activeForShift = allBookings.filter(b => {
+          const sameDate = (toIso(b.date) === currentDate);
+          const statusOk = !String(b.status || '').toLowerCase().includes('annull');
+          const sameShift = (currentShift === '20:00') ? isTurno1(b.time) : isTurno2(b.time);
+          return sameDate && statusOk && sameShift;
+        });
+
+        let totalGuests = 0;
+        let totalTables = 0;
+        let nextTable = 1;
+
+        // 1. Renderizza i Tavoli Occupati (UNICO TAVOLO ROSSO con dimensione proporzionale doppia, tripla, ecc.)
+        activeForShift.forEach(b => {
+          const needed = b.tables || Math.ceil(b.guests / 2);
+          totalGuests += b.guests;
+          totalTables += needed;
+
+          const startNum = nextTable;
+          const endNum = Math.min(50, nextTable + needed - 1);
+          const assignedNums = [];
+          for (let n = startNum; n <= endNum; n++) assignedNums.push(n);
+          nextTable = endNum + 1;
+          b._tableNums = assignedNums;
+
+          const tableLabel = (needed === 1) 
+            ? `T${String(startNum).padStart(2, '0')}` 
+            : `TAVOLO UNITO T${String(startNum).padStart(2, '0')} - T${String(endNum).padStart(2, '0')}`;
+
+          const boxDiv = document.createElement('div');
+          boxDiv.className = 'table-box occupied merged-table';
+          boxDiv.style.gridColumn = `span ${Math.min(needed, 10)}`;
+          boxDiv.title = `${tableLabel}: Prenotato da ${b.name} (${b.guests} persone su ${needed} tavoli da 2). Clicca per dettagli.`;
+          boxDiv.onclick = () => showBookingDetail(b, assignedNums);
+
+          boxDiv.innerHTML = `
+            <div style="display: flex; align-items: center; justify-content: space-between; width: 100%; margin-bottom: 4px; padding: 0 4px;">
+              <span class="table-num" style="font-size: 0.95rem; font-weight: 800; letter-spacing: 0.5px;">${tableLabel}</span>
+              <span class="table-seats-badge" style="background: rgba(0,0,0,0.35); font-weight: 700;"><i class="fa-solid fa-users"></i> ${b.guests} Persone</span>
+            </div>
+            <strong style="font-size: 1.15rem; letter-spacing: 0.5px; text-transform: uppercase; margin: 3px 0; color: #ffffff;">${b.name}</strong>
+            <span style="font-size: 0.78rem; opacity: 0.9; margin-top: 2px;">
+              <i class="fa-solid fa-chair"></i> Dimensione ${needed === 2 ? 'Doppia (2 tavoli da 2)' : needed === 3 ? 'Tripla (3 tavoli da 2)' : needed + ' tavoli uniti'}
+            </span>
+          `;
+
+          grid.appendChild(boxDiv);
+        });
+
+        // 2. Renderizza i restanti Tavoli Liberi (Singoli in Verde da 2 posti)
+        for (let i = nextTable; i <= 50; i++) {
+          const freeDiv = document.createElement('div');
+          freeDiv.className = 'table-box available';
+          freeDiv.style.gridColumn = 'span 1';
+          freeDiv.title = `Tavolo ${i}: Disponibile (2 posti liberi). Clicca per prenotare.`;
+          freeDiv.onclick = () => openNewBookingModal(i);
+          freeDiv.innerHTML = `
+            <span class="table-num">T${String(i).padStart(2, '0')}</span>
+            <span class="table-seats-badge"><i class="fa-solid fa-chair"></i> 2p</span>
+            <span class="table-status-label" style="font-size: 0.65rem; font-weight: 700; margin-top: 3px; opacity: 0.9;">LIBERO</span>
+          `;
+          grid.appendChild(freeDiv);
+        }
+
+        // Aggiorna statistiche
+        const avail = Math.max(0, 50 - totalTables);
+        document.getElementById('stat-available-tables').textContent = avail;
+        document.getElementById('stat-occupied-tables').textContent = totalTables;
+        document.getElementById('stat-total-guests').textContent = totalGuests;
+        document.getElementById('stat-bookings-count').textContent = activeForShift.length;
+
+        // Hint date attive
+        const otherDates = allBookings.filter(b => toIso(b.date) !== currentDate && !String(b.status || '').toLowerCase().includes('annull'));
+        const hint = document.getElementById('other-dates-hint');
+        if (hint) {
+          if (otherDates.length > 0 && activeForShift.length === 0) {
+            const dates = [...new Set(otherDates.map(b => toIso(b.date)))].sort();
+            hint.style.display = 'flex';
+            hint.innerHTML = `
+              <span><i class="fa-solid fa-calendar-check" style="color: var(--accent-red);"></i> <strong>Prenotazioni trovate per altre date:</strong></span>
+              <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+                ${dates.map(d => `<button class="nav-date-btn" style="background: var(--accent-red); color: #fff; border: none; padding: 5px 12px; font-size: 0.85rem;" onclick="document.getElementById('admin-target-date').value='${d}'; document.getElementById('admin-target-date').dispatchEvent(new Event('change'));"><i class="fa-solid fa-arrow-right"></i> Vai al ${formatItalianDate(d)}</button>`).join('')}
+              </div>
+            `;
+          } else {
+            hint.style.display = 'none';
+          }
+        }
       }
 
       function showBookingDetail(b, assignedNums) {
@@ -1277,7 +1297,7 @@
       window.showBookingDetail = showBookingDetail;
       window.updateHallDisplay = updateHallDisplay;
 
-      // Avvio immediato
+      // Avvio immediato con rendering garantito e caricamento automatico dal Foglio
       updateHallDisplay();
       loadBookings().then(() => updateHallDisplay());
     })();
