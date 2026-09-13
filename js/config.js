@@ -58,7 +58,7 @@ const SITE_CONFIG = {
 
   // Sezione Storia
   story: {
-    title: "LA NOSTRA STORIA & FILOSOFIA",
+    title: "LA NOSTRA STORIA &<br>FILOSOFIA",
     paragraphs: [
       "Da noi troverete prodotti freschi e genuini, preparati con rispetto per la materia prima, rigorosamente al momento. Abbracciamo la filosofia dello slow food, del godersi il pasto come un'esperienza culinaria e conviviale.",
       "Questo non è un fast food, ma un luogo in cui condividere il piacere di piatti preparati con cura e passione. Ricerca, amore per il territorio e dedizione ci portano a selezionare solo il meglio: grazie all'esperienza di oltre 35 anni del nostro macellaio, possiamo proporvi l'eccellenza delle carni podoliche e dei tagli pregiati internazionali.",

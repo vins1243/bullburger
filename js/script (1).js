@@ -10,6 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
     localStorage.removeItem('bullburger_prenotazioni_db');
     localStorage.removeItem('ol3_prenotazioni_db');
   } catch(e) {}
+  initCookieBanner();
   renderCommonData();
   renderHighlights();
   renderStory();
@@ -197,7 +198,7 @@ function renderHighlights() {
 function renderStory() {
   const titleEl = document.getElementById('story-title');
   const bodyEl = document.getElementById('story-paragraphs');
-  if (titleEl && SITE_CONFIG.story) titleEl.textContent = SITE_CONFIG.story.title;
+  if (titleEl && SITE_CONFIG.story) titleEl.innerHTML = SITE_CONFIG.story.title;
   if (bodyEl && SITE_CONFIG.story) {
     bodyEl.innerHTML = SITE_CONFIG.story.paragraphs.map(p => `<p>${p}</p>`).join('');
   }
@@ -768,4 +769,35 @@ function initAdminDashboard() {
 
   // Caricamento iniziale
   fetchFromSheet().then(() => renderHall());
+}
+
+
+// Inizializzazione Banner Cookie GDPR
+function initCookieBanner() {
+  try {
+    if (localStorage.getItem('bullburger_cookie_ok') === 'true') return;
+  } catch(e) {}
+
+  const banner = document.createElement('div');
+  banner.className = 'cookie-banner';
+  banner.id = 'gdpr-cookie-banner';
+  banner.innerHTML = `
+    <p>
+      <i class="fa-solid fa-cookie-bite" style="color: var(--accent-red); margin-right: 6px;"></i>
+      Questo sito utilizza esclusivamente <strong>cookie tecnici</strong> indispensabili per la gestione delle prenotazioni e la sicurezza della navigazione. Nessun dato viene impiegato per profilazione o pubblicità. Per maggiori informazioni consulta la nostra <a href="cookie.html">Informativa sui cookie</a>.
+    </p>
+    <button class="cookie-btn" id="accept-cookie-btn">Accetta e Continua</button>
+  `;
+
+  document.body.appendChild(banner);
+
+  const btn = document.getElementById('accept-cookie-btn');
+  if (btn) {
+    btn.addEventListener('click', () => {
+      try {
+        localStorage.setItem('bullburger_cookie_ok', 'true');
+      } catch(e) {}
+      banner.style.display = 'none';
+    });
+  }
 }
