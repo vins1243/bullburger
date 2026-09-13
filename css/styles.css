@@ -499,21 +499,37 @@ img {
 }
 
 .philosophy-section {
-  padding: 110px 0;
+  padding: 90px 0;
   background-color: var(--bg-main);
   text-align: center;
 }
 
 .philosophy-container {
-  max-width: 860px;
+  max-width: 900px;
   margin: 0 auto;
 }
 
+.philosophy-card {
+  background-color: var(--bg-card, #f1e1c0);
+  border: 1.5px solid var(--border-card, rgba(43, 39, 41, 0.12));
+  border-radius: 8px;
+  padding: 60px 48px;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.05);
+}
+
 .philosophy-text {
-  font-size: 1.05rem;
-  line-height: 1.9;
-  color: var(--text-muted);
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  line-height: 1.85;
+  color: var(--text-dark, #110e0f) !important;
   text-align: justify;
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .philosophy-card {
+    padding: 36px 24px;
+  }
 }
 
 .gallery-section {
