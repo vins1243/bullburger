@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Prenota un Tavolo | Bullburger</title>
+  
+    <!-- Favicon & Icona Safari / Apple Touch -->
+  <link rel="icon" type="image/png" sizes="32x32" href="foto/icon.png?v=3">
+  <link rel="icon" type="image/png" sizes="16x16" href="foto/icon.png?v=3">
+  <link rel="apple-touch-icon" sizes="180x180" href="foto/icon.png?v=3">
+  <link rel="shortcut icon" href="foto/icon.png?v=3">
+  <meta name="description" content="Prenota comodamente online un tavolo da Bullburger a Villapiana Lido. Riceverai la conferma ufficiale direttamente su WhatsApp.">
+  
+  <!-- Font Google -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;0,900;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Icone FontAwesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <!-- Stili -->
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <!-- Barra Superiore Info Contatto -->
+  <div class="top-bar">
+    <div class="container">
+      <div class="top-bar-contact">
+        <span><i class="fa-solid fa-location-dot"></i> <a href="https://www.google.com/maps/place/Bull+Burger/@39.8053935,16.3968208,13z/data=!4m21!1m14!4m13!1m4!2m2!1d16.3879341!2d39.8195049!4e1!1m6!1m2!1s0x133f5fc4a03ec043:0x80ad513960d73089!2sBull+Burger,+Via+Nazionale,+S.da+Statale+106+Jonica,+87076+Villapiana+Lido+CS!2m2!1d16.4871083!2d39.8060219!3e0!3m5!1s0x133f5fc4a03ec043:0x80ad513960d73089!8m2!3d39.8060219!4d16.4871083!16s%2Fg%2F11gjj9by7s?entry=ttu" target="_blank" rel="noopener" class="topbar-address-link" data-contact-address>Via Nazionale, S.da Statale 106 Jonica, 87076 Villapiana Lido (CS)</a></span>
+        <span><i class="fa-solid fa-phone"></i> Tel: <a href="tel:3293122388" data-contact-phone>329 312 2388</a></span>
+      </div>
+      <div class="top-bar-hours">
+        <span><i class="fa-regular fa-clock"></i> <span data-contact-hours>Tutti i giorni 20:00 - 00:00</span></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Barra di Navigazione Principale -->
+  <nav class="navbar">
+    <div class="container nav-container">
+      <a href="index.html" class="brand-logo" aria-label="Bullburger Home">
+        <img src="foto/logo-2.png" alt="Bullburger" class="navbar-logo-img">
+      </a>
+
+      <ul class="nav-links">
+        <li><a href="index.html">HOME</a></li>
+        <li><a href="index.html#il-locale">IL LOCALE</a></li>
+        <li><a href="menu.html">MENU</a></li>
+        <li><a href="prenota.html" class="active">PRENOTA UN TAVOLO</a></li>
+        <li><a href="index.html#contatti">CONTATTI</a></li>
+      </ul>
+
+      <button class="mobile-toggle" aria-label="Menu Mobile">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Floating Social Icons con Link Ufficiali -->
+  <aside class="floating-socials">
+    <a href="https://www.facebook.com/bullburger/?locale=it_IT" class="social-circle social-fb" target="_blank" rel="noopener" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+    <a href="https://www.instagram.com/bullburgervillapiana/" class="social-circle social-ig" target="_blank" rel="noopener" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+  </aside>
+
+  <!-- Banner Pagina Prenotazioni -->
+  <section class="page-banner">
+    <div class="container">
+      <h1 class="page-banner-title">PRENOTA IL TUO TAVOLO</h1>
+      <p class="page-banner-subtitle">Compila il modulo con i tuoi dati. Ti risponderemo direttamente su WhatsApp con la conferma ufficiale.</p>
+    </div>
+  </section>
+
+  <!-- Sezione Form di Prenotazione + Informazioni -->
+  <main class="booking-section">
+    <div class="container booking-wrapper">
+      
+      <!-- Modulo Prenotazione -->
+      <div class="reservation-box">
+        
+        <!-- Avviso Numero WhatsApp -->
+        <div class="whatsapp-notice-card">
+          <i class="fa-solid fa-circle-check" style="color: var(--accent-green);"></i>
+          <p><strong>PRENOTAZIONE IMMEDIATA AUTOMATICA:</strong> Seleziona data, turno e numero di persone. Il sistema verifica la disponibilità in tempo reale e conferma istantaneamente il tuo posto senza attese!</p>
+        </div>
+
+        <h2 class="form-title">Richiedi la Disponibilità</h2>
+        <p class="form-subtitle">Tutti i campi contrassegnati da asterisco (*) sono necessari per riservare il tuo posto.</p>
+
+        <!-- Form configurato anche per Netlify Forms -->
+        <form id="reservation-form" name="prenotazioni" method="POST" data-netlify="true">
+          <input type="hidden" name="form-name" value="prenotazioni">
+
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="res-name">Nome e Cognome *</label>
+              <input type="text" id="res-name" name="nome" placeholder="Es. Mario Rossi" required>
+            </div>
+            <div class="form-group">
+              <label for="res-phone">Cellulare WhatsApp *</label>
+              <input type="tel" id="res-phone" name="telefono" placeholder="Es. 340 123 4567" required>
+            </div>
+          </div>
+
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="res-date">Data della Prenotazione *</label>
+              <input type="date" id="res-date" name="data" required>
+            </div>
+            <div class="form-group">
+              <label for="res-time">Orario Desiderato *</label>
+              <select id="res-time" name="orario" required>
+                <option value="" disabled selected>Seleziona il turno</option>
+                <option value="20:00">1° Turno (20:00 - 21:30)</option>
+                <option value="21:30">2° Turno (dalle 21:30 in poi)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="res-guests">Numero di Ospiti *</label>
+              <select id="res-guests" name="ospiti" required>
+                <option value="" disabled selected>Seleziona persone</option>
+                <option value="1">1 Persona</option>
+                <option value="2">2 Persone</option>
+                <option value="3">3 Persone</option>
+                <option value="4">4 Persone</option>
+                <option value="5">5 Persone</option>
+                <option value="6">6 Persone</option>
+                <option value="7">7 Persone</option>
+                <option value="8">8 Persone</option>
+                <option value="9">9 Persone</option>
+                <option value="10">10 Persone</option>
+                <option value="11">11 Persone</option>
+                <option value="12">12 Persone</option>
+                <option value="13">13 Persone</option>
+                <option value="14">14 Persone</option>
+                <option value="15">15 Persone</option>
+                <option value="16">16 Persone</option>
+                <option value="18">18 Persone</option>
+                <option value="20">20 Persone</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="res-email">Indirizzo Email (opzionale)</label>
+              <input type="email" id="res-email" name="email" placeholder="nome@esempio.it">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="res-notes">Note particolari, intolleranze o allergie</label>
+            <textarea id="res-notes" name="note" rows="3" placeholder="Segnalaci allergie, celiachia, seggioloni per bambini o richieste particolari..."></textarea>
+          </div>
+
+          <button type="submit" class="btn-primary" style="margin-top: 10px;">INVIA RICHIESTA DI PRENOTAZIONE</button>
+        </form>
+
+        <!-- Scheda Esito Ricezione Prenotazione -->
+        <div id="booking-success-card" class="booking-success-box">
+          <div class="success-icon"><i class="fa-solid fa-circle-check"></i></div>
+          <h3 class="success-title">Prenotazione Confermata!</h3>
+          <p class="success-subtitle">Il tuo posto da Bull Burger è riservato con successo. Ti aspettiamo!</p>
+          
+          <div class="booking-summary-pill">
+            <span id="confirmed-date-time">Data e Turno</span> • <span id="confirmed-guests">Ospiti</span>
+          </div>
+
+          <div class="booking-confirmed-card">
+            <div class="confirmed-row">
+              <span class="row-label"><i class="fa-solid fa-ticket"></i> Codice:</span>
+              <strong id="confirmed-code" class="code-value">BULL_...</strong>
+            </div>
+            <div class="confirmed-row">
+              <span class="row-label"><i class="fa-solid fa-user"></i> Intestata a:</span>
+              <strong id="confirmed-name">...</strong>
+            </div>
+            <div class="confirmed-row">
+              <span class="row-label"><i class="fa-solid fa-users"></i> Persone:</span>
+              <strong id="confirmed-guests-detail" style="color: var(--text-dark); font-weight: 700;">...</strong>
+            </div>
+          </div>
+
+          <p class="booking-note">In caso di variazioni o ritardo puoi contattarci al <a href="tel:3293122388">329 312 2388</a>.</p>
+          <a href="index.html" class="btn-secondary-hero" style="display: inline-block; width: auto; margin-top: 18px; padding: 10px 28px;">TORNA ALLA HOME</a>
+        </div>
+      </div>
+
+      <!-- Info Box Laterale -->
+      <aside class="booking-info-box">
+        <div class="info-item">
+          <div class="info-icon"><i class="fa-solid fa-phone-volume"></i></div>
+          <div class="info-content">
+            <h4>Prenotazioni Telefoniche</h4>
+            <p>Hai richieste urgenti o siete un gruppo numeroso? Chiamaci direttamente al <a href="tel:3293122388" data-contact-phone style="color: var(--accent-gold); font-weight:700;">329 312 2388</a>.</p>
+          </div>
+        </div>
+
+        <div class="info-item">
+          <div class="info-icon"><i class="fa-regular fa-clock"></i></div>
+          <div class="info-content">
+            <h4>Orari di Apertura</h4>
+            <p>Siamo aperti <strong>tutti i giorni</strong> con due turni serali:</p>
+            <p style="margin-top: 6px;">• <strong>1° Turno:</strong> 20:00 - 21:30<br>• <strong>2° Turno:</strong> dalle 21:30 in poi</p>
+            <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 8px;">Disponibilità sala: 50 tavoli da 2 posti (100 posti complessivi per turno).</p>
+          </div>
+        </div>
+
+        <div class="info-item">
+          <div class="info-icon"><i class="fa-solid fa-location-dot"></i></div>
+          <div class="info-content">
+            <h4>Dove Siamo</h4>
+            <p><a href="https://www.google.com/maps/place/Bull+Burger/@39.8053935,16.3968208,13z/data=!4m21!1m14!4m13!1m4!2m2!1d16.3879341!2d39.8195049!4e1!1m6!1m2!1s0x133f5fc4a03ec043:0x80ad513960d73089!2sBull+Burger,+Via+Nazionale,+S.da+Statale+106+Jonica,+87076+Villapiana+Lido+CS!2m2!1d16.4871083!2d39.8060219!3e0!3m5!1s0x133f5fc4a03ec043:0x80ad513960d73089!8m2!3d39.8060219!4d16.4871083!16s%2Fg%2F11gjj9by7s?entry=ttu" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline;">Via Nazionale, S.da Statale 106 Jonica, 87076 Villapiana Lido (CS)</a>.</p>
+          </div>
+        </div>
+
+        <div class="info-item">
+          <div class="info-icon"><i class="fa-solid fa-utensils"></i></div>
+          <div class="info-content">
+            <h4>Consulta il Menu</h4>
+            <p>Scopri in anticipo i nostri smash burger speciali e gli hamburger gourmet. <a href="menu.html" style="color: var(--accent-gold); text-decoration: underline;">Sfoglia il menu completo</a>.</p>
+          </div>
+        </div>
+      </aside>
+
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-links">
+        <a href="privacy.html">Informativa sulla privacy</a>
+        <span>•</span>
+        <a href="termini.html">Termini e Condizioni</a>
+        <span>•</span>
+        <a href="cookie.html">Informativa sui cookie</a>
+        <span>•</span>
+        <a href="accessibilita.html">Dichiarazione di accessibilità</a>
+      </div>
+      <p class="footer-copy">© 2026 by <span data-brand-name>Bullburger</span>. Tutti i diritti riservati.</p>
+    </div>
+  </footer>
+
+  <!-- File JavaScript -->
+  <script src="js/config.js"></script>
+  <script src="js/script.js"></script>
+</body>
+</html>
