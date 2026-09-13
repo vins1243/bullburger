@@ -77,7 +77,7 @@
         <!-- Avviso Numero WhatsApp -->
         <div class="whatsapp-notice-card">
           <i class="fa-solid fa-circle-check" style="color: var(--accent-green);"></i>
-          <p><strong>PRENOTAZIONE IMMEDIATA AUTOMATICA:</strong> Seleziona data, turno e numero di persone. Il sistema calcola automaticamente i tavoli necessari e conferma istantaneamente la disponibilità senza attese!</p>
+          <p><strong>PRENOTAZIONE IMMEDIATA AUTOMATICA:</strong> Seleziona data, turno e numero di persone. Il sistema verifica la disponibilità in tempo reale e conferma istantaneamente il tuo posto senza attese!</p>
         </div>
 
         <h2 class="form-title">Richiedi la Disponibilità</h2>
@@ -118,17 +118,24 @@
               <label for="res-guests">Numero di Ospiti *</label>
               <select id="res-guests" name="ospiti" required>
                 <option value="" disabled selected>Seleziona persone</option>
-                <option value="1">1 Persona (1 tavolo da 2)</option>
-                <option value="2">2 Persone (1 tavolo da 2)</option>
-                <option value="3">3 Persone (2 tavoli da 2)</option>
-                <option value="4">4 Persone (2 tavoli da 2)</option>
-                <option value="5">5 Persone (3 tavoli da 2)</option>
-                <option value="6">6 Persone (3 tavoli da 2)</option>
-                <option value="7">7 Persone (4 tavoli da 2)</option>
-                <option value="8">8 Persone (4 tavoli da 2)</option>
-                <option value="9">9 Persone (5 tavoli da 2)</option>
-                <option value="10">10 Persone (5 tavoli da 2)</option>
-                <option value="12">12 Persone (6 tavoli da 2)</option>
+                <option value="1">1 Persona</option>
+                <option value="2">2 Persone</option>
+                <option value="3">3 Persone</option>
+                <option value="4">4 Persone</option>
+                <option value="5">5 Persone</option>
+                <option value="6">6 Persone</option>
+                <option value="7">7 Persone</option>
+                <option value="8">8 Persone</option>
+                <option value="9">9 Persone</option>
+                <option value="10">10 Persone</option>
+                <option value="11">11 Persone</option>
+                <option value="12">12 Persone</option>
+                <option value="13">13 Persone</option>
+                <option value="14">14 Persone</option>
+                <option value="15">15 Persone</option>
+                <option value="16">16 Persone</option>
+                <option value="18">18 Persone</option>
+                <option value="20">20 Persone</option>
               </select>
             </div>
             <div class="form-group">
@@ -165,8 +172,8 @@
               <strong id="confirmed-name">...</strong>
             </div>
             <div class="confirmed-row">
-              <span class="row-label"><i class="fa-solid fa-chair"></i> Tavoli riservati:</span>
-              <strong id="confirmed-tables-count" style="color: var(--accent-red);">...</strong>
+              <span class="row-label"><i class="fa-solid fa-users"></i> Persone:</span>
+              <strong id="confirmed-guests-detail" style="color: var(--text-dark); font-weight: 700;">...</strong>
             </div>
           </div>
 
