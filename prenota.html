@@ -250,5 +250,249 @@
   <!-- File JavaScript -->
   <script src="js/config.js"></script>
   <script src="js/script.js?v=5.0"></script>
+
+  <script>
+    // LOGICA DI CONTROLLO DISPONIBILITA LIVE INTEGRATA PER PRENOTA.HTML
+    (function() {
+      const form = document.getElementById('reservation-form');
+      const successCard = document.getElementById('booking-success-card');
+      const dateInput = document.getElementById('res-date');
+      const timeSelect = document.getElementById('res-time');
+      const guestsSelect = document.getElementById('res-guests');
+      const noticeEl = document.getElementById('shift-availability-notice');
+      const submitBtn = form ? form.querySelector('button[type="submit"]') : null;
+
+      const SHEET_ID = '1Xpp-soY_AA9UGtxy_feMHO7Qjsg1n1s0CD7lFzBCgV4';
+      const GVIZ_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&tq=select%20*`;
+      const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyFO2Zf7hi5SjHnMQLM2o9pt2CEKlXqQlRfmBueAWOiDz5REyTUpWpK39W270ktiNI5RA/exec';
+
+      function getLocalTodayIso() {
+        const d = new Date();
+        const year = d.getFullYear();
+        const month = String(d.getMonth() + 1).padStart(2, '0');
+        const day = String(d.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`;
+      }
+
+      if (dateInput) {
+        dateInput.min = getLocalTodayIso();
+        dateInput.value = ''; // Obbliga l'utente a selezionare la data per prima!
+      }
+
+      if (timeSelect) {
+        timeSelect.disabled = true;
+        timeSelect.style.opacity = '0.75';
+        timeSelect.style.cursor = 'not-allowed';
+      }
+
+      function toIso(d) {
+        if (!d) return '';
+        const s = String(d).trim();
+        const mGviz = s.match(/Date\s*\(\s*(\d{4})\s*,\s*(\d{1,2})\s*,\s*(\d{1,2})/i);
+        if (mGviz) {
+          const y = mGviz[1];
+          const m = String(parseInt(mGviz[2], 10) + 1).padStart(2, '0');
+          const day = String(parseInt(mGviz[3], 10)).padStart(2, '0');
+          return `${y}-${m}-${day}`;
+        }
+        const mIso = s.match(/^(\d{4})-(\d{2})-(\d{2})/);
+        if (mIso) return `${mIso[1]}-${mIso[2]}-${mIso[3]}`;
+        const mIt = s.match(/^(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{4})/);
+        if (mIt) return `${mIt[3]}-${mIt[2].padStart(2, '0')}-${mIt[1].padStart(2, '0')}`;
+        return s;
+      }
+
+      function isTurno1(tStr) {
+        if (!tStr) return false;
+        const s = String(tStr).toLowerCase().trim();
+        if (s.includes('2°') || s.includes('secondo') || s.includes('dalle 21:30') || s.startsWith('21:30')) return false;
+        return s.includes('1°') || s.includes('primo') || s.includes('20:00') || s.includes('1');
+      }
+
+      function isTurno2(tStr) {
+        if (!tStr) return false;
+        const s = String(tStr).toLowerCase().trim();
+        if (s.includes('2°') || s.includes('secondo') || s.includes('dalle 21:30') || s.startsWith('21:30')) return true;
+        if (s.includes('21:30') && !s.includes('20:00')) return true;
+        return false;
+      }
+
+      let cachedSheetBookings = null;
+
+      async function fetchBookingsFromSheet() {
+        try {
+          const res = await fetch(GVIZ_URL);
+          const txt = await res.text();
+          const match = txt.match(/google\.visualization\.Query\.setResponse\((.*)\);/);
+          if (match) {
+            const json = JSON.parse(match[1]);
+            if (json && json.table && Array.isArray(json.table.rows)) {
+              const list = [];
+              json.table.rows.forEach(r => {
+                if (!r || !r.c) return;
+                const c = r.c;
+                const val = idx => c[idx] ? ((c[idx].f !== null && c[idx].f !== undefined && c[idx].f !== '') ? c[idx].f : ((c[idx].v !== null && c[idx].v !== undefined) ? c[idx].v : '')) : '';
+                const bId = String(val(0));
+                if (!bId || bId.toLowerCase().includes('id')) return;
+                list.push({
+                  id: bId,
+                  date: toIso(val(4)),
+                  time: String(val(5)),
+                  guests: parseInt(val(6), 10) || 2,
+                  tables: parseInt(val(7), 10) || Math.ceil((parseInt(val(6), 10) || 2) / 2),
+                  status: String(val(8) || 'Confermata')
+                });
+              });
+              cachedSheetBookings = list;
+              return list;
+            }
+          }
+        } catch(e) {
+          console.warn('GVIZ fetch error:', e);
+        }
+
+        // Fallback su Apps Script
+        try {
+          const resp = await fetch(APPS_SCRIPT_URL);
+          const res = await resp.json();
+          if (res && res.status === 'success' && Array.isArray(res.data)) {
+            const list = res.data.map(b => ({
+              id: String(b.id),
+              date: toIso(b.date),
+              time: String(b.time || ''),
+              guests: parseInt(b.guests, 10) || 2,
+              tables: parseInt(b.tables, 10) || Math.ceil((parseInt(b.guests, 10) || 2) / 2),
+              status: String(b.status || 'Confermata')
+            }));
+            cachedSheetBookings = list;
+            return list;
+          }
+        } catch(err) {
+          console.warn('Apps script fetch error:', err);
+        }
+
+        return cachedSheetBookings || [];
+      }
+
+      async function checkAndRefreshShifts() {
+        if (!dateInput || !dateInput.value) {
+          if (timeSelect) {
+            timeSelect.disabled = true;
+            timeSelect.style.opacity = '0.75';
+            timeSelect.style.cursor = 'not-allowed';
+            timeSelect.innerHTML = '<option value="" disabled selected>⚠️ Seleziona prima la data sopra</option>';
+          }
+          if (noticeEl) noticeEl.style.display = 'none';
+          return;
+        }
+
+        const selectedDate = toIso(dateInput.value);
+        const guests = guestsSelect ? (parseInt(guestsSelect.value, 10) || 2) : 2;
+        const neededTables = Math.ceil(guests / 2);
+
+        if (timeSelect) {
+          timeSelect.disabled = true;
+          timeSelect.innerHTML = '<option value="" disabled selected>⏳ Controllo posti disponibili in tempo reale...</option>';
+        }
+
+        const allRows = await fetchBookingsFromSheet();
+        const activeToday = allRows.filter(b => {
+          return (toIso(b.date) === selectedDate) &&
+                 !String(b.status || '').toLowerCase().includes('annull') &&
+                 !String(b.status || '').toLowerCase().includes('rifiut');
+        });
+
+        let occ1 = 0;
+        let occ2 = 0;
+        activeToday.forEach(b => {
+          const t = b.tables || Math.ceil(b.guests / 2);
+          if (isTurno1(b.time)) occ1 += t;
+          else if (isTurno2(b.time)) occ2 += t;
+        });
+
+        const avail1 = Math.max(0, 50 - occ1);
+        const avail2 = Math.max(0, 50 - occ2);
+
+        const canBook1 = (avail1 >= neededTables);
+        const canBook2 = (avail2 >= neededTables);
+
+        if (timeSelect) {
+          timeSelect.disabled = false;
+          timeSelect.style.opacity = '1';
+          timeSelect.style.cursor = 'pointer';
+
+          let optionsHtml = '<option value="" disabled selected>Seleziona il turno</option>';
+
+          // Turno 1
+          if (canBook1) {
+            optionsHtml += '<option value="20:00">1° Turno (20:00 - 21:30)</option>';
+          } else {
+            optionsHtml += '<option value="20:00" disabled style="color: #8e888b; background-color: #ede4d1;">1° Turno (20:00 - 21:30) (posti esauriti)</option>';
+          }
+
+          // Turno 2
+          if (canBook2) {
+            optionsHtml += '<option value="21:30">2° Turno (dalle 21:30 in poi)</option>';
+          } else {
+            optionsHtml += '<option value="21:30" disabled style="color: #8e888b; background-color: #ede4d1;">2° Turno (dalle 21:30 in poi) (posti esauriti)</option>';
+          }
+
+          timeSelect.innerHTML = optionsHtml;
+        }
+
+        if (!canBook1 && !canBook2) {
+          if (noticeEl) {
+            noticeEl.style.display = 'block';
+            noticeEl.innerHTML = '<i class="fa-solid fa-circle-exclamation"></i> Tutti i posti per questa data sono esauriti (100 coperti max raggiunti). Ti invitiamo a selezionare un\'altra data.';
+          }
+          if (submitBtn) {
+            submitBtn.disabled = true;
+            submitBtn.style.opacity = '0.5';
+            submitBtn.style.cursor = 'not-allowed';
+          }
+        } else {
+          if (noticeEl) noticeEl.style.display = 'none';
+          if (submitBtn) {
+            submitBtn.disabled = false;
+            submitBtn.style.opacity = '1';
+            submitBtn.style.cursor = 'pointer';
+          }
+        }
+      }
+
+      if (dateInput) {
+        dateInput.addEventListener('change', () => {
+          cachedSheetBookings = null;
+          checkAndRefreshShifts();
+        });
+      }
+
+      if (guestsSelect) {
+        guestsSelect.addEventListener('change', () => {
+          if (dateInput && dateInput.value) {
+            checkAndRefreshShifts();
+          }
+        });
+      }
+
+      // Pre-caricamento in background delle prenotazioni
+      fetchBookingsFromSheet();
+
+      // Controllo submit del form
+      if (form) {
+        form.addEventListener('submit', function(e) {
+          const timeVal = timeSelect ? timeSelect.value : '';
+          const chosenOption = timeSelect ? timeSelect.querySelector(`option[value="${timeVal}"]`) : null;
+          if (chosenOption && chosenOption.disabled) {
+            e.preventDefault();
+            e.stopImmediatePropagation();
+            alert('Ci dispiace, i posti per questo turno sono esauriti. Seleziona un altro turno o una data diversa.');
+            return false;
+          }
+        }, true);
+      }
+    })();
+  </script>
+
 </body>
 </html>
