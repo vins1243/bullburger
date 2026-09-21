@@ -108,17 +108,18 @@
 
           <div class="form-grid">
             <div class="form-group">
-              <label for="res-date">Data della Prenotazione *</label>
-              <input type="date" id="res-date" name="data" required>
+              <label for="res-date"><i class="fa-solid fa-calendar-day" style="color: var(--accent-red);"></i> 1. Data della Prenotazione *</label>
+              <input type="date" id="res-date" name="data" required autocomplete="off">
+              <small style="display: block; margin-top: 5px; font-size: 0.82rem; color: var(--text-dark); font-weight: 600;">
+                👉 Seleziona prima il giorno per visualizzare i turni disponibili
+              </small>
             </div>
             <div class="form-group">
-              <label for="res-time">Orario Desiderato *</label>
-              <select id="res-time" name="orario" required>
-                <option value="" disabled selected>Seleziona il turno</option>
-                <option value="20:00" id="opt-shift-1">1° Turno (20:00 - 21:30)</option>
-                <option value="21:30" id="opt-shift-2">2° Turno (dalle 21:30 in poi)</option>
+              <label for="res-time"><i class="fa-solid fa-clock" style="color: var(--accent-red);"></i> 2. Orario Desiderato (Turno) *</label>
+              <select id="res-time" name="orario" required disabled style="opacity: 0.8; cursor: not-allowed; background-color: #f1e1c0; color: #5a5457; font-weight: 700;">
+                <option value="" disabled selected>⚠️ Seleziona prima la data a sinistra</option>
               </select>
-              <div id="shift-availability-notice" style="display: none; margin-top: 8px; padding: 10px 14px; background: rgba(214, 62, 48, 0.12); border: 1px solid var(--accent-red); border-radius: 6px; font-size: 0.88rem; font-weight: 700; color: var(--accent-red);"></div>
+              <div id="shift-availability-notice" style="display: none; margin-top: 8px; padding: 10px 14px; background: rgba(214, 62, 48, 0.12); border: 1.5px solid var(--accent-red); border-radius: 6px; font-size: 0.88rem; font-weight: 700; color: var(--accent-red);"></div>
             </div>
           </div>
 
@@ -252,7 +253,7 @@
   <script src="js/script.js?v=5.0"></script>
 
   <script>
-    // LOGICA DI CONTROLLO DISPONIBILITA LIVE INTEGRATA PER PRENOTA.HTML
+    // CONTROLLO OBBLIGATORIO DELLA DATA E VERIFICA POSTI PER TURNO (BULL BURGER)
     (function() {
       const form = document.getElementById('reservation-form');
       const successCard = document.getElementById('booking-success-card');
@@ -274,15 +275,19 @@
         return `${year}-${month}-${day}`;
       }
 
+      // Imposta data minima = oggi e lascia il campo vuoto per forzare la scelta del giorno
       if (dateInput) {
         dateInput.min = getLocalTodayIso();
-        dateInput.value = ''; // Obbliga l'utente a selezionare la data per prima!
+        dateInput.value = '';
       }
 
+      // Blocca turno finché la data non viene selezionata
       if (timeSelect) {
         timeSelect.disabled = true;
-        timeSelect.style.opacity = '0.75';
+        timeSelect.style.opacity = '0.8';
         timeSelect.style.cursor = 'not-allowed';
+        timeSelect.style.backgroundColor = '#f1e1c0';
+        timeSelect.innerHTML = '<option value="" disabled selected>⚠️ Seleziona prima la data a sinistra</option>';
       }
 
       function toIso(d) {
@@ -317,9 +322,9 @@
         return false;
       }
 
-      let cachedSheetBookings = null;
+      let allSheetBookings = [];
 
-      async function fetchBookingsFromSheet() {
+      async function fetchLiveBookings() {
         try {
           const res = await fetch(GVIZ_URL);
           const txt = await res.text();
@@ -343,20 +348,19 @@
                   status: String(val(8) || 'Confermata')
                 });
               });
-              cachedSheetBookings = list;
+              allSheetBookings = list;
               return list;
             }
           }
         } catch(e) {
-          console.warn('GVIZ fetch error:', e);
+          console.warn('GVIZ load error:', e);
         }
 
-        // Fallback su Apps Script
         try {
           const resp = await fetch(APPS_SCRIPT_URL);
           const res = await resp.json();
           if (res && res.status === 'success' && Array.isArray(res.data)) {
-            const list = res.data.map(b => ({
+            allSheetBookings = res.data.map(b => ({
               id: String(b.id),
               date: toIso(b.date),
               time: String(b.time || ''),
@@ -364,40 +368,44 @@
               tables: parseInt(b.tables, 10) || Math.ceil((parseInt(b.guests, 10) || 2) / 2),
               status: String(b.status || 'Confermata')
             }));
-            cachedSheetBookings = list;
-            return list;
+            return allSheetBookings;
           }
         } catch(err) {
-          console.warn('Apps script fetch error:', err);
+          console.warn('Apps Script load error:', err);
         }
 
-        return cachedSheetBookings || [];
+        return allSheetBookings;
       }
 
-      async function checkAndRefreshShifts() {
+      // Funzione che aggiorna i turni appena viene scelta la data
+      async function onDateSelected() {
         if (!dateInput || !dateInput.value) {
           if (timeSelect) {
             timeSelect.disabled = true;
-            timeSelect.style.opacity = '0.75';
+            timeSelect.style.opacity = '0.8';
             timeSelect.style.cursor = 'not-allowed';
-            timeSelect.innerHTML = '<option value="" disabled selected>⚠️ Seleziona prima la data sopra</option>';
+            timeSelect.style.backgroundColor = '#f1e1c0';
+            timeSelect.innerHTML = '<option value="" disabled selected>⚠️ Seleziona prima la data a sinistra</option>';
           }
           if (noticeEl) noticeEl.style.display = 'none';
           return;
         }
 
-        const selectedDate = toIso(dateInput.value);
+        const chosenDate = toIso(dateInput.value);
         const guests = guestsSelect ? (parseInt(guestsSelect.value, 10) || 2) : 2;
         const neededTables = Math.ceil(guests / 2);
 
         if (timeSelect) {
           timeSelect.disabled = true;
-          timeSelect.innerHTML = '<option value="" disabled selected>⏳ Controllo posti disponibili in tempo reale...</option>';
+          timeSelect.style.opacity = '0.85';
+          timeSelect.style.cursor = 'wait';
+          timeSelect.style.backgroundColor = '#faf2e1';
+          timeSelect.innerHTML = '<option value="" disabled selected>⏳ Controllo posti disponibili sul Foglio Google...</option>';
         }
 
-        const allRows = await fetchBookingsFromSheet();
-        const activeToday = allRows.filter(b => {
-          return (toIso(b.date) === selectedDate) &&
+        const bookings = await fetchLiveBookings();
+        const activeToday = bookings.filter(b => {
+          return (toIso(b.date) === chosenDate) &&
                  !String(b.status || '').toLowerCase().includes('annull') &&
                  !String(b.status || '').toLowerCase().includes('rifiut');
         });
@@ -410,6 +418,7 @@
           else if (isTurno2(b.time)) occ2 += t;
         });
 
+        // Capienza totale per turno: 50 tavoli da 2 posti (100 coperti max)
         const avail1 = Math.max(0, 50 - occ1);
         const avail2 = Math.max(0, 50 - occ2);
 
@@ -420,30 +429,32 @@
           timeSelect.disabled = false;
           timeSelect.style.opacity = '1';
           timeSelect.style.cursor = 'pointer';
+          timeSelect.style.backgroundColor = '#ffffff';
 
-          let optionsHtml = '<option value="" disabled selected>Seleziona il turno</option>';
+          let optionsHtml = '<option value="" disabled selected>Seleziona il turno desiderato</option>';
 
-          // Turno 1
+          // 1° Turno
           if (canBook1) {
             optionsHtml += '<option value="20:00">1° Turno (20:00 - 21:30)</option>';
           } else {
-            optionsHtml += '<option value="20:00" disabled style="color: #8e888b; background-color: #ede4d1;">1° Turno (20:00 - 21:30) (posti esauriti)</option>';
+            optionsHtml += '<option value="20:00" disabled style="color: #8e888b; background-color: #ede4d1; font-style: italic;">1° Turno (20:00 - 21:30) (posti esauriti)</option>';
           }
 
-          // Turno 2
+          // 2° Turno
           if (canBook2) {
             optionsHtml += '<option value="21:30">2° Turno (dalle 21:30 in poi)</option>';
           } else {
-            optionsHtml += '<option value="21:30" disabled style="color: #8e888b; background-color: #ede4d1;">2° Turno (dalle 21:30 in poi) (posti esauriti)</option>';
+            optionsHtml += '<option value="21:30" disabled style="color: #8e888b; background-color: #ede4d1; font-style: italic;">2° Turno (dalle 21:30 in poi) (posti esauriti)</option>';
           }
 
           timeSelect.innerHTML = optionsHtml;
         }
 
+        // Se entrambi i turni sono esauriti
         if (!canBook1 && !canBook2) {
           if (noticeEl) {
             noticeEl.style.display = 'block';
-            noticeEl.innerHTML = '<i class="fa-solid fa-circle-exclamation"></i> Tutti i posti per questa data sono esauriti (100 coperti max raggiunti). Ti invitiamo a selezionare un\'altra data.';
+            noticeEl.innerHTML = '<i class="fa-solid fa-circle-exclamation"></i> Tutti i posti per questa data sono esauriti (100 coperti max per turno raggiunti). Ti invitiamo a selezionare un\'altra data.';
           }
           if (submitBtn) {
             submitBtn.disabled = true;
@@ -461,32 +472,42 @@
       }
 
       if (dateInput) {
-        dateInput.addEventListener('change', () => {
-          cachedSheetBookings = null;
-          checkAndRefreshShifts();
-        });
+        dateInput.addEventListener('change', onDateSelected);
+        dateInput.addEventListener('input', onDateSelected);
       }
 
       if (guestsSelect) {
         guestsSelect.addEventListener('change', () => {
           if (dateInput && dateInput.value) {
-            checkAndRefreshShifts();
+            onDateSelected();
           }
         });
       }
 
-      // Pre-caricamento in background delle prenotazioni
-      fetchBookingsFromSheet();
+      // Pre-carica i dati dal foglio all'apertura della pagina
+      fetchLiveBookings();
 
-      // Controllo submit del form
+      // Blocco ferreo al submit se il turno scelto è esaurito
       if (form) {
         form.addEventListener('submit', function(e) {
-          const timeVal = timeSelect ? timeSelect.value : '';
-          const chosenOption = timeSelect ? timeSelect.querySelector(`option[value="${timeVal}"]`) : null;
-          if (chosenOption && chosenOption.disabled) {
+          if (!dateInput.value) {
+            e.preventDefault();
+            alert('Seleziona prima la data della prenotazione.');
+            dateInput.focus();
+            return false;
+          }
+          const chosenTurno = timeSelect ? timeSelect.value : '';
+          if (!chosenTurno) {
+            e.preventDefault();
+            alert('Seleziona un turno disponibile per la data scelta.');
+            timeSelect.focus();
+            return false;
+          }
+          const opt = timeSelect ? timeSelect.querySelector(`option[value="${chosenTurno}"]`) : null;
+          if (opt && opt.disabled) {
             e.preventDefault();
             e.stopImmediatePropagation();
-            alert('Ci dispiace, i posti per questo turno sono esauriti. Seleziona un altro turno o una data diversa.');
+            alert('Attenzione: i posti per questo turno sono esauriti. Scegli un altro turno o un\'altra data.');
             return false;
           }
         }, true);

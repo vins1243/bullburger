@@ -418,7 +418,7 @@
     <div class="controls-bar">
       <div class="date-control-group">
         <button id="btn-prev-day" class="nav-date-btn" title="Giorno precedente"><i class="fa-solid fa-chevron-left"></i></button>
-        <input type="date" id="admin-target-date" class="date-input-styled" autocomplete="off">
+        <input type="date" id="admin-target-date" class="date-input-styled" autocomplete="off" autocomplete="off">
         <button id="btn-next-day" class="nav-date-btn" title="Giorno successivo"><i class="fa-solid fa-chevron-right"></i></button>
         <button id="btn-today" class="nav-date-btn">Oggi</button>
       </div>
@@ -951,9 +951,10 @@
         btnRefresh.addEventListener('click', () => {
           btnRefresh.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Aggiornamento...';
           loadBookings().then(() => {
-            btnRefresh.innerHTML = '<i class="fa-solid fa-arrows-rotate"></i> Aggiorna Dati dal Foglio';
-            updateHallDisplay();
-          });
+        // Garantisce in modo assoluto l'apertura sulla data odierna del dispositivo
+        dateInput.value = currentDate;
+        updateHallDisplay();
+      });
         });
       }
 
@@ -1299,10 +1300,8 @@
       // Avvio immediato con rendering garantito e caricamento automatico dal Foglio
       updateHallDisplay();
       loadBookings().then(() => {
-        // Garantisce che la data rimanga sempre e solo quella odierna all'avvio
-        if (dateInput && !dateInput.dataset.userChanged) {
-          dateInput.value = currentDate;
-        }
+        // Garantisce in modo assoluto l'apertura sulla data odierna del dispositivo
+        dateInput.value = currentDate;
         updateHallDisplay();
       });
     })();
