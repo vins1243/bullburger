@@ -1260,7 +1260,14 @@
         document.getElementById('stat-bookings-count').textContent = activeForShift.length;
 
         // Hint date attive
-        const otherDates = allBookings.filter(b => toIso(b.date) !== currentDate && !String(b.status || '').toLowerCase().includes('annull'));
+        const todayIso = getLocalTodayIso();
+        const otherDates = allBookings.filter(b => {
+          const bDate = toIso(b.date);
+          const isNotCurrent = (bDate !== currentDate);
+          const isNotPast = (bDate >= todayIso); // Mostra solo da oggi in poi (nessuna data passata!)
+          const isNotCancelled = !String(b.status || '').toLowerCase().includes('annull');
+          return isNotCurrent && isNotPast && isNotCancelled;
+        });
         const hint = document.getElementById('other-dates-hint');
         if (hint) {
           if (otherDates.length > 0 && activeForShift.length === 0) {

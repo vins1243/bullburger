@@ -110,8 +110,8 @@
             <div class="form-group">
               <label for="res-date"><i class="fa-solid fa-calendar-day" style="color: var(--accent-red);"></i> 1. Data della Prenotazione *</label>
               <input type="date" id="res-date" name="data" required autocomplete="off">
-              <small style="display: block; margin-top: 5px; font-size: 0.82rem; color: var(--text-dark); font-weight: 600;">
-                👉 Seleziona prima il giorno per visualizzare i turni disponibili
+              <small style="display: block; margin-top: 6px; font-size: 0.80rem; color: var(--text-dark); font-weight: 600;">
+                👉 Scegli il giorno per verificare i turni disponibili
               </small>
             </div>
             <div class="form-group">
@@ -119,6 +119,9 @@
               <select id="res-time" name="orario" required disabled style="opacity: 0.8; cursor: not-allowed; background-color: #f1e1c0; color: #5a5457; font-weight: 700;">
                 <option value="" disabled selected>⚠️ Seleziona prima la data a sinistra</option>
               </select>
+              <small id="time-hint" style="display: block; margin-top: 6px; font-size: 0.80rem; color: var(--text-muted);">
+                Due turni serali: 20:00 - 21:30 e dalle 21:30 in poi
+              </small>
               <div id="shift-availability-notice" style="display: none; margin-top: 8px; padding: 10px 14px; background: rgba(214, 62, 48, 0.12); border: 1.5px solid var(--accent-red); border-radius: 6px; font-size: 0.88rem; font-weight: 700; color: var(--accent-red);"></div>
             </div>
           </div>
