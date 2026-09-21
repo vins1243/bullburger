@@ -863,7 +863,14 @@
       } catch(e) {}
 
       let allBookings = [];
-      let currentDate = new Date().toISOString().split('T')[0];
+      function getLocalTodayIso() {
+        const d = new Date();
+        const year = d.getFullYear();
+        const month = String(d.getMonth() + 1).padStart(2, '0');
+        const day = String(d.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`;
+      }
+      let currentDate = getLocalTodayIso();
       let currentShift = '20:00'; // 20:00 = 1° Turno, 21:30 = 2° Turno
       let selectedBooking = null;
 
@@ -918,7 +925,7 @@
 
       if (btnToday) {
         btnToday.addEventListener('click', () => {
-          currentDate = new Date().toISOString().split('T')[0];
+          currentDate = getLocalTodayIso();
           if (dateInput) dateInput.value = currentDate;
           updateHallDisplay();
         });
@@ -1171,12 +1178,7 @@
 
         allBookings = loaded;
 
-        // Se la data selezionata non ha prenotazioni ma ce ne sono in altre date, apri la prima data utile
-        const activeDates = [...new Set(allBookings.filter(b => !String(b.status || '').toLowerCase().includes('annull')).map(b => b.date))].filter(Boolean).sort();
-        if (activeDates.length > 0 && !activeDates.includes(currentDate)) {
-          currentDate = activeDates[0];
-          if (dateInput) dateInput.value = currentDate;
-        }
+        // Apertura garantita sempre sul giorno corrente
       }
 
       function updateHallDisplay() {

@@ -331,10 +331,176 @@ function initReservationForm() {
   if (!form) return;
 
   const dateInput = document.getElementById('res-date');
-  if (dateInput) {
-    const today = new Date().toISOString().split('T')[0];
-    dateInput.min = today;
+  const timeSelect = document.getElementById('res-time');
+  const guestsSelect = document.getElementById('res-guests');
+  const submitBtn = form.querySelector('button[type="submit"]');
+
+  function getLocalToday() {
+    const d = new Date();
+    const year = d.getFullYear();
+    const month = String(d.getMonth() + 1).padStart(2, '0');
+    const day = String(d.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
   }
+
+  const todayIso = getLocalToday();
+  if (dateInput) {
+    dateInput.min = todayIso;
+    if (!dateInput.value) {
+      dateInput.value = todayIso;
+    }
+  }
+
+  // Elemento avviso posti esauriti
+  let noticeEl = document.getElementById('shift-availability-notice');
+  if (!noticeEl && timeSelect && timeSelect.parentNode) {
+    noticeEl = document.createElement('div');
+    noticeEl.id = 'shift-availability-notice';
+    noticeEl.style.cssText = 'display: none; margin-top: 8px; padding: 10px 14px; background: rgba(214, 62, 48, 0.12); border: 1px solid var(--accent-red); border-radius: 6px; font-size: 0.88rem; font-weight: 700; color: var(--accent-red);';
+    timeSelect.parentNode.appendChild(noticeEl);
+  }
+
+  let cachedBookings = null;
+  let isFetchingBookings = false;
+
+  // Lettura in tempo reale di tutte le prenotazioni dal Foglio Google
+  async function fetchLiveBookings() {
+    if (cachedBookings) return cachedBookings;
+    if (isFetchingBookings) return [];
+    isFetchingBookings = true;
+    try {
+      const sheetId = '1Xpp-soY_AA9UGtxy_feMHO7Qjsg1n1s0CD7lFzBCgV4';
+      const gvizUrl = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json&tq=select%20*`;
+      const resp = await fetch(gvizUrl);
+      const text = await resp.text();
+      const match = text.match(/google\.visualization\.Query\.setResponse\((.*)\);/);
+      if (match) {
+        const json = JSON.parse(match[1]);
+        if (json && json.table && Array.isArray(json.table.rows)) {
+          const list = [];
+          json.table.rows.forEach(r => {
+            if (!r || !r.c) return;
+            const c = r.c;
+            const val = idx => c[idx] ? ((c[idx].f !== null && c[idx].f !== undefined && c[idx].f !== '') ? c[idx].f : ((c[idx].v !== null && c[idx].v !== undefined) ? c[idx].v : '')) : '';
+            const bId = String(val(0));
+            if (!bId || bId.toLowerCase() === 'id' || bId.toLowerCase() === 'id prenotazione') return;
+            list.push({
+              id: bId,
+              date: toIsoDate(val(4)),
+              time: String(val(5)),
+              guests: parseInt(val(6), 10) || 2,
+              tables: parseInt(val(7), 10) || Math.ceil((parseInt(val(6), 10) || 2) / 2),
+              status: String(val(8) || 'Confermata')
+            });
+          });
+          cachedBookings = list;
+          isFetchingBookings = false;
+          return list;
+        }
+      }
+    } catch(err) {
+      console.warn('Lettura disponibilità da foglio:', err);
+    }
+    isFetchingBookings = false;
+    return [];
+  }
+
+  // Verifica posti disponibili per turno e disabilitazione se esauriti
+  async function updateAvailability() {
+    if (!dateInput || !dateInput.value || !timeSelect) return;
+    const targetDate = toIsoDate(dateInput.value);
+    const guests = guestsSelect ? (parseInt(guestsSelect.value, 10) || 2) : 2;
+    const neededTables = Math.ceil(guests / 2);
+
+    const bookings = await fetchLiveBookings();
+    const activeOnDate = bookings.filter(b => {
+      return (toIsoDate(b.date) === targetDate) &&
+             !String(b.status || '').toLowerCase().includes('annull') &&
+             !String(b.status || '').toLowerCase().includes('rifiut');
+    });
+
+    let occTurno1 = 0;
+    let occTurno2 = 0;
+    activeOnDate.forEach(b => {
+      const t = b.tables || Math.ceil(b.guests / 2);
+      if (isTurno1(b.time)) occTurno1 += t;
+      else if (isTurno2(b.time)) occTurno2 += t;
+    });
+
+    const availTurno1 = Math.max(0, 50 - occTurno1);
+    const availTurno2 = Math.max(0, 50 - occTurno2);
+
+    const opt1 = timeSelect.querySelector('option[value="20:00"]') || document.getElementById('opt-shift-1');
+    const opt2 = timeSelect.querySelector('option[value="21:30"]') || document.getElementById('opt-shift-2');
+
+    const canBook1 = (availTurno1 >= neededTables);
+    const canBook2 = (availTurno2 >= neededTables);
+
+    if (opt1) {
+      if (!canBook1) {
+        opt1.disabled = true;
+        opt1.style.color = '#8e888b';
+        opt1.style.backgroundColor = '#ede4d1';
+        opt1.textContent = '1° Turno (20:00 - 21:30) (posti esauriti)';
+        if (timeSelect.value === '20:00') timeSelect.value = '';
+      } else {
+        opt1.disabled = false;
+        opt1.style.color = '';
+        opt1.style.backgroundColor = '';
+        opt1.textContent = '1° Turno (20:00 - 21:30)';
+      }
+    }
+
+    if (opt2) {
+      if (!canBook2) {
+        opt2.disabled = true;
+        opt2.style.color = '#8e888b';
+        opt2.style.backgroundColor = '#ede4d1';
+        opt2.textContent = '2° Turno (dalle 21:30 in poi) (posti esauriti)';
+        if (timeSelect.value === '21:30') timeSelect.value = '';
+      } else {
+        opt2.disabled = false;
+        opt2.style.color = '';
+        opt2.style.backgroundColor = '';
+        opt2.textContent = '2° Turno (dalle 21:30 in poi)';
+      }
+    }
+
+    if (!canBook1 && !canBook2) {
+      if (noticeEl) {
+        noticeEl.style.display = 'block';
+        noticeEl.innerHTML = '<i class="fa-solid fa-circle-exclamation"></i> Tutti i posti per questa data sono esauriti (100 coperti max raggiunti). Ti invitiamo a selezionare un\'altra data.';
+      }
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.style.opacity = '0.5';
+        submitBtn.style.cursor = 'not-allowed';
+      }
+    } else {
+      if (noticeEl) noticeEl.style.display = 'none';
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.style.opacity = '1';
+        submitBtn.style.cursor = 'pointer';
+      }
+    }
+  }
+
+  if (dateInput) {
+    dateInput.addEventListener('change', () => {
+      cachedBookings = null;
+      updateAvailability();
+    });
+  }
+
+  if (guestsSelect) {
+    guestsSelect.addEventListener('change', () => {
+      updateAvailability();
+    });
+  }
+
+  // Controllo disponibilità all\'avvio
+  fetchLiveBookings().then(() => updateAvailability());
 
   form.addEventListener('submit', (e) => {
     e.preventDefault();
@@ -346,6 +512,12 @@ function initReservationForm() {
     const guests = document.getElementById('res-guests').value;
     const email = document.getElementById('res-email') ? document.getElementById('res-email').value.trim() : '';
     const notes = document.getElementById('res-notes') ? document.getElementById('res-notes').value.trim() : '';
+
+    const chosenOpt = timeSelect ? timeSelect.querySelector(`option[value="${time}"]`) : null;
+    if (chosenOpt && chosenOpt.disabled) {
+      alert('Ci dispiace, i posti per il turno selezionato sono esauriti. Seleziona un altro turno o una data diversa.');
+      return;
+    }
 
     const tablesNeeded = Math.ceil(parseInt(guests, 10) / 2);
     const bookingId = 'BULL_' + Date.now();
@@ -364,12 +536,9 @@ function initReservationForm() {
       status: 'Confermata'
     };
 
-    
-
     // Sincronizzazione con Google Sheet via Google Apps Script (POST + GET Fallback)
     const endpoint = getGoogleSheetEndpoint();
     if (endpoint) {
-      // 1. POST
       fetch(endpoint, {
         method: 'POST',
         mode: 'no-cors',
@@ -377,7 +546,6 @@ function initReservationForm() {
         body: JSON.stringify(booking)
       }).catch(err => console.log('Sincronizzazione POST Sheet:', err));
 
-      // 2. GET Fallback (garantisce al 100% l'inserimento senza blocchi CORS su Safari mobile)
       const getParams = new URLSearchParams({
         action: 'book',
         id: booking.id,
@@ -393,9 +561,11 @@ function initReservationForm() {
         .catch(err => console.log('Sincronizzazione GET Sheet:', err));
     }
 
-    // Mostra schermata di conferma immediata (senza WhatsApp)
+    cachedBookings = null;
+
+    // Mostra schermata di conferma immediata
     if (successCard) {
-      const displayTurno = time.includes("20:00") ? "1° Turno (20:00 - 21:30)" : "2° Turno (dalle 21:30)";
+      const displayTurno = time.includes("20:00") ? "1° Turno (20:00 - 21:30)" : "2° Turno (dalle 21:30 in poi)";
       if (document.getElementById('confirmed-date-time')) {
         document.getElementById('confirmed-date-time').textContent = `${formatItalianDate(date)} • ${displayTurno}`;
       }
@@ -418,38 +588,6 @@ function initReservationForm() {
     }
   });
 }
-
-function saveBookingLocally(booking) {
-  let list = [];
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    if (raw) list = JSON.parse(raw);
-  } catch (e) {}
-
-  list.unshift(booking);
-  try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
-  } catch (e) {}
-}
-
-function getStoredBookings() {
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    if (raw) {
-      const parsed = JSON.parse(raw);
-      if (Array.isArray(parsed)) {
-        return parsed.map(normalizeBooking).filter(Boolean);
-      }
-    }
-  } catch (e) {}
-  return [];
-}
-
-// Inizializza Dashboard Amministratore (Zero refresh continui, scambiatore data in alto, messaggi WhatsApp con grassetti)
-async /* ==========================================================================
-   SIMULAZIONE SALA INTERATTIVA A 50 TAVOLI (GESTIONE-PRENOTAZIONI.HTML)
-   Rosso = Disponibile (Libero) | Grigio = Occupato (Prenotato)
-   ========================================================================== */
 
 function initAdminDashboard() {
   const gridContainer = document.getElementById('tables-grid-container');

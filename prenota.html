@@ -115,9 +115,10 @@
               <label for="res-time">Orario Desiderato *</label>
               <select id="res-time" name="orario" required>
                 <option value="" disabled selected>Seleziona il turno</option>
-                <option value="20:00">1° Turno (20:00 - 21:30)</option>
-                <option value="21:30">2° Turno (dalle 21:30 in poi)</option>
+                <option value="20:00" id="opt-shift-1">1° Turno (20:00 - 21:30)</option>
+                <option value="21:30" id="opt-shift-2">2° Turno (dalle 21:30 in poi)</option>
               </select>
+              <div id="shift-availability-notice" style="display: none; margin-top: 8px; padding: 10px 14px; background: rgba(214, 62, 48, 0.12); border: 1px solid var(--accent-red); border-radius: 6px; font-size: 0.88rem; font-weight: 700; color: var(--accent-red);"></div>
             </div>
           </div>
 
